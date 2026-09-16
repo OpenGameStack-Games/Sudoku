@@ -1,4 +1,4 @@
-# [Game Name] - Godot AI Template
+﻿# Sudoku - Godot AI Template
 
 An AI-first Godot 4.7.2 project template featuring built-in CI/CD pipelines, strict documentation standards, and automated agent orchestration.
 
@@ -26,3 +26,4 @@ To ensure your assets are tracked correctly:
 This project uses a split license:
 - **Source Code:** Licensed under the [GNU General Public License v3.0 (GPLv3)](LICENSE).
 - **Game Assets:** Unless otherwise specified, art, audio, and models in `game/assets/` are licensed under [Creative Commons Attribution-ShareAlike 4.0 (CC BY-SA 4.0)](LICENSE-ASSETS).
+

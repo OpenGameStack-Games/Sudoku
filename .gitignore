@@ -48,7 +48,7 @@ blender_debug_output.txt
 # Editor/IDE
 .vscode/
 .idea/
-*.code-workspace
+# *.code-workspace
 
 # Logs
 *.log

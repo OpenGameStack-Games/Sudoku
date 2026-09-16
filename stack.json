@@ -1,6 +1,6 @@
-{
+﻿{
 	"schema_version": 1,
-	"stack_name": "[Game Name]",
+	"stack_name": "Sudoku",
 	"tools": [
 		{
 			"id": "godot",

@@ -1,4 +1,4 @@
-# Contributing to [Game Name]
+﻿# Contributing to Sudoku
 
 Thank you for your interest in contributing to our game! Since this repository is driven by the **OpenGameStack (OGS)** standard and orchestrated by autonomous AI agents, our contribution workflow is highly structured.
 
@@ -19,3 +19,4 @@ When submitting a Pull Request, please ensure:
 *   **Atomic Commits:** Keep your commits focused on the single issue at hand.
 
 All PRs will be reviewed by our AI agents for formatting, static typing, and test coverage before a human maintainer signs off.
+

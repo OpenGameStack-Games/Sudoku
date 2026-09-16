@@ -1,6 +1,6 @@
 ﻿# Pull Request Review, Documentation & Merge Standards
 
-This document establishes the official standards and workflow for reviewing, documenting, and merging Pull Requests in the **[Game Name]** repositoryâ€”whether handled by a human developer or an autonomous agent.
+This document establishes the official standards and workflow for reviewing, documenting, and merging Pull Requests in the **Sudoku** repositoryâ€”whether handled by a human developer or an autonomous agent.
 
 ---
 
@@ -144,5 +144,6 @@ git pull origin main
 # Delete the local feature branch (if it was checked out locally)
 git branch -d feature/issue-<number>-<short-description>
 ```
+
 
 
