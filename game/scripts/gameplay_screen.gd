@@ -51,6 +51,8 @@ func _ready() -> void:
 			game_manager_node = tree.root.get_node_or_null("GameManager")
 		if not time_manager_node and tree.root:
 			time_manager_node = tree.root.get_node_or_null("TimeManager")
+		if not stats_manager_node and tree.root:
+			stats_manager_node = tree.root.get_node_or_null("StatsManager")
 	
 	if board_node and board_node.cells.is_empty() and board_node.has_method("_ready"):
 		board_node._ready()
@@ -204,8 +206,11 @@ func _on_game_won() -> void:
 	if stats_manager_node and stats_manager_node.has_method("record_game_won"):
 		stats_manager_node.record_game_won(diff, elapsed)
 		
-	if save_manager_node and save_manager_node.has_method("clear_save"):
-		save_manager_node.clear_save(diff)
+	if save_manager_node:
+		if save_manager_node.has_method("clear_active_game"):
+			save_manager_node.clear_active_game()
+		elif save_manager_node.has_method("clear_save"):
+			save_manager_node.clear_save(diff)
 		
 	if victory_overlay and victory_overlay.has_method("show_victory"):
 		victory_overlay.show_victory(elapsed)

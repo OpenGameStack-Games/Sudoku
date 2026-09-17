@@ -22,6 +22,10 @@ class MockSaveManager extends Node:
 	var current_puzzle_string: String = ""
 	func clear_save(diff: String) -> void:
 		cleared_difficulty = diff
+	func clear_active_game() -> void:
+		clear_save(current_difficulty)
+		current_difficulty = ""
+		current_puzzle_string = ""
 	func flush_save() -> void:
 		pass
 	func mark_active_game(diff: String, puz: String) -> void:
@@ -87,6 +91,8 @@ func _teardown_nodes() -> void:
 
 func test_victory_overlay_exists() -> void:
 	assert_true(FileAccess.file_exists("res://scenes/victory_overlay.tscn"), "victory_overlay.tscn should exist")
+	assert_true(FileAccess.file_exists("res://assets/icons/mascot_icon.jpg"), "mascot_icon.jpg should exist on disk")
+	assert_true(FileAccess.file_exists("res://resources/theme_1930s.tres"), "theme_1930s.tres should exist on disk")
 
 func test_game_won_triggers_victory_logic() -> void:
 	_setup_nodes()
@@ -102,6 +108,8 @@ func test_game_won_triggers_victory_logic() -> void:
 	assert_eq(save_manager_node.cleared_difficulty, "hard", "SaveManager should clear save for correct difficulty")
 	
 	assert_true(screen.victory_overlay.visible, "Victory overlay should become visible")
+	assert_true(screen.victory_overlay.mascot_rect != null, "MascotRect should exist on victory overlay")
+	assert_true(screen.victory_overlay.mascot_rect.texture != null, "MascotRect should have a texture assigned")
 	
 	var time_label: Label = screen.victory_overlay.time_label
 	assert_eq(time_label.text, "Completion Time: 02:30", "Overlay should display formatted completion time")

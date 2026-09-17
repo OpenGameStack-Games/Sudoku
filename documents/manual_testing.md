@@ -148,13 +148,21 @@ This document outlines the strict manual testing procedures required before any 
 - **Automated Verification:** Verified in headless CI via `game/tests/test_board_ui.gd` and `game/tests/test_sudoku_board.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), confirming that conflicting answer entries trigger flat red conflict highlights on `CellUI` components without throwing exceptions or ending the game.
 
 ## Test 15.0: Win State & Victory Screen
-- **Step 1:** Successfully fill the entire grid with the correct solution.
-- **Expected:** The game detects the win state. The timer immediately stops.
-- **Expected:** A Victory Screen overlay appears showing the final time. It contains "Play Again", "Main Menu", "Statistics", and "Admire Puzzle" buttons.
+- **Step 1:** Successfully enter the final correct number filling the entire grid with 0 conflicts.
+- **Expected:** The game detects the win state. The timer halts immediately and elapsed time is captured.
+- **Expected (Visual & Theme):** The Victory Screen overlay appears centered over the board with 1930s monochrome card styling (2px white borders on `#121212` background, 8px rounded corners), displaying the "VICTORY!" banner, the 1930s rubber-hose mascot artwork (`mascot_icon.jpg`), and formatted completion time (`Completion Time: MM:SS`).
+- **Expected (Managers):** `StatsManager` increments `games_won`, updates best time, and recalculates average time. `SaveManager` removes the in-progress save file for this difficulty (`clear_save` / `clear_active_game`).
 - **Step 2:** Tap "Admire Puzzle".
-- **Expected:** The overlay disappears, allowing the player to view the completed board.
-- **Step 3:** Tap the Back arrow.
-- **Expected:** Navigates to the Main Menu and clears the completed puzzle from the active save state.
+- **Expected:** The victory dialog card hides, revealing the completed Sudoku board clearly. A floating "Restore Dialog" button appears at the top right of the screen.
+- **Step 3:** Tap "Restore Dialog".
+- **Expected:** The victory dialog card reappears in full, and the "Restore Dialog" button hides.
+- **Step 4:** Tap "Statistics".
+- **Expected:** Transitions to the Statistics Screen, where the newly recorded win and updated best/average times are visibly displayed for the current difficulty tier.
+- **Step 5:** Return to an active game, trigger win state, and tap "Play Again".
+- **Expected:** The victory overlay dismisses, the timer resets to `00:00`, and a fresh puzzle of the same difficulty starts immediately.
+- **Step 6:** Tap "< Back" to return to the Main Menu.
+- **Expected:** The Main Menu difficulty button displays its default text (e.g. "Medium", not "Resume Medium"), confirming the completed puzzle was purged from active save tracking.
+- **Automated Verification:** Verified in headless CI via `game/tests/test_victory_screen.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), asserting overlay activation on win signal, accurate parameter passing to `StatsManager.record_game_won` and `SaveManager.clear_save`, asset presence (`victory_overlay.tscn`, `mascot_icon.jpg`, `theme_1930s.tres`), and button routing (Play Again, Main Menu, Statistics, Admire Puzzle, Restore Dialog).
 
 ## Test 16.0: Concurrent Save Persistence & Menus
 - **Step 1:** Start an Easy game. Input several numbers and candidate notes into empty cells. Perform an undo action. Let the timer run for 10 seconds. Switch apps or background the application (triggering focus loss auto-flush), then return to the Main Menu.
