@@ -1,0 +1,499 @@
+[gd_scene load_steps=3 format=3 uid="uid://cyboard"]
+
+[ext_resource type="Script" path="res://scripts/board_ui.gd" id="1_bd1"]
+[ext_resource type="PackedScene" path="res://scenes/cell.tscn" id="2_cel"]
+
+[node name="Board" type="AspectRatioContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_bd1")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 2
+color = Color(0, 0, 0, 1)
+
+[node name="MacroGrid" type="GridContainer" parent="."]
+layout_mode = 2
+theme_override_constants/h_separation = 4
+theme_override_constants/v_separation = 4
+columns = 3
+
+[node name="MicroGrid_0_0" type="GridContainer" parent="MacroGrid"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/h_separation = 1
+theme_override_constants/v_separation = 1
+columns = 3
+
+[node name="Cell_0_0" parent="MacroGrid/MicroGrid_0_0" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_0_1" parent="MacroGrid/MicroGrid_0_0" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_0_2" parent="MacroGrid/MicroGrid_0_0" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_1_0" parent="MacroGrid/MicroGrid_0_0" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_1_1" parent="MacroGrid/MicroGrid_0_0" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_1_2" parent="MacroGrid/MicroGrid_0_0" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_2_0" parent="MacroGrid/MicroGrid_0_0" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_2_1" parent="MacroGrid/MicroGrid_0_0" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_2_2" parent="MacroGrid/MicroGrid_0_0" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MicroGrid_0_1" type="GridContainer" parent="MacroGrid"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/h_separation = 1
+theme_override_constants/v_separation = 1
+columns = 3
+
+[node name="Cell_0_3" parent="MacroGrid/MicroGrid_0_1" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_0_4" parent="MacroGrid/MicroGrid_0_1" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_0_5" parent="MacroGrid/MicroGrid_0_1" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_1_3" parent="MacroGrid/MicroGrid_0_1" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_1_4" parent="MacroGrid/MicroGrid_0_1" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_1_5" parent="MacroGrid/MicroGrid_0_1" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_2_3" parent="MacroGrid/MicroGrid_0_1" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_2_4" parent="MacroGrid/MicroGrid_0_1" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_2_5" parent="MacroGrid/MicroGrid_0_1" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MicroGrid_0_2" type="GridContainer" parent="MacroGrid"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/h_separation = 1
+theme_override_constants/v_separation = 1
+columns = 3
+
+[node name="Cell_0_6" parent="MacroGrid/MicroGrid_0_2" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_0_7" parent="MacroGrid/MicroGrid_0_2" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_0_8" parent="MacroGrid/MicroGrid_0_2" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_1_6" parent="MacroGrid/MicroGrid_0_2" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_1_7" parent="MacroGrid/MicroGrid_0_2" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_1_8" parent="MacroGrid/MicroGrid_0_2" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_2_6" parent="MacroGrid/MicroGrid_0_2" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_2_7" parent="MacroGrid/MicroGrid_0_2" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_2_8" parent="MacroGrid/MicroGrid_0_2" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MicroGrid_1_0" type="GridContainer" parent="MacroGrid"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/h_separation = 1
+theme_override_constants/v_separation = 1
+columns = 3
+
+[node name="Cell_3_0" parent="MacroGrid/MicroGrid_1_0" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_3_1" parent="MacroGrid/MicroGrid_1_0" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_3_2" parent="MacroGrid/MicroGrid_1_0" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_4_0" parent="MacroGrid/MicroGrid_1_0" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_4_1" parent="MacroGrid/MicroGrid_1_0" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_4_2" parent="MacroGrid/MicroGrid_1_0" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_5_0" parent="MacroGrid/MicroGrid_1_0" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_5_1" parent="MacroGrid/MicroGrid_1_0" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_5_2" parent="MacroGrid/MicroGrid_1_0" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MicroGrid_1_1" type="GridContainer" parent="MacroGrid"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/h_separation = 1
+theme_override_constants/v_separation = 1
+columns = 3
+
+[node name="Cell_3_3" parent="MacroGrid/MicroGrid_1_1" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_3_4" parent="MacroGrid/MicroGrid_1_1" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_3_5" parent="MacroGrid/MicroGrid_1_1" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_4_3" parent="MacroGrid/MicroGrid_1_1" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_4_4" parent="MacroGrid/MicroGrid_1_1" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_4_5" parent="MacroGrid/MicroGrid_1_1" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_5_3" parent="MacroGrid/MicroGrid_1_1" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_5_4" parent="MacroGrid/MicroGrid_1_1" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_5_5" parent="MacroGrid/MicroGrid_1_1" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MicroGrid_1_2" type="GridContainer" parent="MacroGrid"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/h_separation = 1
+theme_override_constants/v_separation = 1
+columns = 3
+
+[node name="Cell_3_6" parent="MacroGrid/MicroGrid_1_2" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_3_7" parent="MacroGrid/MicroGrid_1_2" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_3_8" parent="MacroGrid/MicroGrid_1_2" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_4_6" parent="MacroGrid/MicroGrid_1_2" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_4_7" parent="MacroGrid/MicroGrid_1_2" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_4_8" parent="MacroGrid/MicroGrid_1_2" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_5_6" parent="MacroGrid/MicroGrid_1_2" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_5_7" parent="MacroGrid/MicroGrid_1_2" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_5_8" parent="MacroGrid/MicroGrid_1_2" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MicroGrid_2_0" type="GridContainer" parent="MacroGrid"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/h_separation = 1
+theme_override_constants/v_separation = 1
+columns = 3
+
+[node name="Cell_6_0" parent="MacroGrid/MicroGrid_2_0" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_6_1" parent="MacroGrid/MicroGrid_2_0" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_6_2" parent="MacroGrid/MicroGrid_2_0" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_7_0" parent="MacroGrid/MicroGrid_2_0" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_7_1" parent="MacroGrid/MicroGrid_2_0" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_7_2" parent="MacroGrid/MicroGrid_2_0" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_8_0" parent="MacroGrid/MicroGrid_2_0" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_8_1" parent="MacroGrid/MicroGrid_2_0" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_8_2" parent="MacroGrid/MicroGrid_2_0" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MicroGrid_2_1" type="GridContainer" parent="MacroGrid"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/h_separation = 1
+theme_override_constants/v_separation = 1
+columns = 3
+
+[node name="Cell_6_3" parent="MacroGrid/MicroGrid_2_1" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_6_4" parent="MacroGrid/MicroGrid_2_1" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_6_5" parent="MacroGrid/MicroGrid_2_1" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_7_3" parent="MacroGrid/MicroGrid_2_1" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_7_4" parent="MacroGrid/MicroGrid_2_1" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_7_5" parent="MacroGrid/MicroGrid_2_1" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_8_3" parent="MacroGrid/MicroGrid_2_1" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_8_4" parent="MacroGrid/MicroGrid_2_1" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_8_5" parent="MacroGrid/MicroGrid_2_1" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MicroGrid_2_2" type="GridContainer" parent="MacroGrid"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/h_separation = 1
+theme_override_constants/v_separation = 1
+columns = 3
+
+[node name="Cell_6_6" parent="MacroGrid/MicroGrid_2_2" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_6_7" parent="MacroGrid/MicroGrid_2_2" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_6_8" parent="MacroGrid/MicroGrid_2_2" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_7_6" parent="MacroGrid/MicroGrid_2_2" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_7_7" parent="MacroGrid/MicroGrid_2_2" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_7_8" parent="MacroGrid/MicroGrid_2_2" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_8_6" parent="MacroGrid/MicroGrid_2_2" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_8_7" parent="MacroGrid/MicroGrid_2_2" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Cell_8_8" parent="MacroGrid/MicroGrid_2_2" instance=ExtResource("2_cel")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
