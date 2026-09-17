@@ -75,6 +75,7 @@ This document outlines the strict manual testing procedures required before any 
 - **Expected:** The game successfully loads a puzzle string from `puzzles.json` for each difficulty without hanging or crashing. The initial clues populated on the board must exactly match the non-zero digits of the loaded string.
 - **Step 2:** Observe the initial clues on the board.
 - **Expected:** The layout of the clues MUST be rotationally symmetrical (180 degrees).
+- **Automated Verification:** Verified in headless CI via `game/tests/test_puzzle_loader.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), which validates file existence, JSON validity, array sizes (>= 10), string lengths (81 characters), valid digits ('0'-'9'), and 180-degree rotational symmetry for all clues across `easy`, `medium`, and `hard`.
 
 ## Test 13.0: Android Build Export (JSON Included)
 - **Step 1:** Build the Android `.apk` or run the game natively on an Android device via Godot export.

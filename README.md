@@ -1,4 +1,4 @@
-﻿# Sudoku - Godot AI Template
+# Sudoku - Godot AI Template
 
 An AI-first Godot 4.7.2 project template featuring built-in CI/CD pipelines, strict documentation standards, and automated agent orchestration.
 
@@ -21,7 +21,15 @@ This template is configured to use [Git Large File Storage (LFS)](https://git-lf
 To ensure your assets are tracked correctly:
 1. Ensure Git LFS is installed on your machine (`git lfs install`).
 2. The provided `.gitattributes` file will automatically handle LFS tracking for standard game asset extensions.
- 
+## Developer Tools
+### Puzzle Generator (`tools/generate_puzzles.py`)
+An offline Python utility to generate 9x9 Sudoku puzzles with guaranteed unique solutions and 180-degree rotational symmetry:
+```powershell
+python tools/generate_puzzles.py --count 10 --out game/data/puzzles.json
+```
+- `--count <N>`: Count of puzzles to generate per difficulty level (default: 10).
+- `--out <path>`: Destination path for the exported JSON dataset (default: `game/data/puzzles.json`).
+
 ## License
 This project uses a split license:
 - **Source Code:** Licensed under the [GNU General Public License v3.0 (GPLv3)](LICENSE).

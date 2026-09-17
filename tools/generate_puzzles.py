@@ -3,6 +3,7 @@ import json
 import random
 import sys
 import copy
+import os
 
 def empty_board():
     return [[0]*9 for _ in range(9)]
@@ -136,8 +137,9 @@ if __name__ == "__main__":
         "hard": hard
     }
     
-    import os
-    os.makedirs(os.path.dirname(args.out), exist_ok=True)
+    out_dir = os.path.dirname(args.out)
+    if out_dir:
+        os.makedirs(out_dir, exist_ok=True)
     with open(args.out, "w") as f:
         json.dump(dataset, f, indent=4)
     print(f"Exported dataset to {args.out}")
