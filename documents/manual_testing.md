@@ -4,7 +4,8 @@ This document outlines the strict manual testing procedures required before any 
 
 ## Test 1.0: Launch & Boot
 - **Step 1:** Open the app.
-- **Expected:** The app boots to the main menu without crashing.
+- **Expected:** The app boots to `main.tscn`, loading `main_menu.tscn` displaying the 1930s monochrome mascot artwork and difficulty buttons without crashing.
+- **Automated Verification:** Verified in headless CI via `game/tests/test_main_menu.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), confirming root scene loading and `MainMenu` child instantiation.
 
 ## Test 2.0: System UI & Platform Integration
 - **Step 1:** Launch the app on an Android device (or simulator).
@@ -25,12 +26,16 @@ This document outlines the strict manual testing procedures required before any 
 - **Automated Verification:** Verified in headless CI via `game/tests/test_theme_constants.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), confirming ThemeConstants color palette definitions, distinct values, and successful loading and panel/font styling of `game/resources/theme_1930s.tres`.
 
 ## Test 5.0: Main Menu & Navigation
-- **Step 1:** Boot the game to the Main Menu.
-- **Expected:** The mascot icon is prominently displayed. The screen contains four clear buttons: "Easy", "Medium", "Hard", and "Statistics".
-- **Step 2:** Tap the "Statistics" button.
-- **Expected:** The Statistics screen correctly displays "Games Started", "Games Won", "Best Time", and "Average Time" broken down independently by difficulty (Easy, Medium, Hard).
-- **Step 3:** From the Main Menu, tap "Easy", "Medium", or "Hard".
-- **Expected:** The app transitions to the Gameplay screen with a Sudoku board generated at the selected difficulty.
+- **Step 1 (Default State):** Boot the game to the Main Menu with no existing saves.
+- **Expected:** The 1930s monochrome mascot character (`mascot_icon.jpg`) is prominently centered in the upper half. The screen contains four clear buttons reading: "Easy", "Medium", "Hard", and "Statistics".
+- **Step 2 (Resume State Indication):** If an active save exists for a difficulty tier (e.g., Easy), verify that the corresponding button dynamically updates to read `"Resume Easy"`. Unsaved difficulties remain `"Medium"` and `"Hard"`.
+- **Step 3 (Resume Navigation):** Tap a "Resume [Difficulty]" button.
+- **Expected:** The app transitions to the Gameplay screen (`board.tscn`), restoring the active saved puzzle for that difficulty without incrementing `games_started` in `StatsManager`.
+- **Step 4 (Fresh Game Navigation):** From the Main Menu, tap a non-resumed difficulty button (e.g., "Medium").
+- **Expected:** The app starts a fresh game by selecting a random puzzle string from `game/data/puzzles.json`, marks it as the active save, increments `games_started` in `StatsManager`, and opens `board.tscn`.
+- **Step 5 (Statistics Navigation):** Tap the "Statistics" button.
+- **Expected:** The app transitions to the Statistics screen correctly displaying historical gameplay statistics.
+- **Automated Verification:** Verified in headless CI via `game/tests/test_main_menu.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), confirming asset existence, dynamic button text adaptation for saves vs fresh states, button signal routing, and stats recording.
 
 ## Test 5.1: Player Statistics Tracking & Persistence
 - **Step 1:** Launch the game and inspect the initial statistics on the Statistics screen (or clear `user://stats.json`).
@@ -139,16 +144,16 @@ This document outlines the strict manual testing procedures required before any 
 - **Step 1:** Start an Easy game. Input several numbers and candidate notes into empty cells. Perform an undo action. Let the timer run for 10 seconds. Switch apps or background the application (triggering focus loss auto-flush), then return to the Main Menu.
 - **Step 2:** Start a Medium game. Input different numbers and candidate notes. Let the timer run for 20 seconds. Pause the game, then return to the Main Menu.
 - **Step 3:** Start a Hard game. Input numbers and notes. Let the timer run for 30 seconds. Return to the Main Menu.
-- **Expected:** The application maintains up to 3 separate active saves concurrently in `user://saves/` (`save_easy.json`, `save_medium.json`, and `save_hard.json`). The Main Menu visibly indicates active in-progress games for each difficulty.
-- **Step 4:** Tap the "Easy" button on the Main Menu.
+- **Expected:** The application maintains up to 3 separate active saves concurrently in `user://saves/` (`save_easy.json`, `save_medium.json`, and `save_hard.json`). The Main Menu visibly updates difficulty button labels dynamically to `"Resume Easy"`, `"Resume Medium"`, and `"Resume Hard"` when active saves exist.
+- **Step 4:** Tap the "Resume Easy" button on the Main Menu.
 - **Expected:** The game automatically resumes the Easy puzzle, restoring the exact board layout, user-entered numbers, candidate notes, deleted candidate notes, elapsed timer (10 seconds), and undo history stack (tapping "Undo" reverts earlier moves).
-- **Step 5:** Force-close the app entirely or kill the process. Reopen the app and tap "Medium".
+- **Step 5:** Force-close the app entirely or kill the process. Reopen the app. Verify "Resume Medium" is still displayed, and tap "Resume Medium".
 - **Expected:** The Medium puzzle state (board layout, candidate notes, 20-second timer, and undo stack) is fully restored from `user://saves/save_medium.json`.
 - **Step 6 (Save Overwrite):** On Easy difficulty, open the menu and start a "New Game". Make a move.
 - **Expected:** The previous Easy save is cleanly overwritten with the new puzzle state, resetting the timer and undo stack.
 - **Step 7 (Save Clearing):** Complete a puzzle or select "Reset Puzzle".
-- **Expected:** The active save file for that difficulty is deleted (`clear_save`), and returning to the Main Menu reflects that no active save exists for that difficulty.
-- **Automated Verification:** Verified in headless CI via `game/tests/test_save_manager.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), confirming concurrent saving and loading across Easy/Medium/Hard, save overwriting, complex state restoration (board, notes, undo history, elapsed seconds), save deletion, and graceful recovery from corrupted save files.
+- **Expected:** The active save file for that difficulty is deleted (`clear_save`), and returning to the Main Menu reflects that the button reverts from `"Resume [Difficulty]"` back to its default label (`"Easy"`).
+- **Automated Verification:** Verified in headless CI via `game/tests/test_save_manager.gd` and `game/tests/test_main_menu.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), confirming concurrent saving and loading across Easy/Medium/Hard, save overwriting, complex state restoration (board, notes, undo history, elapsed seconds), save deletion, and menu label synchronization.
 
 ## Test 17.0: Selection & Number Matching Highlighting
 - **Step 1:** Tap an empty cell on the grid.
