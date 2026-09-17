@@ -4,6 +4,11 @@ This document establishes the official standards, Git worktree workflow, and cod
 
 ---
 
+## 0. Operational Rules
+* **PowerShell Chaining:** When executing shell commands, NEVER use `&&` to chain commands together (it requires PowerShell 7+). Instead, use `;` or execute commands sequentially in separate tool calls.
+* **File Generation Encoding:** Generating text files via PowerShell pipes (e.g., `>` or `Set-Content`) often creates UTF-16 LE encoding errors that Godot cannot parse. ALWAYS use the `write_to_file` agent tool to generate text or script files to ensure proper UTF-8 encoding.
+* **Documentation Redundancy:** Before requesting the PR Reviewer to document a feature or testing steps, always verify if the documentation already exists in `documents/requirements.md` or `documents/manual_testing.md`. Do not duplicate existing specification notes.
+
 ## 1. Role Overview & Core Boundaries
 
 The **Issue Resolver** is responsible for taking an open issue from conception to an unmerged, thoroughly tested, and documented Pull Request.
@@ -112,6 +117,12 @@ git worktree add .worktrees/issue-21 -b feature/issue-21-absent-color-red
    * Document the *intent*, *assumptions*, or mathematical/algorithmic logic.
    * Every autoload and major script must contain a header docstring explaining its domain responsibility.
 
+4. **UI Design & Styling:**
+   * Any custom container or card components created in `.tscn` scenes MUST include explicit `StyleBoxFlat` definitions (e.g. 2px white borders, 8px rounded corners, `#121212` backgrounds, and content margins) or bind directly to `game/resources/theme_1930s.tres` to guarantee the 1930s monochrome aesthetic is fully implemented. Do not submit bare unstyled panels.
+   * When constructing compound screens (e.g., `GameplayScreen` that instances `BoardUI` and `InputControls`), the root screen script is responsible for explicitly wiring its child components to the underlying domain models (e.g., `child.board = GameManager.board`). Verify that methods invoked on child nodes actually exist on those component scripts before calling them.
+5. **Post-Game State Management:**
+   * When handling win conditions or game resets, ALWAYS invoke `SaveManager.clear_active_game()` rather than a bare `SaveManager.clear_save()`. This ensures memory states (like current difficulty and puzzle string) are fully wiped, preventing focus-loss events from inadvertently auto-flushing a completed game back to disk.
+
 ---
 
 ## 5. Logging Standards
@@ -135,11 +146,11 @@ Every feature or bug fix touching game logic or autoloads must be backed by auto
 * **CRITICAL**: When adding an Autoload, configuring an asset path in `project.godot`/`export_presets.cfg`, or generating standalone resources (like `.tres` files), you MUST add a unit test that asserts `FileAccess.file_exists(...)` for that exact path to ensure the asset actually exists and wasn't skipped or renamed.
 * **CRITICAL**: GDScript lambdas capture primitives by VALUE, not by reference. When using inline lambdas to verify signal emissions, you must capture variables via an `Array` wrapper (e.g., `var count: Array[int] = [0]`) or an object property, otherwise the outer scope will not reflect updates made inside the lambda.
 * **CRITICAL**: The `test_runner.gd` does not initialize `project.godot` autoloads natively. To ensure testability, avoid hardcoded singleton identifier calls (e.g., `StatsManager.do_something()`) inside `RefCounted`, core logic classes, or even other autoloads. Instead, use dependency injection, or look up peer singletons dynamically using `Engine.get_main_loop().root.get_node_or_null("StatsManager")` (or simply `/root/SingletonName`). If the class uses global identifiers directly, test suite compilation will fail with "Identifier not found".
-* **CRITICAL**: When testing `Control` nodes headlessly, `_ready()` is NOT invoked unless nodes are explicitly added to a mocked `SceneTree`. Therefore, strongly avoid using `@onready` variables in UI scripts if you plan to access those child nodes in your test suite. Instead, use direct `$Node` lookups or `get_node()` inside your setter/logic methods to bypass the `@onready` `null` trap.
+* **CRITICAL**: When testing `Control` nodes headlessly, `_ready()` is NOT invoked unless nodes are explicitly added to a mocked `SceneTree`. Therefore, strongly avoid using `@onready` variables in UI scripts, OR manually call `mock_node._ready()` on freshly instantiated scenes inside your test setup to safely initialize `@onready` properties without rewriting standard engine idioms.
 
 ### Running Automated Tests
 > [!NOTE]
-> The custom `test_runner.gd` does NOT currently support automatic `before_each()` or `after_each()` hooks. If your tests require state isolation (e.g. wiping a `user://` save file), you must manually call your setup and teardown methods inside every single `test_*` function.
+> The custom `test_runner.gd` does NOT currently support automatic `before_each()` or `after_each()` hooks. If your tests require state isolation (e.g. wiping a `user://` save file), you must manually call your setup and teardown methods inside every single `test_*` function. Additionally, because the runner exits without cycling idle frames, always use `.free()` instead of `.queue_free()` when cleaning up mock Nodes to prevent ObjectDB memory leaks.
 
 > [!WARNING]
 > Testing `DisplayServer` state methods (like `screen_is_kept_on()`) will FAIL when running tests via the headless runner. You must bypass these assertions using `if DisplayServer.get_name() != "headless":`.
