@@ -92,5 +92,9 @@ This document acts as the definitive source of truth for the game's features, lo
 ## 4. Platform Specifics
 - **Platform:** Android.
 - **Screen Wake Lock:** The game must keep the device screen awake as long as the gameplay screen is active (do not allow the phone to go to sleep while playing).
-- **System UI (Non-Immersive):** The game must NOT use immersive mode. The Android status bar (battery, time, signal) at the top and the system navigation bar (back, home buttons) at the bottom must remain visible at all times.
-- **Export Filters:** The `puzzles.json` file (and any other `.json` data files) MUST be explicitly added to the Godot export preset's `include_filter` (e.g., `*.json`). Failure to do so will result in the file being stripped from the final Android `.apk`/`.aab` build.
+- **System UI (Non-Immersive):** The game must NOT use immersive mode (`screen/immersive_mode=false` in `game/export_presets.cfg`). The Android status bar (battery, time, signal) at the top and the system navigation bar (back, home buttons) at the bottom must remain visible at all times during gameplay and menus.
+- **Export Filters:** The `puzzles.json` file (and any other `.json` data files) MUST be explicitly added to the Godot export preset's `include_filter` (e.g., `*.txt, *.json`). Failure to do so will result in the file being stripped from the final Android `.apk`/`.aab` build.
+- **Launcher Icons:** Android launcher icons conforming to Godot export standards are located in `game/assets/icons/`: standard launcher icon `icon.png` (192x192 PNG), and adaptive launcher icons `icon_foreground.png` (432x432 PNG) and `icon_background.png` (432x432 PNG). All icon paths are registered in `game/export_presets.cfg`.
+- **Display & Input Configuration:** Project orientation is locked to Portrait (`window/handheld/orientation=1`), stretch mode configured to `canvas_items` with aspect `expand`, and touch emulation enabled (`window/touchscreen/emulate_touch_from_mouse=true`) in `game/project.godot`.
+- **Automated Verification:** Automated unit tests in `game/tests/test_platform_config.gd` validate that `export_presets.cfg` disables immersive mode, preserves the `*.json` include filter, ensures icon assets exist, and verifies orientation and stretch project settings.
+
