@@ -8,8 +8,10 @@ This document outlines the strict manual testing procedures required before any 
 
 ## Test 2.0: System UI & Platform Integration
 - **Step 1:** Launch the app on an Android device (or simulator).
-- **Expected (Non-Immersive):** The Android status bar (top) and navigation bar (bottom) must remain visible. The game must NOT force the device into immersive fullscreen mode.
-- **Expected (Orientation):** The app must lock to Portrait mode. Rotating the device must NOT rotate the game into Landscape mode.
+- **Expected (Non-Immersive):** The Android status bar (top) and navigation bar (bottom) must remain visible. The game must NOT force the device into immersive fullscreen mode (`screen/immersive_mode=false`).
+- **Expected (Orientation):** The app must lock to Portrait mode (`window/handheld/orientation=1`). Rotating the device must NOT rotate the game into Landscape mode.
+- **Automated Verification:** Verified in headless CI via `game/tests/test_platform_config.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), confirming non-immersive mode, portrait orientation, canvas_items expand stretch, and touch emulation settings.
+
 
 ## Test 3.0: Dynamic UI Scaling
 - **Step 1:** Launch the app on devices or simulators with varying aspect ratios and screen sizes (e.g., a tall, narrow phone and a wider tablet).
@@ -77,10 +79,14 @@ This document outlines the strict manual testing procedures required before any 
 - **Expected:** The layout of the clues MUST be rotationally symmetrical (180 degrees).
 - **Automated Verification:** Verified in headless CI via `game/tests/test_puzzle_loader.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), which validates file existence, JSON validity, array sizes (>= 10), string lengths (81 characters), valid digits ('0'-'9'), and 180-degree rotational symmetry for all clues across `easy`, `medium`, and `hard`.
 
-## Test 13.0: Android Build Export (JSON Included)
-- **Step 1:** Build the Android `.apk` or run the game natively on an Android device via Godot export.
+## Test 13.0: Android Build Export & Launcher Icons
+- **Step 1:** Build the Android `.apk`/`.aab` or install/run the game natively on an Android device via Godot export.
 - **Step 2:** Boot the game and start any new puzzle.
-- **Expected:** The puzzle loads perfectly. If the screen is blank or the app crashes here, the `*.json` file was likely stripped during the build process and the `export_presets.cfg` include filter must be fixed.
+- **Expected (JSON Packaging):** The puzzle loads perfectly. If the screen is blank or the app crashes here, the `*.json` file was likely stripped during the build process and the `export_presets.cfg` include filter (`include_filter="*.txt, *.json"`) must be verified.
+- **Step 3:** Inspect the app icon on the Android launcher, home screen, and app drawer.
+- **Expected (Launcher Icons):** The app displays the custom mascot icon (`icon.png` / `icon_foreground.png` / `icon_background.png`) rather than the default Godot engine icon.
+- **Automated Verification:** Verified in headless CI via `game/tests/test_platform_config.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), validating that `export_presets.cfg` includes `*.json` in the include filter and that all launcher icon assets exist on disk.
+
 
 ## Test 14.0: Error Highlighting (No Strikes)
 - **Step 1:** Input a final answer number into a cell that already exists in that cell's row, column, or 3x3 block.
