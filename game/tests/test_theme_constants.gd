@@ -23,9 +23,14 @@ func test_theme_constants_loaded() -> void:
 			assert_ne(colors[i], colors[j], "Colors should be distinct: %s vs %s" % [str(colors[i]), str(colors[j])])
 
 func test_theme_resource_loads() -> void:
+	assert_true(FileAccess.file_exists("res://resources/theme_1930s.tres"), "Theme resource file should exist on disk.")
 	var theme: Theme = ResourceLoader.load("res://resources/theme_1930s.tres") as Theme
 	assert_true(theme != null, "Theme resource should load successfully.")
 	
 	var style: StyleBoxFlat = theme.get_stylebox("panel", "Panel") as StyleBoxFlat
 	assert_true(style != null, "Theme should have a panel style.")
 	assert_eq(style.bg_color, Color("#121212"), "Panel background color should be #121212")
+	assert_true(theme.has_font("clue_font", "Label"), "Theme should have clue_font configured.")
+	assert_true(theme.has_font("input_font", "Label"), "Theme should have input_font configured.")
+	assert_true(theme.has_font("note_font", "Label"), "Theme should have note_font configured.")
+	assert_true(theme.has_font("note_font_bold", "Label"), "Theme should have note_font_bold configured.")
