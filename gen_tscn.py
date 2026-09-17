@@ -1,0 +1,153 @@
+tscn = '''[gd_scene load_steps=2 format=3 uid="uid://cb5c03c8"]
+
+[ext_resource type="Script" path="res://scripts/statistics_screen.gd" id="1_ab123"]
+
+[node name="StatisticsScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ab123")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0705882, 0.0705882, 0.0705882, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 40
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="Header" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="BackButton" type="Button" parent="MarginContainer/VBoxContainer/Header"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_colors/font_hover_color = Color(0.8, 0.8, 0.8, 1)
+theme_override_font_sizes/font_size = 24
+text = "< Back"
+flat = true
+
+[node name="Title" type="Label" parent="MarginContainer/VBoxContainer/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 32
+text = "STATISTICS"
+horizontal_alignment = 1
+
+[node name="Spacer" type="Control" parent="MarginContainer/VBoxContainer/Header"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="CardsContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 20
+'''
+
+difficulties = ['easy', 'medium', 'hard']
+for diff in difficulties:
+    Diff = diff.capitalize()
+    tscn += f'''
+[node name="{Diff}Card" type="PanelContainer" parent="MarginContainer/VBoxContainer/ScrollContainer/CardsContainer"]
+layout_mode = 2
+
+[node name="VBox" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ScrollContainer/CardsContainer/{Diff}Card"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="DifficultyLabel" type="Label" parent="MarginContainer/VBoxContainer/ScrollContainer/CardsContainer/{Diff}Card/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 24
+text = "{Diff}"
+horizontal_alignment = 1
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/VBoxContainer/ScrollContainer/CardsContainer/{Diff}Card/VBox"]
+layout_mode = 2
+columns = 2
+
+[node name="StartedLabel" type="Label" parent="MarginContainer/VBoxContainer/ScrollContainer/CardsContainer/{Diff}Card/VBox/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "Games Started"
+
+[node name="StartedValue" type="Label" parent="MarginContainer/VBoxContainer/ScrollContainer/CardsContainer/{Diff}Card/VBox/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "0"
+horizontal_alignment = 2
+
+[node name="WonLabel" type="Label" parent="MarginContainer/VBoxContainer/ScrollContainer/CardsContainer/{Diff}Card/VBox/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "Games Won"
+
+[node name="WonValue" type="Label" parent="MarginContainer/VBoxContainer/ScrollContainer/CardsContainer/{Diff}Card/VBox/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "0"
+horizontal_alignment = 2
+
+[node name="BestTimeLabel" type="Label" parent="MarginContainer/VBoxContainer/ScrollContainer/CardsContainer/{Diff}Card/VBox/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "Best Time"
+
+[node name="BestTimeValue" type="Label" parent="MarginContainer/VBoxContainer/ScrollContainer/CardsContainer/{Diff}Card/VBox/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "--:--"
+horizontal_alignment = 2
+
+[node name="AverageTimeLabel" type="Label" parent="MarginContainer/VBoxContainer/ScrollContainer/CardsContainer/{Diff}Card/VBox/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "Average Time"
+
+[node name="AverageTimeValue" type="Label" parent="MarginContainer/VBoxContainer/ScrollContainer/CardsContainer/{Diff}Card/VBox/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "--:--"
+horizontal_alignment = 2
+'''
+
+import os
+os.makedirs('game/scenes', exist_ok=True)
+with open('game/scenes/statistics_screen.tscn', 'w') as f:
+    f.write(tscn)
