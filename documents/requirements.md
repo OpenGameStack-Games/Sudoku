@@ -31,7 +31,14 @@ This document acts as the definitive source of truth for the game's features, lo
 - **Numpad Exhaustion State:** When a player places 9 instances of a specific number on the board, that corresponding number button on the numpad must visually **gray out**. (It must NOT disappear or be removed).
   - **Cheat Prevention:** To prevent players from using the numpad as an answer-checker, the button must gray out whenever *any* 9 instances of that number are on the board, regardless of whether they are placed correctly or incorrectly.
 - **Candidate Layout:** Each cell must support 9 candidate slots (a 3x3 micro-grid within the cell). Candidates 1-9 are positioned consistently: 1 at top-left, 9 at bottom-right.
-- **Undo System:** Players can undo an **unlimited** number of previous actions. The history tracks both final answers and candidate note placements/deletions.
+- **Undo System (`game/scripts/undo_manager.gd`):** Players can undo an **unlimited** number of previous actions.
+  - **Command Stack Architecture:** Managed via `UndoManager` (registered globally as `ActionManager` autoload in `game/project.godot` or injected into `SudokuBoard.undo_manager`).
+  - **Bi-Modal History:** Records both final answer entries (cell index, old value, new value, previous user candidate states) and candidate note toggles (cell index, digit, whether added or removed).
+  - **Restoration of Auto-Cleared Candidates:** Undoing a placed answer restores any candidate notes in that cell's row, column, and 3x3 block that were automatically cleared when the answer was originally entered.
+  - **Board State Recalculation:** Undoing an action immediately recalculates conflict highlighting, candidate sets, numpad exhaustion states (re-enabling buttons if placed digit counts drop below 9), and win condition status.
+  - **Safe Empty Handling:** Gracefully handles empty undo stacks (no-op when no actions remain in history).
+  - **Serialization:** Provides `get_history_state()` and `load_history_state()` helpers for persistent save state integration.
+  - **Automated Verification:** Unit tested in `game/tests/test_undo_manager.gd` covering empty stack safety, sequential value/note undos, peer candidate restoration, conflict/exhaustion recalculation, and state serialization.
 - **Error Handling (No Losing):** There are no "strikes" or game-over states for wrong answers. The player can keep trying indefinitely.
   - **Conflict Highlighting:** If a player inputs a final answer that already exists in the same row, column, or 3x3 block, both the newly inputted number and the conflicting number(s) must be highlighted in **red** (a permitted exception to the monochrome theme).
   - **Note:** Error highlighting applies *only* to final answers, not to candidate notes.

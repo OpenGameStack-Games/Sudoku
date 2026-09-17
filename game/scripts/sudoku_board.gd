@@ -8,6 +8,7 @@ signal game_won
 signal digit_exhausted(digit: int)
 
 var cells: Array[SudokuCell] = []
+var undo_manager: UndoManager = null
 var auto_candidates_enabled: bool = false
 var is_game_won: bool = false
 
@@ -51,6 +52,10 @@ func toggle_candidate(index: int, digit: int) -> void:
 	var cell: SudokuCell = cells[index]
 	if cell.value != 0:
 		return
+	var was_added: bool = not cell.has_candidate(digit)
+	if undo_manager:
+		undo_manager.record_toggle_action(index, digit, was_added)
+	
 	cell.toggle_candidate(digit)
 	cell.update_active_candidates(auto_candidates_enabled, _get_math_valid_candidates(index))
 
@@ -62,6 +67,22 @@ func set_cell_value(index: int, value: int) -> void:
 		return
 		
 	var old_val: int = cell.value
+	
+	var cleared_peer_candidates: Dictionary = {}
+	if value != 0:
+		var peers: Array[int] = _get_peers(index)
+		for p in peers:
+			if cells[p].user_candidates.has(value):
+				cleared_peer_candidates[p] = [value]
+				
+	if undo_manager:
+		undo_manager.record_value_action(
+		index, old_val, value, 
+		cell.user_candidates.duplicate(),
+		cell.user_deleted_candidates.duplicate(),
+		cleared_peer_candidates
+	)
+	
 	cell.value = value
 	
 	if value != 0:
@@ -183,3 +204,54 @@ func _check_win_condition() -> void:
 		game_won.emit()
 	elif not newly_won and is_game_won:
 		is_game_won = false
+
+
+func _undo_value_action(index: int, old_val: int, new_val: int, old_user_candidates: Array[int], old_user_deleted_candidates: Array[int], cleared_peer_candidates: Dictionary) -> void:
+	var cell: SudokuCell = cells[index]
+	
+	# Revert value
+	cell.value = old_val
+	
+	# Restore cell's own candidates
+	cell.user_candidates = old_user_candidates.duplicate()
+	cell.user_deleted_candidates = old_user_deleted_candidates.duplicate()
+	
+	# Restore peer candidates that were auto-cleared
+	if new_val != 0:
+		for p in cleared_peer_candidates.keys():
+			for digit in cleared_peer_candidates[p]:
+				var peer_cell: SudokuCell = cells[p]
+				if not peer_cell.user_candidates.has(digit):
+					peer_cell.user_candidates.append(digit)
+					peer_cell.user_candidates.sort()
+				if peer_cell.user_deleted_candidates.has(digit):
+					peer_cell.user_deleted_candidates.erase(digit)
+	
+	_evaluate_conflicts()
+	_update_all_candidates()
+	
+	if old_val != 0:
+		_check_exhaustion(old_val)
+	if new_val != 0:
+		_check_exhaustion(new_val)
+		
+	_check_win_condition()
+	board_updated.emit()
+
+func _undo_toggle_action(index: int, digit: int, was_added: bool) -> void:
+	var cell: SudokuCell = cells[index]
+	
+	if was_added:
+		if cell.user_candidates.has(digit):
+			cell.user_candidates.erase(digit)
+		if not cell.user_deleted_candidates.has(digit):
+			cell.user_deleted_candidates.append(digit)
+	else:
+		if cell.user_deleted_candidates.has(digit):
+			cell.user_deleted_candidates.erase(digit)
+		if not cell.user_candidates.has(digit):
+			cell.user_candidates.append(digit)
+			cell.user_candidates.sort()
+			
+	cell.update_active_candidates(auto_candidates_enabled, _get_math_valid_candidates(index))
+	board_updated.emit()
