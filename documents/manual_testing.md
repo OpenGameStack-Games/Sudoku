@@ -73,14 +73,20 @@ This document outlines the strict manual testing procedures required before any 
 - **Step 3:** Allow gameplay timer to pass 59 seconds and verify it transitions smoothly from `00:59` to `01:00`. If playing an extended session, verify it transitions to `HH:MM:SS` format past 3600 seconds.
 - **Automated Verification:** Verified in headless CI via `game/tests/test_game_timer.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), confirming initial seconds loading, time formatting (`MM:SS` and `HH:MM:SS`), second-by-second incrementing, manual pause/resume, and focus lifecycle state handling.
 
-## Test 8.0: Grid Input (Bi-Directional)
-- **Step 1 (Cell-First):** Tap an empty cell, then tap a number on the numpad.
+## Test 8.0: Grid Input (Bi-Directional & Keyboard Shortcuts)
+- **Step 1 (Cell-First Input):** Tap an empty cell, then tap a number 1-9 on the numpad.
 - **Expected:** The number is entered into the cell.
-- **Step 2 (Number-First):** Tap a number on the numpad, then tap several empty cells.
-- **Expected:** The number is entered into every cell tapped.
-- **Step 3 (Auto-Clear Candidates):** Enter candidate '5' into several cells in a row. Then enter a final answer '5' in that row.
+- **Step 2 (Number-First Input):** Tap a number on the numpad (it highlights in soft green `Color(0.8, 1.0, 0.8)`), then tap several empty cells.
+- **Expected:** The number is entered into every cell tapped. Tapping the numpad button again deselects it.
+- **Step 3 (Mode Toggles):** Tap the "Candidate" button (or press `C` on a keyboard). Tap an empty cell and input digit '3'.
+- **Expected:** '3' is placed into the cell's candidate micro-grid. Tap "Normal" (or press `N`) to switch back to normal answer input mode.
+- **Step 4 (Erase Button):** Select a cell containing a number or candidate notes, then tap the 'X' numpad button (or press `X`, `0`, `Backspace`, or `Delete` on keyboard).
+- **Expected:** Final answer is cleared, or candidate notes are deleted. Clue cells remain unaffected.
+- **Step 5 (Keyboard Shortcuts):** With a cell selected, press keys `1`-`9` (or numpad keys `KP_1`-`KP_9`).
+- **Expected:** Corresponding digit is placed into the selected cell. Press `U` or `Ctrl+Z` to verify undo action.
+- **Step 6 (Auto-Clear Candidates):** Enter candidate '5' into several cells in a row. Then enter a final answer '5' in that row.
 - **Expected:** All candidate '5's in that row automatically disappear.
-- **Automated Verification:** Verified in headless CI via `game/tests/test_board_ui.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), asserting cell instantiation, value setting with typography scaling (clues vs answers), and candidate micro-grid visibility.
+- **Automated Verification:** Verified in headless CI via `game/tests/test_board_ui.gd` and `game/tests/test_input_controls.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), asserting cell-first and number-first input, candidate toggling, erase behavior, clue protection, keyboard shortcuts, undo emissions, and candidate micro-grid synchronization.
 
 ## Test 9.0: Undo System
 - **Step 1:** Make several inputs (Normal and Candidate mode) on the grid.
@@ -111,6 +117,7 @@ This document outlines the strict manual testing procedures required before any 
 - **Expected:** The candidate is deleted and stays deleted (the auto-calculator respects user edits).
 - **Step 4:** Toggle it OFF.
 - **Expected:** All auto-generated candidates disappear from the board.
+- **Automated Verification:** Verified in headless CI via `game/tests/test_sudoku_board.gd` and `game/tests/test_input_controls.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), verifying auto-candidate toggle signals, valid candidate generation, user deletion preservation, and dynamic UI synchronization.
 
 ## Test 12.0: Puzzle Database Load & Symmetry
 - **Step 1:** Tap "Easy", "Medium", and "Hard" sequentially from the main menu, exiting back to the menu between each.
@@ -192,8 +199,11 @@ This document outlines the strict manual testing procedures required before any 
 
 ## Test 20.0: Numpad Exhaustion State
 - **Step 1:** Play a puzzle and fill the ninth instance of a specific number (e.g., '5') onto the board.
-- **Expected:** The number '5' button on the numpad visually **grays out** (it does not disappear; uses dimmed gray `ThemeConstants.COLOR_NUMPAD_EXHAUSTED`) to indicate that nine 5s have been placed.
+- **Expected:** The number '5' button on the numpad visually **grays out** (it does not disappear; uses dimmed gray `ThemeConstants.COLOR_NUMPAD_EXHAUSTED` / `Color(0.4, 0.4, 0.4)`) and is disabled to indicate that nine 5s have been placed.
 - **Step 2:** Tap 'Undo' or use the 'X' button to delete one of the 5s.
-- **Expected:** The number '5' button on the numpad lights back up to its normal active state.
+- **Expected:** The number '5' button on the numpad lights back up to its normal active state (`Color(1.0, 1.0, 1.0)`) and is re-enabled.
 - **Step 3 (Cheat Prevention):** Intentionally place 9 instances of the number '5' on the board in completely wrong, conflicting cells.
 - **Expected:** The number '5' button on the numpad MUST still gray out (ignoring whether the placements are actually correct).
+- **Step 4 (Number-First Deselection):** Select digit '5' in number-first mode. Place the 9th instance of '5'.
+- **Expected:** The '5' button grays out and is automatically deselected (`selected_digit` reset to -1).
+- **Automated Verification:** Verified in headless CI via `game/tests/test_input_controls.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), verifying button disablement, dimmed modulation, restoration on count drop, cheat prevention, and auto-deselection.

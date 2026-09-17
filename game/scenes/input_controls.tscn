@@ -1,0 +1,93 @@
+[gd_scene load_steps=3 format=3 uid="uid://cxinputctrl"]
+
+[ext_resource type="Theme" path="res://resources/theme_1930s.tres" id="1_thm"]
+[ext_resource type="Script" path="res://scripts/input_controls.gd" id="2_scr"]
+
+[node name="InputControls" type="VBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_thm")
+script = ExtResource("2_scr")
+
+[node name="ModeRow" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="NormalBtn" type="Button" parent="ModeRow"]
+layout_mode = 2
+text = "Normal"
+
+[node name="CandidateBtn" type="Button" parent="ModeRow"]
+layout_mode = 2
+text = "Candidate"
+
+[node name="Spacer" type="Control" parent="ModeRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="UndoBtn" type="Button" parent="ModeRow"]
+layout_mode = 2
+text = "Undo"
+
+[node name="NumpadRow" type="GridContainer" parent="."]
+layout_mode = 2
+columns = 5
+
+[node name="Btn1" type="Button" parent="NumpadRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "1"
+
+[node name="Btn2" type="Button" parent="NumpadRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "2"
+
+[node name="Btn3" type="Button" parent="NumpadRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "3"
+
+[node name="Btn4" type="Button" parent="NumpadRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "4"
+
+[node name="Btn5" type="Button" parent="NumpadRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "5"
+
+[node name="Btn6" type="Button" parent="NumpadRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "6"
+
+[node name="Btn7" type="Button" parent="NumpadRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "7"
+
+[node name="Btn8" type="Button" parent="NumpadRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "8"
+
+[node name="Btn9" type="Button" parent="NumpadRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "9"
+
+[node name="BtnX" type="Button" parent="NumpadRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "X"
+
+[node name="AutoRow" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="AutoCandidateBtn" type="CheckButton" parent="AutoRow"]
+layout_mode = 2
+text = "Auto Candidate Mode"

@@ -31,9 +31,19 @@ To ensure your assets are tracked correctly:
 - **Board & Cell UI Components (`game/scenes/board.tscn`, `game/scenes/cell.tscn`, `game/scripts/board_ui.gd`, `game/scripts/cell_ui.gd`):** Interactive visual components implementing the 9x9 Sudoku grid and 3x3 candidate micro-grids within an `AspectRatioContainer` for dynamic portrait scaling. Seamlessly binds to the core `SudokuBoard` model, handling cell selection toggling, peer highlighting, number matching, matching candidate note font enlargement, and real-time conflict error states.
 - **Main Menu Screen (`game/scenes/main.tscn`, `game/scenes/main_menu.tscn`, `game/scripts/main_menu.gd`):** Application entry point embodying the 1930s rubber-hose aesthetic with a custom monochrome mascot character (`game/assets/icons/mascot_icon.jpg`). Features difficulty selection (Easy, Medium, Hard) that dynamically detects saved games via `SaveManager` to present "Resume" options, manages statistics navigation, and starts new puzzles seeded from `game/data/puzzles.json`.
 - **Statistics Screen (`game/scenes/statistics_screen.tscn`, `game/scripts/statistics_screen.gd`):** Dedicated UI screen styled in 1930s monochrome presentation displaying player performance metrics (games started, games won, best times, and average times) categorized by Easy, Medium, and Hard difficulties with smooth navigation back to the main menu.
+- **Input Controls & Numpad (`game/scenes/input_controls.tscn` & `game/scripts/input_controls.gd`):** Standalone 1930s-styled control panel featuring Normal/Candidate mode toggles, Undo button, 1-9 & Erase (X) numpad with cheat-proof digit exhaustion dimming (`ThemeConstants.COLOR_NUMPAD_EXHAUSTED`), Auto Candidate toggle, and full bi-directional (Cell-First and Number-First) input routing.
 
-
-## Developer Tools
+## Controls & Accessibility
+The game supports intuitive touch/mouse controls as well as full keyboard navigation for desktop testing and accessibility:
+- **Bi-directional Workflows:**
+  - **Cell-First Mode:** Tap an empty cell on the grid, then tap a numpad digit `1`-`9` or 'X' (Erase).
+  - **Number-First Mode:** Tap a numpad digit to activate it (`Color(0.8, 1.0, 0.8)`), then tap multiple grid cells to rapidly place that digit. Tap the digit again to exit number-first mode.
+- **Keyboard Shortcuts:**
+  - `1` - `9` / Keypad `1` - `9`: Input digit.
+  - `X`, `0`, `Keypad 0`, `Backspace`, `Delete`: Erase digit or candidate notes in selected cell.
+  - `C`: Switch to Candidate note mode.
+  - `N`: Switch to Normal answer mode.
+  - `U` / `Ctrl + Z`: Trigger Undo.
 ### Puzzle Generator (`tools/generate_puzzles.py`)
 An offline Python utility to generate 9x9 Sudoku puzzles with guaranteed unique solutions and 180-degree rotational symmetry:
 ```powershell
