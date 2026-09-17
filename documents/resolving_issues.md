@@ -1,4 +1,4 @@
-﻿# Issue Resolution Workflow & Standards
+# Issue Resolution Workflow & Standards
 
 This document establishes the official standards, Git worktree workflow, and coding guidelines for anyone resolving issues in the **Sudoku** repositoryâ€”whether human contributor or autonomous agent.
 
@@ -31,7 +31,10 @@ List open issues via the GitHub CLI:
 gh issue list --state open
 ```
 
-Inspect the issue details using JSON output (to avoid scope permission requirements):
+> [!WARNING]
+> **NEVER run a bare `gh issue view <id>` command.** The repository's token configuration will trigger a `read:project` scope error for the bare command. You must ALWAYS use the `--json` flag to avoid this error.
+
+Inspect the issue details using JSON output:
 ```powershell
 gh issue view <issue_number> --json title,body,state,labels,assignees
 ```
@@ -85,7 +88,13 @@ git worktree add .worktrees/issue-21 -b feature/issue-21-absent-color-red
 ## 4. Coding & Architecture Standards
 
 ### Godot 4.x & GDScript Standards
-1. **Static Typing Everywhere:**
+1. **Project Configuration (`project.godot`):**
+   * Emulating touch from mouse must use the correct Godot 4 path: `input_devices/pointing/emulate_touch_from_mouse=true`.
+2. **Asset Generation & Metadata:**
+   * Using Python (e.g., `Pillow` or standard libraries) to generate or manipulate assets like PNG icons is completely acceptable and encouraged.
+   * For complex Godot resources (like `Theme` `.tres` files), avoid manual raw text manipulation. Instead, write a temporary Godot CLI script (e.g. `godot --headless -s generate.gd`) utilizing `ResourceSaver` to build and save the `.tres` file perfectly.
+   * **CRITICAL**: Godot 4 generates `.uid` metadata files alongside `.gd` scripts, scenes, and assets. Always stage and commit these `.uid` files alongside your changes.
+3. **Static Typing Everywhere:**
    * Always annotate variable types and function returns:
      ```gdscript
      var current_row: int = 0
@@ -122,9 +131,18 @@ Every feature or bug fix touching game logic or autoloads must be backed by auto
 * Test scripts inherit from `res://tests/test_base.gd`.
 * Every test method starts with `test_`.
 * Assertions use `assert_true()`, `assert_false()`, `assert_eq()`, and `assert_ne()`.
+* **CRITICAL**: When adding an Autoload, configuring an asset path in `project.godot`/`export_presets.cfg`, or generating standalone resources (like `.tres` files), you MUST add a unit test that asserts `FileAccess.file_exists(...)` for that exact path to ensure the asset actually exists and wasn't skipped or renamed.
+* **CRITICAL**: GDScript lambdas capture primitives by VALUE, not by reference. When using inline lambdas to verify signal emissions, you must capture variables via an `Array` wrapper (e.g., `var count: Array[int] = [0]`) or an object property, otherwise the outer scope will not reflect updates made inside the lambda.
+* **CRITICAL**: The `test_runner.gd` does not initialize `project.godot` autoloads natively. To ensure testability, avoid hardcoded singleton identifier calls (e.g., `StatsManager.do_something()`) inside `RefCounted`, core logic classes, or even other autoloads. Instead, use dependency injection, or look up peer singletons dynamically using `Engine.get_main_loop().root.get_node_or_null("StatsManager")` (or simply `/root/SingletonName`). If the class uses global identifiers directly, test suite compilation will fail with "Identifier not found".
 
 ### Running Automated Tests
-Run the headless Godot test suite. First, force an asset import pass to cache any newly added binary files (like PNG icons):
+> [!NOTE]
+> The custom `test_runner.gd` does NOT currently support automatic `before_each()` or `after_each()` hooks. If your tests require state isolation (e.g. wiping a `user://` save file), you must manually call your setup and teardown methods inside every single `test_*` function.
+
+> [!WARNING]
+> Testing `DisplayServer` state methods (like `screen_is_kept_on()`) will FAIL when running tests via the headless runner. You must bypass these assertions using `if DisplayServer.get_name() != "headless":`.
+
+Run the headless Godot test suite. First, **CRITICALLY**, force an editor import pass to cache any newly added binary files or `class_name` definitions:
 ```powershell
 godot --headless --editor --quit --path game
 godot --headless --path game -s res://tests/test_runner.gd

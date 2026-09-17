@@ -1,4 +1,4 @@
-﻿# Pull Request Review, Documentation & Merge Standards
+# Pull Request Review, Documentation & Merge Standards
 
 This document establishes the official standards and workflow for reviewing, documenting, and merging Pull Requests in the **Sudoku** repositoryâ€”whether handled by a human developer or an autonomous agent.
 
@@ -36,6 +36,7 @@ Before approving or merging any Pull Request, verify the following:
 * [ ] **Automated Test Report:** PR body includes evidence that all automated tests pass (`Test Results: X Passed, 0 Failed`).
 * [ ] **Independent Test Execution:** Reviewer independently runs the test suite on the checked-out branch and confirms zero failures.
 * [ ] **New Tests Added:** If core logic, autoloads, or calculations were altered, corresponding unit tests are present in `game/tests/`.
+* [ ] **Asset Verification:** Any file paths referenced in configuration files (like `export_presets.cfg` or `project.godot`) must be explicitly asserted to exist on disk within the unit tests using `FileAccess.file_exists()`.
 
 
 ---
@@ -46,8 +47,12 @@ All review operationsâ€”inspecting code, running automated tests, and commi
 
 ### 1. View PR Overview & Diff
 Inspect the PR description and diff via the GitHub CLI:
+
+> [!WARNING]
+> **NEVER run a bare `gh pr view <pr_number>` command.** The repository's token configuration will trigger a `read:project` scope error for the bare command. You must ALWAYS use the `--json` flag to avoid this error.
+
 ```powershell
-gh pr view <pr_number>
+gh pr view <pr_number> --json title,body,state,baseRefName,headRefName,commits,files
 gh pr diff <pr_number>
 ```
 
@@ -100,6 +105,9 @@ This ensures that the complete issue resolution (implementation, tests, and docu
 
 ## 5. Review Decisions & Protocol
 
+> [!NOTE]
+> Since the PR Reviewer often operates under the same GitHub credentials as the Issue Resolver, attempting to run `gh pr review <pr_number> --approve` will fail with a GraphQL error ("Can not approve your own pull request"). If you are approving the PR, skip the `gh pr review` command entirely and proceed directly to merging.
+
 ### Scenario A: Changes Required (Failing Checks or Missing Criteria)
 If the PR violates static typing, includes raw `print()` statements, lacks necessary test cases, fails the test suite, or does not meet the linked issue's acceptance criteria, **do not merge**. Submit a review requesting changes:
 ```powershell
@@ -131,6 +139,10 @@ gh issue close <issue_number> --comment "Resolved via PR #<pr_number>."
 ```
 
 #### 3. Local Repository Synchronization & Cleanup
+
+> [!NOTE]
+> During headless imports, Godot may print `ERROR: res://scenes/main.tscn:1 - Parse Error: Expected '['.`. This is expected because `main.tscn` is a blank placeholder file from project initialization, and this harmless warning can be ignored until the actual UI scenes are merged.
+
 From the main project directory:
 ```powershell
 # Remove the review worktree and prune metadata
@@ -140,6 +152,9 @@ git worktree prune
 # Ensure main is up to date with the newly merged PR
 git checkout main
 git pull origin main
+
+# CRITICAL: Force an editor import pass to register any newly merged GDScript classes or assets
+godot --headless --editor --quit --path game
 
 # Delete the local feature branch (if it was checked out locally)
 git branch -d feature/issue-<number>-<short-description>
