@@ -4,12 +4,14 @@ This document acts as the definitive source of truth for the game's features, lo
 
 ## 1. Core Mechanics
 - **Difficulty Levels:** The game must offer three distinct difficulty levels: Easy, Medium, and Hard.
-- **Puzzle Generation & Data Structure:** Puzzles are NOT generated on the fly inside the Godot engine. Instead, the game must read puzzles from a pre-baked `puzzles.json` file.
+- **Puzzle Generation & Data Structure:** Puzzles are NOT generated on the fly inside the Godot engine. Instead, the game must read puzzles from a pre-baked `game/data/puzzles.json` file.
   - Puzzles are represented as 81-character strings (where '0' represents an empty cell).
-  - The JSON must be categorized by difficulty.
+  - The JSON contains top-level keys for each difficulty tier: `"easy"`, `"medium"`, and `"hard"`, each containing an array of 81-character puzzle strings (minimum 10 per difficulty for MVP).
   - When a user selects a difficulty, the game randomly selects a puzzle string from that category.
-- **Python Generator Tool:** The repository must contain an out-of-band Python script located in a `tools/` directory (outside the Godot project). This script is responsible for generating, grading, and exporting the `puzzles.json` file.
-  - **Symmetry Requirement:** The generated puzzles MUST feature traditional 180-degree rotational symmetry (if a clue exists at row 1 col 1, a clue must exist at row 9 col 9).
+- **Python Generator Tool:** The repository contains an out-of-band Python script located at `tools/generate_puzzles.py` (outside the Godot project). This script is responsible for generating, grading, and exporting the `puzzles.json` file.
+  - **Symmetry Requirement:** The generated puzzles MUST feature traditional 180-degree rotational symmetry (if a clue exists at row `r` col `c`, a clue must exist at row `8-r` col `8-c`).
+  - **Difficulty Grading:** Difficulty is categorized by target clue count: Easy (50 clues), Medium (40 clues), and Hard (30 clues).
+  - **Command Line Arguments:** Accepts `--count <N>` (number of puzzles per difficulty, default 10) and `--out <path>` (output JSON destination, default `game/data/puzzles.json`).
 - **Timer & Pause:** The gameplay screen must track time elapsed starting at 00:00.
   - The timer ONLY runs when the screen has active focus. 
   - It pauses if the app is backgrounded or the player returns to the main menu.
