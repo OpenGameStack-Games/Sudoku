@@ -92,12 +92,22 @@ This document acts as the definitive source of truth for the game's features, lo
     - **Average Time:** Formatted time string (`MM:SS`) or `"--:--"` if zero wins recorded.
   - **Autoload Data Binding:** Dynamically queries `StatsManager` via dependency injection (`stats_manager_node` property) with fallback dynamic lookup (`Engine.get_main_loop().root.get_node_or_null("StatsManager")`) to facilitate robust unit testing without requiring autoload registration in the test runner.
   - **Automated Verification:** Verified in headless CI via `game/tests/test_statistics_screen.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), asserting scene and script asset presence, mock stats data binding across all three difficulty tiers, fallback empty states, and back navigation button signal wiring.
-- **Gameplay Screen Layout:** The gameplay screen must be structured vertically from top to bottom as follows:
-  - **Header Row:**
-    - Top-Left: Back arrow button (returns to Main Menu).
-    - Center-Left: Difficulty label text (Easy, Medium, or Hard).
-    - Center-Right: Active Timer.
-    - Top-Right: Triple-dot menu button and a Pause button.
+- **Gameplay Screen (`game/scenes/gameplay_screen.tscn` & `game/scripts/gameplay_screen.gd`):** The primary gameplay scene coordinating the header controls, 9x9 board, input controls, and pause overlay:
+  - **Header Row (`MarginContainer` with 32px top margin for status bar clearance):**
+    - **Back Button (`< Back`):** Automatically saves progress to `SaveManager` (`flush_save()`), pauses `TimeManager`, and transitions to the Main Menu (`res://scenes/main_menu.tscn`).
+    - **Difficulty Label:** Displays the capitalized current difficulty tier (`"Easy"`, `"Medium"`, `"Hard"`).
+    - **Timer Label:** Displays active elapsed gameplay time formatted as `MM:SS` (or `HH:MM:SS` for 3600s+), updated dynamically via `TimeManager.time_updated`.
+    - **Pause Button:** Pauses the active timer and opens the full-screen Pause Overlay.
+    - **Triple-Dot Menu (`MenuButton`):** Provides in-game session reset actions:
+      - **"Reset Puzzle":** Reverts the board back to the initial puzzle clues, clears player answers and candidate notes, clears undo history, resets timer to `00:00`, and flushes the reset state to `SaveManager`.
+      - **"New Game":** Fetches a new distinct puzzle string from `game/data/puzzles.json` for the current difficulty tier, starts the new puzzle, wipes undo history, resets timer to `00:00`, and updates `SaveManager`.
+  - **Pause Overlay (`game/scenes/pause_overlay.tscn` & `game/scripts/pause_overlay.gd`):**
+    - Opaque/obscuring overlay (`#121212` background at 95% opacity) that completely conceals the 9x9 board when active to prevent cheating.
+    - Features the 1930s monochrome mascot graphic (`res://assets/icons/mascot_icon.jpg`), a large "PAUSED" title, and a styled "Resume" button.
+    - Pausing halts `TimeManager` and releases screen wake lock (`DisplayServer.screen_set_keep_on(false)`).
+    - Resuming unpauses `TimeManager`, restores screen wake lock, reveals the board, and hides the overlay.
+  - **Background Deselection:** Tapping or clicking empty space outside the 9x9 grid or numpad (on the gameplay background) deselects the currently selected cell on `BoardUI`.
+  - **Automated Verification:** Verified in headless CI via `game/tests/test_gameplay_screen.gd`, covering header initialization, pause button toggling board and timer, reset puzzle clearing moves and timer, new game distinct puzzle loading, background touch deselection, and asset verification.
   - **Sudoku Grid (`game/scenes/board.tscn` & `game/scenes/cell.tscn`):** A standard 9x9 grid, visually sectioned into 3x3 macro blocks. Each cell contains a 3x3 candidate micro-grid.
     - **Macro Grid & 3x3 Blocks:** 9x9 grid wrapped in an `AspectRatioContainer` (`BoardUI`, `game/scripts/board_ui.gd`) ensuring strict 1:1 aspect ratio that dynamically scales and centers within portrait viewports without clipping. Divided visually into nine 3x3 macro blocks using thicker separator lines (4px separation).
     - **Cell Component (`CellUI`, `game/scripts/cell_ui.gd`):** Each cell control encapsulates a central value label and a 3x3 micro-grid container with 9 candidate labels (1 through 9).

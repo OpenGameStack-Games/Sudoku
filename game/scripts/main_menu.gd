@@ -73,7 +73,7 @@ func _on_difficulty_pressed(diff: String) -> void:
 			
 	# Navigate to gameplay screen.
 	if is_inside_tree():
-		get_tree().change_scene_to_file("res://scenes/board.tscn")
+		get_tree().change_scene_to_file("res://scenes/gameplay_screen.tscn")
 
 func _on_stats_pressed() -> void:
 	# Navigate to statistics screen if it exists.

@@ -1,0 +1,89 @@
+[gd_scene load_steps=5 format=3 uid="uid://gameplay_screen"]
+
+[ext_resource type="Script" path="res://scripts/gameplay_screen.gd" id="1_gps"]
+[ext_resource type="PackedScene" path="res://scenes/board.tscn" id="2_brd"]
+[ext_resource type="PackedScene" path="res://scenes/input_controls.tscn" id="3_inp"]
+[ext_resource type="PackedScene" path="res://scenes/pause_overlay.tscn" id="4_pau"]
+
+[node name="GameplayScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_gps")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.07, 0.07, 0.07, 1.0)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 16
+
+[node name="Header" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Header"]
+layout_mode = 2
+
+[node name="BackButton" type="Button" parent="VBoxContainer/Header/HBoxContainer"]
+custom_minimum_size = Vector2(80, 60)
+layout_mode = 2
+text = "< Back"
+
+[node name="DifficultyLabel" type="Label" parent="VBoxContainer/Header/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Medium"
+horizontal_alignment = 1
+
+[node name="TimerLabel" type="Label" parent="VBoxContainer/Header/HBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "00:00"
+horizontal_alignment = 2
+
+[node name="PauseButton" type="Button" parent="VBoxContainer/Header/HBoxContainer"]
+custom_minimum_size = Vector2(80, 60)
+layout_mode = 2
+text = "Pause"
+
+[node name="MenuButton" type="MenuButton" parent="VBoxContainer/Header/HBoxContainer"]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 2
+text = "..."
+item_count = 2
+popup/item_0/text = "Reset Puzzle"
+popup/item_0/id = 0
+popup/item_1/text = "New Game"
+popup/item_1/id = 1
+
+[node name="BoardContainer" type="CenterContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Board" parent="VBoxContainer/BoardContainer" instance=ExtResource("2_brd")]
+layout_mode = 2
+
+[node name="InputControls" parent="VBoxContainer" instance=ExtResource("3_inp")]
+layout_mode = 2
+
+[node name="PauseOverlay" parent="." instance=ExtResource("4_pau")]
+visible = false
+layout_mode = 1

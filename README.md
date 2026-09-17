@@ -32,12 +32,19 @@ To ensure your assets are tracked correctly:
 - **Main Menu Screen (`game/scenes/main.tscn`, `game/scenes/main_menu.tscn`, `game/scripts/main_menu.gd`):** Application entry point embodying the 1930s rubber-hose aesthetic with a custom monochrome mascot character (`game/assets/icons/mascot_icon.jpg`). Features difficulty selection (Easy, Medium, Hard) that dynamically detects saved games via `SaveManager` to present "Resume" options, manages statistics navigation, and starts new puzzles seeded from `game/data/puzzles.json`.
 - **Statistics Screen (`game/scenes/statistics_screen.tscn`, `game/scripts/statistics_screen.gd`):** Dedicated UI screen styled in 1930s monochrome presentation displaying player performance metrics (games started, games won, best times, and average times) categorized by Easy, Medium, and Hard difficulties with smooth navigation back to the main menu.
 - **Input Controls & Numpad (`game/scenes/input_controls.tscn` & `game/scripts/input_controls.gd`):** Standalone 1930s-styled control panel featuring Normal/Candidate mode toggles, Undo button, 1-9 & Erase (X) numpad with cheat-proof digit exhaustion dimming (`ThemeConstants.COLOR_NUMPAD_EXHAUSTED`), Auto Candidate toggle, and full bi-directional (Cell-First and Number-First) input routing.
+- **Gameplay Screen & Pause Overlay (`game/scenes/gameplay_screen.tscn`, `game/scripts/gameplay_screen.gd`, `game/scenes/pause_overlay.tscn`, `game/scripts/pause_overlay.gd`):** Top-level gameplay view organizing the responsive navigation header (< Back button with auto-saving, Difficulty label, active Timer, Pause button, and Triple-dot Menu for Reset Puzzle & New Game), 9x9 Board, and Input Controls. Features a full-screen 1930s themed opaque pause overlay with mascot artwork to obscure the board, pause the timer, and release the screen wake lock.
 
 ## Controls & Accessibility
 The game supports intuitive touch/mouse controls as well as full keyboard navigation for desktop testing and accessibility:
 - **Bi-directional Workflows:**
   - **Cell-First Mode:** Tap an empty cell on the grid, then tap a numpad digit `1`-`9` or 'X' (Erase).
   - **Number-First Mode:** Tap a numpad digit to activate it (`Color(0.8, 1.0, 0.8)`), then tap multiple grid cells to rapidly place that digit. Tap the digit again to exit number-first mode.
+- **Session Controls:**
+  - `< Back`: Flushes the active game state to disk and returns to the Main Menu.
+  - `Pause`: Halts the timer, conceals the grid behind a 1930s themed mascot overlay, and releases the screen wake lock.
+  - `Reset Puzzle`: Restores initial clues, clears player answers and notes, and resets the timer to 00:00.
+  - `New Game`: Fetches a fresh distinct puzzle from `puzzles.json` of the current difficulty tier and restarts the timer.
+  - **Background Tap:** Tapping outside the 9x9 board or controls deselects the current cell.
 - **Keyboard Shortcuts:**
   - `1` - `9` / Keypad `1` - `9`: Input digit.
   - `X`, `0`, `Keypad 0`, `Backspace`, `Delete`: Erase digit or candidate notes in selected cell.
