@@ -59,3 +59,7 @@ __pycache__/
 *.py[cod]
 bundletool.jar
 android-16kb-validation/
+
+# Scratch Files
+pr_body.md
+*.tmp.md
