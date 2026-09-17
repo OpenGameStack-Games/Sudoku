@@ -82,11 +82,16 @@ This document acts as the definitive source of truth for the game's features, lo
   - **Fresh Game Flow:** If no save exists for that difficulty, tapping the button selects a random puzzle string from `game/data/puzzles.json`, marks the active game in `SaveManager`, records `games_started` in `StatsManager`, and launches `game/scenes/board.tscn`.
   - **Statistics Navigation:** A "Statistics" button positioned beneath the difficulty selection buttons to open the player statistics screen.
   - **Automated Verification:** Verified in headless CI via `game/tests/test_main_menu.gd`, asserting scene and asset existence (`mascot_icon.jpg`, `main_menu.tscn`, `main.tscn`), default vs resumed button labels, signal routing, and root scene initialization.
-- **Statistics Screen:** A dedicated screen to display the player's historical performance. It must track the following metrics independently for Easy, Medium, and Hard difficulties:
-  - Games Started
-  - Games Won
-  - Best Time
-  - Average Time
+- **Statistics Screen (`game/scenes/statistics_screen.tscn` & `game/scripts/statistics_screen.gd`):** A dedicated screen to display the player's historical performance.
+  - **Header:** Top navigation bar containing the screen title (`"STATISTICS"`) and a `< Back` button that transitions cleanly back to the Main Menu (`res://scenes/main_menu.tscn`).
+  - **1930s Styling & Layout:** Built over a Dark Gray background (`#121212`, `ThemeConstants.COLOR_BG_DARK_GRAY`) featuring 1930s monochrome panel cards (2px white borders, 8px rounded corners) wrapped inside a responsive `ScrollContainer` ensuring seamless layout adaptation across small mobile phones and large tablets.
+  - **Difficulty Breakdown:** Independent styled cards for Easy, Medium, and Hard difficulties displaying:
+    - **Games Started:** Integer count fetched from `StatsManager`.
+    - **Games Won:** Integer count fetched from `StatsManager`.
+    - **Best Time:** Formatted time string (`MM:SS`) or `"--:--"` if zero wins recorded.
+    - **Average Time:** Formatted time string (`MM:SS`) or `"--:--"` if zero wins recorded.
+  - **Autoload Data Binding:** Dynamically queries `StatsManager` via dependency injection (`stats_manager_node` property) with fallback dynamic lookup (`Engine.get_main_loop().root.get_node_or_null("StatsManager")`) to facilitate robust unit testing without requiring autoload registration in the test runner.
+  - **Automated Verification:** Verified in headless CI via `game/tests/test_statistics_screen.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), asserting scene and script asset presence, mock stats data binding across all three difficulty tiers, fallback empty states, and back navigation button signal wiring.
 - **Gameplay Screen Layout:** The gameplay screen must be structured vertically from top to bottom as follows:
   - **Header Row:**
     - Top-Left: Back arrow button (returns to Main Menu).
@@ -107,7 +112,6 @@ This document acts as the definitive source of truth for the game's features, lo
     - 10 buttons: Digits `1` through `9`, and an `X` button (to delete/clear the selected square's contents).
   - **Auto Candidate Row:**
     - Located below the numpad. Contains a toggle control for "Auto Candidate Mode".
-- **Statistics Screen:** A dedicated screen to display the player's historical performance and statistics in Sudoku.
 - **Dynamic Scaling & Anchoring:** All screens, objects, and nodes must adjust dynamically relative to one another. The UI must fit seamlessly across a wide range of resolutions, aspect ratios, and physical sizes without clipping or overlapping.
 - **Orientation:** The application must be locked to **Portrait mode**.
 - **Device Support:** The UI must be optimized for both Android phones and Android tablets.

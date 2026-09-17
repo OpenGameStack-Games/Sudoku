@@ -1,7 +1,12 @@
+class_name TestStatisticsScreen
 extends "res://tests/test_base.gd"
 
 var scene: Control
 var mock_stats_manager: Node
+
+func test_scene_and_script_assets_exist() -> void:
+	assert_true(FileAccess.file_exists("res://scenes/statistics_screen.tscn"), "statistics_screen.tscn should exist on disk")
+	assert_true(FileAccess.file_exists("res://scripts/statistics_screen.gd"), "statistics_screen.gd should exist on disk")
 
 func _setup_scene() -> void:
 	var packed_scene: PackedScene = load("res://scenes/statistics_screen.tscn") as PackedScene
@@ -62,14 +67,32 @@ func test_statistics_screen_displays_mock_data() -> void:
 	var easy_started = scene.get_node("MarginContainer/VBoxContainer/ScrollContainer/CardsContainer/EasyCard/VBox/GridContainer/StartedValue")
 	var easy_won = scene.get_node("MarginContainer/VBoxContainer/ScrollContainer/CardsContainer/EasyCard/VBox/GridContainer/WonValue")
 	var easy_best = scene.get_node("MarginContainer/VBoxContainer/ScrollContainer/CardsContainer/EasyCard/VBox/GridContainer/BestTimeValue")
+	var easy_avg = scene.get_node("MarginContainer/VBoxContainer/ScrollContainer/CardsContainer/EasyCard/VBox/GridContainer/AverageTimeValue")
 	
+	assert_eq(easy_started.text, "5", "Easy games started should match")
+	assert_eq(easy_won.text, "3", "Easy games won should match")
+	assert_eq(easy_best.text, "02:05", "Easy best time should be formatted")
+	assert_eq(easy_avg.text, "02:30", "Easy average time should be formatted")
+	
+	var medium_started = scene.get_node("MarginContainer/VBoxContainer/ScrollContainer/CardsContainer/MediumCard/VBox/GridContainer/StartedValue")
+	var medium_won = scene.get_node("MarginContainer/VBoxContainer/ScrollContainer/CardsContainer/MediumCard/VBox/GridContainer/WonValue")
 	var medium_best = scene.get_node("MarginContainer/VBoxContainer/ScrollContainer/CardsContainer/MediumCard/VBox/GridContainer/BestTimeValue")
+	var medium_avg = scene.get_node("MarginContainer/VBoxContainer/ScrollContainer/CardsContainer/MediumCard/VBox/GridContainer/AverageTimeValue")
 	
-	assert_eq(easy_started.text, "5")
-	assert_eq(easy_won.text, "3")
-	assert_eq(easy_best.text, "02:05")
+	assert_eq(medium_started.text, "10", "Medium games started should match")
+	assert_eq(medium_won.text, "0", "Medium games won should match")
+	assert_eq(medium_best.text, "--:--", "Medium best time should display empty state")
+	assert_eq(medium_avg.text, "--:--", "Medium average time should display empty state")
 	
-	assert_eq(medium_best.text, "--:--")
+	var hard_started = scene.get_node("MarginContainer/VBoxContainer/ScrollContainer/CardsContainer/HardCard/VBox/GridContainer/StartedValue")
+	var hard_won = scene.get_node("MarginContainer/VBoxContainer/ScrollContainer/CardsContainer/HardCard/VBox/GridContainer/WonValue")
+	var hard_best = scene.get_node("MarginContainer/VBoxContainer/ScrollContainer/CardsContainer/HardCard/VBox/GridContainer/BestTimeValue")
+	var hard_avg = scene.get_node("MarginContainer/VBoxContainer/ScrollContainer/CardsContainer/HardCard/VBox/GridContainer/AverageTimeValue")
+	
+	assert_eq(hard_started.text, "0", "Hard games started should default to 0")
+	assert_eq(hard_won.text, "0", "Hard games won should default to 0")
+	assert_eq(hard_best.text, "--:--", "Hard best time should default to empty state")
+	assert_eq(hard_avg.text, "--:--", "Hard average time should default to empty state")
 	
 	_teardown_scene()
 
@@ -78,8 +101,8 @@ func test_back_button_exists_and_connected() -> void:
 	scene._ready()
 	
 	var back_btn = scene.get_node("MarginContainer/VBoxContainer/Header/BackButton")
-	assert_true(back_btn != null)
+	assert_true(back_btn != null, "BackButton should exist")
 	var is_conn = back_btn.pressed.is_connected(scene._on_back_pressed)
-	assert_true(is_conn)
+	assert_true(is_conn, "BackButton should be connected to _on_back_pressed")
 	
 	_teardown_scene()

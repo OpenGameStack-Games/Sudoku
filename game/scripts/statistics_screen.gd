@@ -1,3 +1,6 @@
+## UI controller for the Statistics Screen.
+## Displays historical gameplay metrics (games started, won, best time, average time)
+## for Easy, Medium, and Hard difficulty levels.
 extends Control
 
 var stats_manager_node: Node
@@ -10,7 +13,7 @@ func _ready() -> void:
 			stats_manager_node = tree.root.get_node_or_null("StatsManager")
 	
 	var back_btn: Button = get_node_or_null("MarginContainer/VBoxContainer/Header/BackButton") as Button
-	if back_btn:
+	if back_btn and not back_btn.pressed.is_connected(_on_back_pressed):
 		back_btn.pressed.connect(_on_back_pressed)
 	
 	_populate_stats()

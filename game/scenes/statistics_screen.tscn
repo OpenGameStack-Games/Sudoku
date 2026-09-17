@@ -1,6 +1,22 @@
-[gd_scene load_steps=2 format=3 uid="uid://cb5c03c8"]
+[gd_scene load_steps=3 format=3 uid="uid://cb5c03c8"]
 
 [ext_resource type="Script" path="res://scripts/statistics_screen.gd" id="1_ab123"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_card"]
+bg_color = Color(0.0705882, 0.0705882, 0.0705882, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+content_margin_left = 16.0
+content_margin_top = 16.0
+content_margin_right = 16.0
+content_margin_bottom = 16.0
 
 [node name="StatisticsScreen" type="Control"]
 layout_mode = 3
@@ -73,6 +89,7 @@ theme_override_constants/separation = 20
 
 [node name="EasyCard" type="PanelContainer" parent="MarginContainer/VBoxContainer/ScrollContainer/CardsContainer"]
 layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_card")
 
 [node name="VBox" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ScrollContainer/CardsContainer/EasyCard"]
 layout_mode = 2
@@ -143,6 +160,7 @@ horizontal_alignment = 2
 
 [node name="MediumCard" type="PanelContainer" parent="MarginContainer/VBoxContainer/ScrollContainer/CardsContainer"]
 layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_card")
 
 [node name="VBox" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ScrollContainer/CardsContainer/MediumCard"]
 layout_mode = 2
@@ -213,6 +231,7 @@ horizontal_alignment = 2
 
 [node name="HardCard" type="PanelContainer" parent="MarginContainer/VBoxContainer/ScrollContainer/CardsContainer"]
 layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_card")
 
 [node name="VBox" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ScrollContainer/CardsContainer/HardCard"]
 layout_mode = 2
