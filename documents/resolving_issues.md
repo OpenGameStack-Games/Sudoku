@@ -93,6 +93,7 @@ git worktree add .worktrees/issue-21 -b feature/issue-21-absent-color-red
 2. **Asset Generation & Metadata:**
    * Using Python (e.g., `Pillow` or standard libraries) to generate or manipulate assets like PNG icons is completely acceptable and encouraged.
    * For complex Godot resources (like `Theme` `.tres` files), avoid manual raw text manipulation. Instead, write a temporary Godot CLI script (e.g. `godot --headless -s generate.gd`) utilizing `ResourceSaver` to build and save the `.tres` file perfectly.
+   * However, for heavily nested, repetitive UI scenes (like an 81-cell board `.tscn`), using a Python string-generation script to directly construct the `.tscn` file is endorsed, as it completely avoids GDScript `PackedScene` hierarchy/owner initialization quirks.
    * **CRITICAL**: Godot 4 generates `.uid` metadata files alongside `.gd` scripts, scenes, and assets. Always stage and commit these `.uid` files alongside your changes.
 3. **Static Typing Everywhere:**
    * Always annotate variable types and function returns:
@@ -134,6 +135,7 @@ Every feature or bug fix touching game logic or autoloads must be backed by auto
 * **CRITICAL**: When adding an Autoload, configuring an asset path in `project.godot`/`export_presets.cfg`, or generating standalone resources (like `.tres` files), you MUST add a unit test that asserts `FileAccess.file_exists(...)` for that exact path to ensure the asset actually exists and wasn't skipped or renamed.
 * **CRITICAL**: GDScript lambdas capture primitives by VALUE, not by reference. When using inline lambdas to verify signal emissions, you must capture variables via an `Array` wrapper (e.g., `var count: Array[int] = [0]`) or an object property, otherwise the outer scope will not reflect updates made inside the lambda.
 * **CRITICAL**: The `test_runner.gd` does not initialize `project.godot` autoloads natively. To ensure testability, avoid hardcoded singleton identifier calls (e.g., `StatsManager.do_something()`) inside `RefCounted`, core logic classes, or even other autoloads. Instead, use dependency injection, or look up peer singletons dynamically using `Engine.get_main_loop().root.get_node_or_null("StatsManager")` (or simply `/root/SingletonName`). If the class uses global identifiers directly, test suite compilation will fail with "Identifier not found".
+* **CRITICAL**: When testing `Control` nodes headlessly, `_ready()` is NOT invoked unless nodes are explicitly added to a mocked `SceneTree`. Therefore, strongly avoid using `@onready` variables in UI scripts if you plan to access those child nodes in your test suite. Instead, use direct `$Node` lookups or `get_node()` inside your setter/logic methods to bypass the `@onready` `null` trap.
 
 ### Running Automated Tests
 > [!NOTE]
