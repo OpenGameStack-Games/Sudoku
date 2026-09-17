@@ -77,8 +77,8 @@ func _on_difficulty_pressed(diff: String) -> void:
 
 func _on_stats_pressed() -> void:
 	# Navigate to statistics screen if it exists.
-	if FileAccess.file_exists("res://scenes/statistics.tscn") and is_inside_tree():
-		get_tree().change_scene_to_file("res://scenes/statistics.tscn")
+	if FileAccess.file_exists("res://scenes/statistics_screen.tscn") and is_inside_tree():
+		get_tree().change_scene_to_file("res://scenes/statistics_screen.tscn")
 
 func _get_random_puzzle(diff: String) -> String:
 	if not FileAccess.file_exists("res://data/puzzles.json"):

@@ -34,8 +34,14 @@ This document outlines the strict manual testing procedures required before any 
 - **Step 4 (Fresh Game Navigation):** From the Main Menu, tap a non-resumed difficulty button (e.g., "Medium").
 - **Expected:** The app starts a fresh game by selecting a random puzzle string from `game/data/puzzles.json`, marks it as the active save, increments `games_started` in `StatsManager`, and opens `board.tscn`.
 - **Step 5 (Statistics Navigation):** Tap the "Statistics" button.
-- **Expected:** The app transitions to the Statistics screen correctly displaying historical gameplay statistics.
-- **Automated Verification:** Verified in headless CI via `game/tests/test_main_menu.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), confirming asset existence, dynamic button text adaptation for saves vs fresh states, button signal routing, and stats recording.
+- **Expected:** The app transitions to the Statistics screen (`res://scenes/statistics_screen.tscn`).
+- **Step 6 (Statistics Screen UI & Back Navigation):**
+  - Verify the header displays the "STATISTICS" title and a "< Back" button.
+  - Verify three independent cards ("Easy", "Medium", and "Hard") displaying "Games Started", "Games Won", "Best Time", and "Average Time".
+  - Verify the 1930s monochrome styling with Dark Gray `#121212` background, white text, and crisp white-bordered panel cards.
+  - Tap the "< Back" button.
+  - **Expected:** The app returns cleanly to the Main Menu.
+- **Automated Verification:** Verified in headless CI via `game/tests/test_main_menu.gd` and `game/tests/test_statistics_screen.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), confirming scene asset existence, dynamic button text adaptation for saves vs fresh states, button signal routing, statistics screen data binding from mock StatsManager, formatting of empty vs recorded metrics, and Back button signal wiring.
 
 ## Test 5.1: Player Statistics Tracking & Persistence
 - **Step 1:** Launch the game and inspect the initial statistics on the Statistics screen (or clear `user://stats.json`).
@@ -50,7 +56,7 @@ This document outlines the strict manual testing procedures required before any 
 - **Expected:** Easy "Games Won" increments to 3. "Best Time" remains "02:00" (does not regress). "Average Time" updates to "03:00" (180 seconds).
 - **Step 6:** Force close or restart the application, then navigate to the Statistics screen.
 - **Expected:** All statistics remain accurately persisted from `user://stats.json`.
-- **Automated Verification:** Verified in headless CI via `game/tests/test_stats_manager.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), confirming metric tracking (starts, wins, best times, averages), JSON serialization/deserialization to `user://stats.json`, and time formatting across `easy`, `medium`, and `hard` difficulties.
+- **Automated Verification:** Verified in headless CI via `game/tests/test_stats_manager.gd` and `game/tests/test_statistics_screen.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), confirming metric tracking (starts, wins, best times, averages), JSON serialization/deserialization to `user://stats.json`, time formatting across `easy`, `medium`, and `hard` difficulties, and accurate visual binding to the Statistics screen labels.
 
 ## Test 6.0: Gameplay Screen Layout & Navigation
 - **Step 1:** On the Gameplay screen, observe the Header row.
