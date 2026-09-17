@@ -69,6 +69,7 @@ This document outlines the strict manual testing procedures required before any 
 - **Expected:** The number is entered into every cell tapped.
 - **Step 3 (Auto-Clear Candidates):** Enter candidate '5' into several cells in a row. Then enter a final answer '5' in that row.
 - **Expected:** All candidate '5's in that row automatically disappear.
+- **Automated Verification:** Verified in headless CI via `game/tests/test_board_ui.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), asserting cell instantiation, value setting with typography scaling (clues vs answers), and candidate micro-grid visibility.
 
 ## Test 9.0: Undo System
 - **Step 1:** Make several inputs (Normal and Candidate mode) on the grid.
@@ -123,6 +124,7 @@ This document outlines the strict manual testing procedures required before any 
 - **Expected:** The candidate note does NOT turn red (error highlighting only applies to final answers).
 - **Step 3:** Delete the newly inputted conflicting final answer.
 - **Expected:** The red highlight disappears.
+- **Automated Verification:** Verified in headless CI via `game/tests/test_board_ui.gd` and `game/tests/test_sudoku_board.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), confirming that conflicting answer entries trigger flat red conflict highlights on `CellUI` components without throwing exceptions or ending the game.
 
 ## Test 15.0: Win State & Victory Screen
 - **Step 1:** Successfully fill the entire grid with the correct solution.
@@ -159,7 +161,7 @@ This document outlines the strict manual testing procedures required before any 
 - **Step 5:** Tap a cell that contains a large, final answer '3'.
 - **Expected (Large Match):** All other cells containing a large '3' highlight in a darker orange/brownish color (`ThemeConstants.COLOR_NUMBER_MATCH`).
 - **Expected (Candidate Match):** All small candidate '3's across the entire board immediately become bold or enlarge (`note_font_bold`), distinguishing them from the other candidate numbers.
-- **Automated Verification:** Verified in headless CI via `game/tests/test_theme_constants.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), confirming ThemeConstants color palette definitions and font variation styles.
+- **Automated Verification:** Verified in headless CI via `game/tests/test_board_ui.gd` and `game/tests/test_theme_constants.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), validating cell selection/deselection state transitions, peer highlights (`CellUI.COLOR_PEER`), number match highlights (`CellUI.COLOR_MATCH`), and matching candidate font enlargement.
 
 ## Test 18.0: Pause Functionality
 - **Step 1:** Tap the Pause button on the header row.

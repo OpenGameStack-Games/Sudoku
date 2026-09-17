@@ -1,0 +1,104 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/cell_ui.gd" id="1_upbjj"]
+
+[node name="Cell" type="ColorRect" unique_id=1876690693]
+custom_minimum_size = Vector2(64, 64)
+script = ExtResource("1_upbjj")
+
+[node name="CandidatesGrid" type="GridContainer" parent="." unique_id=551633269]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+columns = 3
+
+[node name="Candidate1" type="Label" parent="CandidatesGrid" unique_id=1349699011]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Candidate2" type="Label" parent="CandidatesGrid" unique_id=512303531]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "2"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Candidate3" type="Label" parent="CandidatesGrid" unique_id=727645984]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "3"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Candidate4" type="Label" parent="CandidatesGrid" unique_id=868961113]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "4"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Candidate5" type="Label" parent="CandidatesGrid" unique_id=297084185]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "5"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Candidate6" type="Label" parent="CandidatesGrid" unique_id=2045211406]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "6"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Candidate7" type="Label" parent="CandidatesGrid" unique_id=103583214]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "7"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Candidate8" type="Label" parent="CandidatesGrid" unique_id=695806457]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "8"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Candidate9" type="Label" parent="CandidatesGrid" unique_id=1340318626]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "9"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ValueLabel" type="Label" parent="." unique_id=482588120]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+horizontal_alignment = 1
+vertical_alignment = 1

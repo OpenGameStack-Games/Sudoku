@@ -58,6 +58,7 @@ func toggle_candidate(index: int, digit: int) -> void:
 	
 	cell.toggle_candidate(digit)
 	cell.update_active_candidates(auto_candidates_enabled, _get_math_valid_candidates(index))
+	board_updated.emit()
 
 func set_cell_value(index: int, value: int) -> void:
 	if index < 0 or index >= 81:
@@ -98,6 +99,7 @@ func set_cell_value(index: int, value: int) -> void:
 		_check_exhaustion(value)
 		
 	_check_win_condition()
+	board_updated.emit()
 
 func _on_cell_changed(index: int) -> void:
 	# Handled internally via set_cell_value for player actions.
