@@ -1,6 +1,9 @@
 class_name BoardUI
 extends AspectRatioContainer
 
+signal cell_selected(row: int, col: int)
+signal cell_deselected
+
 var cells: Array[CellUI] = []
 var board: SudokuBoard = null
 
@@ -68,9 +71,11 @@ func _on_cell_selected(row: int, col: int) -> void:
 		# Deselect
 		selected_row = -1
 		selected_col = -1
+		cell_deselected.emit()
 	else:
 		selected_row = row
 		selected_col = col
+		cell_selected.emit(row, col)
 		
 	_on_board_updated()
 

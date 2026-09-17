@@ -91,7 +91,13 @@ This document acts as the definitive source of truth for the game's features, lo
     - Center-Left: Difficulty label text (Easy, Medium, or Hard).
     - Center-Right: Active Timer.
     - Top-Right: Triple-dot menu button and a Pause button.
-  - **Sudoku Grid:** A standard 9x9 grid, visually sectioned into 3x3 macro blocks. Each cell contains a 3x3 candidate micro-grid.
+  - **Sudoku Grid (`game/scenes/board.tscn` & `game/scenes/cell.tscn`):** A standard 9x9 grid, visually sectioned into 3x3 macro blocks. Each cell contains a 3x3 candidate micro-grid.
+    - **Macro Grid & 3x3 Blocks:** 9x9 grid wrapped in an `AspectRatioContainer` (`BoardUI`, `game/scripts/board_ui.gd`) ensuring strict 1:1 aspect ratio that dynamically scales and centers within portrait viewports without clipping. Divided visually into nine 3x3 macro blocks using thicker separator lines (4px separation).
+    - **Cell Component (`CellUI`, `game/scripts/cell_ui.gd`):** Each cell control encapsulates a central value label and a 3x3 micro-grid container with 9 candidate labels (1 through 9).
+    - **Typography & Font Sizing:** Original clues render at 32pt bold font; player-entered numbers render at 28pt regular font. Candidate notes render at 16pt, and scale to 24pt bold with distinct modulate coloring when matching the actively selected digit.
+    - **State Highlighting:** Directly reflects visual states: Normal (`#222222`), Selected (`#ffa500` Flat Orange), Peer (`#ffdb99` Light Orange), Match (`#cc8400` Darker Orange), and Conflict (`#ff0000` Flat Red).
+    - **Interaction & Signal Flow:** Tapping an unselected cell emits `cell_selected(row, col)`; tapping the actively selected cell deselects it and emits `cell_deselected`. Binds directly to `SudokuBoard.board_updated` to dynamically refresh cell numbers, candidate visibility, and conflict highlights.
+    - **Automated Verification:** Verified in headless CI via `game/tests/test_board_ui.gd`, covering cell instantiation, candidate indices 1-9, state transitions, selection toggling, candidate enlargement, and board model signal synchronization.
   - **Mode & Action Row:**
     - Left side: Two adjacent mode toggle buttons ("Normal" and "Candidate").
     - Right side (spaced apart): "Undo" button.

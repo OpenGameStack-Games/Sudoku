@@ -2,6 +2,7 @@ class_name TestBoardUI
 extends TestBase
 
 func test_cell_instantiation() -> void:
+	assert_true(FileAccess.file_exists("res://scenes/cell.tscn"), "cell.tscn file should exist on disk")
 	var cell_scene = load("res://scenes/cell.tscn")
 	assert_true(cell_scene != null, "Cell scene should load")
 	var cell = cell_scene.instantiate() as CellUI
@@ -39,6 +40,7 @@ func test_cell_states() -> void:
 	cell.queue_free()
 
 func test_board_integration() -> void:
+	assert_true(FileAccess.file_exists("res://scenes/board.tscn"), "board.tscn file should exist on disk")
 	var board_scene = load("res://scenes/board.tscn")
 	assert_true(board_scene != null, "Board scene should load")
 	var board_ui = board_scene.instantiate() as BoardUI
@@ -58,7 +60,15 @@ func test_board_integration() -> void:
 	assert_eq(first_cell.get_node("ValueLabel").text, "1", "First cell should have value 1")
 	
 	# Simulate selection
+	var selected_emitted: Array = []
+	var deselected_emitted: Array = []
+	board_ui.cell_selected.connect(func(r: int, c: int): selected_emitted.append([r, c]))
+	board_ui.cell_deselected.connect(func(): deselected_emitted.append(true))
+	
 	board_ui._on_cell_selected(0, 0)
+	assert_eq(selected_emitted.size(), 1, "cell_selected should be emitted")
+	assert_eq(selected_emitted[0][0], 0, "Selected row should be 0")
+	assert_eq(selected_emitted[0][1], 0, "Selected col should be 0")
 	
 	# Check highlights
 	# (0,0) should be selected
@@ -70,14 +80,18 @@ func test_board_integration() -> void:
 	
 	# Deselect
 	board_ui._on_cell_selected(0, 0)
+	assert_eq(deselected_emitted.size(), 1, "cell_deselected should be emitted")
 	assert_eq(first_cell.color, CellUI.COLOR_NORMAL, "Deselected cell should be normal")
 	
-	# Match test: (0,0) has '1', if we select (8,8) which is empty, but say we put '1' there... wait.
-	# If we select (0,0), it has digit 1. Other cells with digit 1 should be MATCH.
-	logic_board.set_cell_value(80, 1) # This creates a conflict but let's test MATCH logic. Wait, if conflict, conflict color overrides MATCH.
-	# Let's set a conflicting 1 at (1,0) which is index 9.
-	logic_board.set_cell_value(9, 1) # row 1, col 0. index = 9
+	# Match test: select (0,0) which contains digit 1.
 	board_ui._on_cell_selected(0, 0)
+	# Cell 80 (8,8) contains 1, is not in the same peer row/col/block, so it should be MATCH highlight
+	logic_board.set_cell_value(80, 1)
+	assert_eq(board_ui.cells[80].color, CellUI.COLOR_MATCH, "Non-peer cell with matching digit should have match highlight")
+	assert_eq(board_ui.cells[80].get_node("ValueLabel").text, "1", "Cell 80 value should be updated via board_updated signal")
+
+	# Conflict test: setting a 1 at index 9 (row 1, col 0) causes conflict in col 0
+	logic_board.set_cell_value(9, 1)
 	assert_eq(board_ui.cells[9].color, CellUI.COLOR_CONFLICT, "Should be conflict because of Sudoku rules!")
 	
 	board_ui.queue_free()
