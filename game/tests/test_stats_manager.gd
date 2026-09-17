@@ -95,3 +95,6 @@ func test_serialization_and_deserialization() -> void:
 	
 	new_manager.free()
 	_teardown_manager(sm)
+
+func test_autoload_asset_path() -> void:
+	assert_true(FileAccess.file_exists("res://autoloads/stats_manager.gd"), "stats_manager.gd autoload script should exist.")

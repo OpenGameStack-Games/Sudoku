@@ -31,6 +31,21 @@ This document outlines the strict manual testing procedures required before any 
 - **Step 3:** From the Main Menu, tap "Easy", "Medium", or "Hard".
 - **Expected:** The app transitions to the Gameplay screen with a Sudoku board generated at the selected difficulty.
 
+## Test 5.1: Player Statistics Tracking & Persistence
+- **Step 1:** Launch the game and inspect the initial statistics on the Statistics screen (or clear `user://stats.json`).
+- **Expected:** Initial statistics show 0 for Games Started and Games Won, and `"--:--"` for Best Time and Average Time across all difficulties.
+- **Step 2:** Start an Easy game. Exit to the Main Menu and open the Statistics screen.
+- **Expected:** Easy "Games Started" increments to 1. "Games Won" remains 0.
+- **Step 3:** Complete an Easy game with a winning board in 180 seconds.
+- **Expected:** Easy "Games Won" increments to 1. "Best Time" displays "03:00". "Average Time" displays "03:00".
+- **Step 4:** Complete a second Easy game in 120 seconds.
+- **Expected:** Easy "Games Won" increments to 2. "Best Time" updates to "02:00". "Average Time" updates to "02:30" (150 seconds).
+- **Step 5:** Complete a third Easy game in 240 seconds.
+- **Expected:** Easy "Games Won" increments to 3. "Best Time" remains "02:00" (does not regress). "Average Time" updates to "03:00" (180 seconds).
+- **Step 6:** Force close or restart the application, then navigate to the Statistics screen.
+- **Expected:** All statistics remain accurately persisted from `user://stats.json`.
+- **Automated Verification:** Verified in headless CI via `game/tests/test_stats_manager.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), confirming metric tracking (starts, wins, best times, averages), JSON serialization/deserialization to `user://stats.json`, and time formatting across `easy`, `medium`, and `hard` difficulties.
+
 ## Test 6.0: Gameplay Screen Layout & Navigation
 - **Step 1:** On the Gameplay screen, observe the Header row.
 - **Expected:** Top-left is a Back arrow. Center-left is the Difficulty. Center-right is the Timer. Top-right is a three-dot menu.

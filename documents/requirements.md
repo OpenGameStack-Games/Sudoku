@@ -88,6 +88,10 @@ This document acts as the definitive source of truth for the game's features, lo
   - The player can have up to **three games in progress simultaneously** (one for each difficulty: 1 Easy, 1 Medium, 1 Hard).
   - The save state must include the current board layout, candidate notes, undo history, and the current elapsed time.
   - If a player starts a *new* game on a difficulty that already has an in-progress save, the old save is overwritten.
+- **Persistent Player Statistics:** The game tracks and persists historical performance metrics to `user://stats.json` independently across Easy, Medium, and Hard difficulties via the `StatsManager` autoload:
+  - **Metrics Tracked:** `games_started` (integer), `games_won` (integer), `best_time_seconds` (integer, 0 when no wins recorded), `total_time_seconds` (integer), and `average_time_seconds` (float).
+  - **Auto-Persistence:** Statistics are automatically loaded from `user://stats.json` on startup (with graceful fallback to clean default structures if the file is missing or contains invalid JSON) and saved immediately upon game start or victory events.
+  - **Time Formatting:** Provides `format_time(seconds: int) -> String` producing `"MM:SS"` (or `"--:--"` when no time is recorded).
 
 ## 4. Platform Specifics
 - **Platform:** Android.
