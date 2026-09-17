@@ -12,10 +12,12 @@ This document acts as the definitive source of truth for the game's features, lo
   - **Symmetry Requirement:** The generated puzzles MUST feature traditional 180-degree rotational symmetry (if a clue exists at row `r` col `c`, a clue must exist at row `8-r` col `8-c`).
   - **Difficulty Grading:** Difficulty is categorized by target clue count: Easy (50 clues), Medium (40 clues), and Hard (30 clues).
   - **Command Line Arguments:** Accepts `--count <N>` (number of puzzles per difficulty, default 10) and `--out <path>` (output JSON destination, default `game/data/puzzles.json`).
-- **Timer & Pause:** The gameplay screen must track time elapsed starting at 00:00.
-  - The timer ONLY runs when the screen has active focus. 
-  - It pauses if the app is backgrounded or the player returns to the main menu.
+- **Timer & Pause:** The gameplay screen must track time elapsed starting at 00:00 via the `TimeManager` autoload (`game/autoloads/time_manager.gd`).
+  - **High-Precision Counting:** Tracks elapsed seconds with high precision, emitting `time_updated(seconds: int, formatted_str: String)` every second for UI binding.
+  - **Time Formatting:** Provides `get_formatted_time()` formatted as `MM:SS`, or `HH:MM:SS` if elapsed time is 3600 seconds or greater.
+  - **Focus-Only Execution:** The timer ONLY runs when the screen has active focus. Window/application notifications (`NOTIFICATION_APPLICATION_FOCUS_IN/OUT` and `NOTIFICATION_WM_WINDOW_FOCUS_IN/OUT`) automatically pause the timer when the app loses focus or is backgrounded, and resume it when focus returns (unless manually paused).
   - **Manual Pause:** There must be a dedicated Pause button. When pressed, the timer stops and the Sudoku board is completely hidden (to prevent cheating) until unpaused.
+  - **API Controls:** Provides `start(initial_seconds: int = 0)`, `pause()`, `resume()`, `reset()`, and `get_elapsed_seconds()`.
 - **Puzzle State & Menus:** The triple-dot menu must contain two options:
   - **"Reset Puzzle":** Wipes all player inputs, returning the board to its original generated state, and resets the timer back to 00:00.
   - **"New Game":** Abandons the current puzzle and instantly generates a new puzzle of the same difficulty.
@@ -96,6 +98,9 @@ This document acts as the definitive source of truth for the game's features, lo
 ## 4. Platform Specifics
 - **Platform:** Android.
 - **Screen Wake Lock:** The game must keep the device screen awake as long as the gameplay screen is active (do not allow the phone to go to sleep while playing).
+  - **Dynamic Power Management:** Handled globally by `TimeManager` via `DisplayServer.screen_set_keep_on(true)` during active, focused, unpaused gameplay.
+  - **Battery Conservation:** Wake lock is immediately restored to `false` when paused, when the application loses focus or is backgrounded, or when navigating away from the active gameplay screen (main menu or victory screen).
+  - **Automated Verification:** Validated via unit tests in `game/tests/test_game_timer.gd`, verifying timer counting, formatting, manual pause/resume, and focus notifications while gracefully bypassing DisplayServer screen state queries in headless environments.
 - **System UI (Non-Immersive):** The game must NOT use immersive mode (`screen/immersive_mode=false` in `game/export_presets.cfg`). The Android status bar (battery, time, signal) at the top and the system navigation bar (back, home buttons) at the bottom must remain visible at all times during gameplay and menus.
 - **Export Filters:** The `puzzles.json` file (and any other `.json` data files) MUST be explicitly added to the Godot export preset's `include_filter` (e.g., `*.txt, *.json`). Failure to do so will result in the file being stripped from the final Android `.apk`/`.aab` build.
 - **Launcher Icons:** Android launcher icons conforming to Godot export standards are located in `game/assets/icons/`: standard launcher icon `icon.png` (192x192 PNG), and adaptive launcher icons `icon_foreground.png` (432x432 PNG) and `icon_background.png` (432x432 PNG). All icon paths are registered in `game/export_presets.cfg`.
