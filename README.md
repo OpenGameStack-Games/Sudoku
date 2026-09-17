@@ -23,6 +23,7 @@ To ensure your assets are tracked correctly:
 2. The provided `.gitattributes` file will automatically handle LFS tracking for standard game asset extensions.
 ## Core Architecture
 - **StatsManager (`game/autoloads/stats_manager.gd`):** Global autoload managing player statistics (games started, games won, best times, and average times) across Easy, Medium, and Hard difficulties, persisted locally in `user://stats.json`.
+- **TimeManager (`game/autoloads/time_manager.gd`):** Global autoload managing the gameplay timer, application focus lifecycle, and screen wake lock (`DisplayServer.screen_set_keep_on`). Respects device battery life by automatically pausing elapsed time and releasing the screen wake lock whenever the game is paused, backgrounded, or out of focus.
 
 ## Developer Tools
 ### Puzzle Generator (`tools/generate_puzzles.py`)

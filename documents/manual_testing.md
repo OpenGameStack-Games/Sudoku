@@ -55,9 +55,11 @@ This document outlines the strict manual testing procedures required before any 
 - **Expected:** Navigates back to the Main Menu.
 
 ## Test 7.0: Gameplay Timer
-- **Step 1:** Enter a game. Observe the timer counting up.
-- **Step 2:** Background the app or return to the Main Menu, wait 5 seconds, and return to the game.
-- **Expected:** The timer must pause while unfocused and resume exactly where it left off upon returning.
+- **Step 1:** Enter a game. Observe the timer counting up from 00:00 (or saved elapsed time).
+- **Step 2:** Background the app, switch to another application, or return to the Main Menu, wait 5 seconds, and return to the game.
+- **Expected:** The timer must pause while unfocused and resume counting exactly where it left off upon returning.
+- **Step 3:** Allow gameplay timer to pass 59 seconds and verify it transitions smoothly from `00:59` to `01:00`. If playing an extended session, verify it transitions to `HH:MM:SS` format past 3600 seconds.
+- **Automated Verification:** Verified in headless CI via `game/tests/test_game_timer.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), confirming initial seconds loading, time formatting (`MM:SS` and `HH:MM:SS`), second-by-second incrementing, manual pause/resume, and focus lifecycle state handling.
 
 ## Test 8.0: Grid Input (Bi-Directional)
 - **Step 1 (Cell-First):** Tap an empty cell, then tap a number on the numpad.
@@ -143,13 +145,19 @@ This document outlines the strict manual testing procedures required before any 
 
 ## Test 18.0: Pause Functionality
 - **Step 1:** Tap the Pause button on the header row.
-- **Expected:** The timer stops, and the Sudoku board completely hides or blurs to prevent cheating.
+- **Expected:** The timer stops, the Sudoku board completely hides or blurs to prevent cheating, and the screen wake lock is released (`DisplayServer.screen_set_keep_on(false)`), allowing the device to follow standard display sleep timeouts.
 - **Step 2:** Tap Resume/Unpause.
-- **Expected:** The board reappears and the timer continues.
+- **Expected:** The board reappears, the timer continues, and the screen wake lock is restored (`DisplayServer.screen_set_keep_on(true)`).
+- **Automated Verification:** Verified in headless CI via `game/tests/test_game_timer.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), confirming timer halts during manual pause and resumes upon unpause.
 
 ## Test 19.0: Screen Wake Lock
-- **Step 1:** Leave the app open on the active gameplay screen without touching it for longer than the device's system sleep timer (e.g., 5 minutes).
-- **Expected:** The screen stays awake and does not dim or lock.
+- **Step 1:** Leave the app open on the active, unpaused gameplay screen without touching it for longer than the device's system sleep timeout (e.g., 2-5 minutes).
+- **Expected:** The screen stays awake and does not dim, sleep, or lock.
+- **Step 2:** From gameplay, pause the game or navigate to the Main Menu. Leave the device idle without interaction.
+- **Expected:** The device screen dims and goes to sleep according to system display timeout settings, confirming wake lock is released when not in active gameplay.
+- **Step 3:** Switch to another app or minimize the game.
+- **Expected:** Wake lock remains released, respecting system power management and battery life.
+- **Automated Verification:** Verified in headless CI via `game/tests/test_game_timer.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), verifying wake lock state updates across pause, resume, and focus loss notifications (bypassed in headless environments).
 
 ## Test 20.0: Numpad Exhaustion State
 - **Step 1:** Play a puzzle and fill the ninth instance of a specific number (e.g., '5') onto the board.
