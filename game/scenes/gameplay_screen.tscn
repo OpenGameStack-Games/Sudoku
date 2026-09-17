@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" path="res://scenes/board.tscn" id="2_brd"]
 [ext_resource type="PackedScene" path="res://scenes/input_controls.tscn" id="3_inp"]
 [ext_resource type="PackedScene" path="res://scenes/pause_overlay.tscn" id="4_pau"]
+[ext_resource type="PackedScene" path="res://scenes/victory_overlay.tscn" id="5_vic"]
 
 [node name="GameplayScreen" type="Control"]
 layout_mode = 3
@@ -85,5 +86,9 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="PauseOverlay" parent="." instance=ExtResource("4_pau")]
+visible = false
+layout_mode = 1
+
+[node name="VictoryOverlay" parent="." instance=ExtResource("5_vic")]
 visible = false
 layout_mode = 1
