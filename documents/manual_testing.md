@@ -134,13 +134,19 @@ This document outlines the strict manual testing procedures required before any 
 - **Expected:** Navigates to the Main Menu and clears the completed puzzle from the active save state.
 
 ## Test 16.0: Concurrent Save Persistence & Menus
-- **Step 1:** Start an Easy game. Input some numbers. Let the timer run for 10 seconds. Return to the Main Menu.
-- **Step 2:** Start a Medium game. Input different numbers. Let the timer run for 20 seconds. Return to the Main Menu.
-- **Expected:** The Main Menu must visibly indicate that there is an active "Easy" and "Medium" game in progress.
-- **Step 3:** Tap the "Easy" button on the main menu.
-- **Expected:** The game automatically resumes the Easy board layout, specific numbers, and the 10-second timer.
-- **Step 4:** Force-close the app entirely, reopen it, and tap "Medium".
-- **Expected:** The Medium board layout and 20-second timer are perfectly restored.
+- **Step 1:** Start an Easy game. Input several numbers and candidate notes into empty cells. Perform an undo action. Let the timer run for 10 seconds. Switch apps or background the application (triggering focus loss auto-flush), then return to the Main Menu.
+- **Step 2:** Start a Medium game. Input different numbers and candidate notes. Let the timer run for 20 seconds. Pause the game, then return to the Main Menu.
+- **Step 3:** Start a Hard game. Input numbers and notes. Let the timer run for 30 seconds. Return to the Main Menu.
+- **Expected:** The application maintains up to 3 separate active saves concurrently in `user://saves/` (`save_easy.json`, `save_medium.json`, and `save_hard.json`). The Main Menu visibly indicates active in-progress games for each difficulty.
+- **Step 4:** Tap the "Easy" button on the Main Menu.
+- **Expected:** The game automatically resumes the Easy puzzle, restoring the exact board layout, user-entered numbers, candidate notes, deleted candidate notes, elapsed timer (10 seconds), and undo history stack (tapping "Undo" reverts earlier moves).
+- **Step 5:** Force-close the app entirely or kill the process. Reopen the app and tap "Medium".
+- **Expected:** The Medium puzzle state (board layout, candidate notes, 20-second timer, and undo stack) is fully restored from `user://saves/save_medium.json`.
+- **Step 6 (Save Overwrite):** On Easy difficulty, open the menu and start a "New Game". Make a move.
+- **Expected:** The previous Easy save is cleanly overwritten with the new puzzle state, resetting the timer and undo stack.
+- **Step 7 (Save Clearing):** Complete a puzzle or select "Reset Puzzle".
+- **Expected:** The active save file for that difficulty is deleted (`clear_save`), and returning to the Main Menu reflects that no active save exists for that difficulty.
+- **Automated Verification:** Verified in headless CI via `game/tests/test_save_manager.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), confirming concurrent saving and loading across Easy/Medium/Hard, save overwriting, complex state restoration (board, notes, undo history, elapsed seconds), save deletion, and graceful recovery from corrupted save files.
 
 ## Test 17.0: Selection & Number Matching Highlighting
 - **Step 1:** Tap an empty cell on the grid.
