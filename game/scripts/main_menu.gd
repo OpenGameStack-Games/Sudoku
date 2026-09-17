@@ -5,19 +5,20 @@ var game_manager_node: Node
 var stats_manager_node: Node
 
 func _ready() -> void:
-	var main_loop = Engine.get_main_loop()
-	if main_loop:
+	var main_loop: MainLoop = Engine.get_main_loop()
+	if main_loop and main_loop is SceneTree:
+		var tree: SceneTree = main_loop as SceneTree
 		if not save_manager_node:
-			save_manager_node = main_loop.root.get_node_or_null("SaveManager")
+			save_manager_node = tree.root.get_node_or_null("SaveManager")
 		if not game_manager_node:
-			game_manager_node = main_loop.root.get_node_or_null("GameManager")
+			game_manager_node = tree.root.get_node_or_null("GameManager")
 		if not stats_manager_node:
-			stats_manager_node = main_loop.root.get_node_or_null("StatsManager")
+			stats_manager_node = tree.root.get_node_or_null("StatsManager")
 			
-	var easy_btn = $MarginContainer/VBoxContainer/ButtonsVBox/EasyButton
-	var medium_btn = $MarginContainer/VBoxContainer/ButtonsVBox/MediumButton
-	var hard_btn = $MarginContainer/VBoxContainer/ButtonsVBox/HardButton
-	var stats_btn = $MarginContainer/VBoxContainer/ButtonsVBox/StatsButton
+	var easy_btn: Button = get_node_or_null("MarginContainer/VBoxContainer/ButtonsVBox/EasyButton") as Button
+	var medium_btn: Button = get_node_or_null("MarginContainer/VBoxContainer/ButtonsVBox/MediumButton") as Button
+	var hard_btn: Button = get_node_or_null("MarginContainer/VBoxContainer/ButtonsVBox/HardButton") as Button
+	var stats_btn: Button = get_node_or_null("MarginContainer/VBoxContainer/ButtonsVBox/StatsButton") as Button
 	
 	if easy_btn:
 		easy_btn.pressed.connect(_on_difficulty_pressed.bind("easy"))
@@ -37,9 +38,9 @@ func _notification(what: int) -> void:
 		_refresh_buttons()
 
 func _refresh_buttons() -> void:
-	var easy_btn = get_node_or_null("MarginContainer/VBoxContainer/ButtonsVBox/EasyButton")
-	var medium_btn = get_node_or_null("MarginContainer/VBoxContainer/ButtonsVBox/MediumButton")
-	var hard_btn = get_node_or_null("MarginContainer/VBoxContainer/ButtonsVBox/HardButton")
+	var easy_btn: Button = get_node_or_null("MarginContainer/VBoxContainer/ButtonsVBox/EasyButton") as Button
+	var medium_btn: Button = get_node_or_null("MarginContainer/VBoxContainer/ButtonsVBox/MediumButton") as Button
+	var hard_btn: Button = get_node_or_null("MarginContainer/VBoxContainer/ButtonsVBox/HardButton") as Button
 	
 	if easy_btn:
 		_update_difficulty_button(easy_btn, "easy", "Easy")
@@ -74,29 +75,29 @@ func _on_difficulty_pressed(diff: String) -> void:
 	if is_inside_tree():
 		get_tree().change_scene_to_file("res://scenes/board.tscn")
 
-
 func _on_stats_pressed() -> void:
-	# Assuming there will be a stats scene
-	# get_tree().change_scene_to_file("res://scenes/statistics.tscn")
-	pass
+	# Navigate to statistics screen if it exists.
+	if FileAccess.file_exists("res://scenes/statistics.tscn") and is_inside_tree():
+		get_tree().change_scene_to_file("res://scenes/statistics.tscn")
 
 func _get_random_puzzle(diff: String) -> String:
 	if not FileAccess.file_exists("res://data/puzzles.json"):
 		return ""
 		
-	var file := FileAccess.open("res://data/puzzles.json", FileAccess.READ)
+	var file: FileAccess = FileAccess.open("res://data/puzzles.json", FileAccess.READ)
 	if not file:
 		return ""
 		
-	var content := file.get_as_text()
+	var content: String = file.get_as_text()
 	file.close()
 	
-	var json := JSON.new()
-	var err := json.parse(content)
+	var json: JSON = JSON.new()
+	var err: Error = json.parse(content)
 	if err == OK:
-		var data = json.get_data()
-		if typeof(data) == TYPE_DICTIONARY and data.has(diff) and typeof(data[diff]) == TYPE_ARRAY:
-			var puzzles: Array = data[diff]
+		var data: Variant = json.get_data()
+		if typeof(data) == TYPE_DICTIONARY and (data as Dictionary).has(diff) and typeof((data as Dictionary)[diff]) == TYPE_ARRAY:
+			var puzzles: Array = (data as Dictionary)[diff] as Array
 			if puzzles.size() > 0:
-				return puzzles[randi() % puzzles.size()]
+				return puzzles[randi() % puzzles.size()] as String
 	return ""
+

@@ -75,11 +75,13 @@ This document acts as the definitive source of truth for the game's features, lo
     - All other cells containing that same final answer digit must be highlighted in a darker orange/brownish tint (`COLOR_NUMBER_MATCH`).
     - All matching *candidate notes* (e.g., small '1's) across the entire board must become **bold or increase in size** (`note_font_bold`) to stand out from the other tiny notes.
 - **Mascot/Icon:** The game must feature a mascot character that acts as the game's primary icon, designed in the 1930s monochrome style.
-- **Main Menu Screen:** The main screen must feature:
-  - The game's mascot/icon prominently displayed.
-  - Three difficulty selection buttons: "Easy", "Medium", and "Hard".
-  - **Resume Behavior:** If a game is currently saved/in-progress for a specific difficulty, tapping that difficulty button automatically resumes the in-progress game. (The player can use the 'New Game' or 'Reset' options from within the gameplay menu if they want to abandon it).
-  - A "Statistics" button.
+- **Main Menu Screen (`game/scenes/main_menu.tscn` & `game/scripts/main_menu.gd`):** The primary entry point of the game (instanced by `game/scenes/main.tscn` as configured in `project.godot`). Embodies the 1930s monochrome cartoon aesthetic:
+  - **Mascot Art:** The 1930s rubber-hose style monochrome mascot character (`game/assets/icons/mascot_icon.jpg`) is prominently displayed in the upper half of the screen inside an expand/aspect-centered `TextureRect`.
+  - **Difficulty Buttons:** Three dedicated buttons for "Easy", "Medium", and "Hard".
+  - **Dynamic Resume Behavior:** On menu load, screen visibility change, or application focus (`NOTIFICATION_APPLICATION_FOCUS_IN`), the menu queries `SaveManager.has_save(difficulty)`. If an active in-progress save exists, the button text dynamically updates to read `"Resume [Difficulty]"` (e.g. `"Resume Easy"`). Tapping a Resume button restores the saved puzzle state and navigates to the gameplay screen (`game/scenes/board.tscn`).
+  - **Fresh Game Flow:** If no save exists for that difficulty, tapping the button selects a random puzzle string from `game/data/puzzles.json`, marks the active game in `SaveManager`, records `games_started` in `StatsManager`, and launches `game/scenes/board.tscn`.
+  - **Statistics Navigation:** A "Statistics" button positioned beneath the difficulty selection buttons to open the player statistics screen.
+  - **Automated Verification:** Verified in headless CI via `game/tests/test_main_menu.gd`, asserting scene and asset existence (`mascot_icon.jpg`, `main_menu.tscn`, `main.tscn`), default vs resumed button labels, signal routing, and root scene initialization.
 - **Statistics Screen:** A dedicated screen to display the player's historical performance. It must track the following metrics independently for Easy, Medium, and Hard difficulties:
   - Games Started
   - Games Won
