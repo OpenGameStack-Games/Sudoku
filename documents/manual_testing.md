@@ -20,8 +20,9 @@ This document outlines the strict manual testing procedures required before any 
 ## Test 4.0: Visual Theme and Assets
 - **Step 1:** Navigate through the Main Menu, Statistics screen, and Gameplay screen.
 - **Expected:** The entire app conforms to a 1930s monochrome cartoon aesthetic.
-- **Expected (Colors):** The global palette must be **white-on-black**. The background MUST be Dark Gray (#121212) per Material Design guidelines, rather than pure black. Fonts and lines must be white. Color is ONLY used for critical game moves, and the colors are flat and not overly bright.
-- **Expected (Assets):** The mascot icon is visible and themed correctly.
+- **Expected (Colors):** The global palette must be **white-on-black**. The background MUST be Dark Gray (`#121212`, `ThemeConstants.COLOR_BG_DARK_GRAY`) per Material Design guidelines, rather than pure black. Fonts and lines must be white (`ThemeConstants.COLOR_UI_FOREGROUND`). Color is ONLY used for critical game moves, and the colors are flat and not overly bright.
+- **Expected (Assets & Theme):** The mascot icon is visible and themed correctly. Buttons and panels apply 1930s rounded styling from `game/resources/theme_1930s.tres`.
+- **Automated Verification:** Verified in headless CI via `game/tests/test_theme_constants.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), confirming ThemeConstants color palette definitions, distinct values, and successful loading and panel/font styling of `game/resources/theme_1930s.tres`.
 
 ## Test 5.0: Main Menu & Navigation
 - **Step 1:** Boot the game to the Main Menu.
@@ -107,7 +108,7 @@ This document outlines the strict manual testing procedures required before any 
 
 ## Test 14.0: Error Highlighting (No Strikes)
 - **Step 1:** Input a final answer number into a cell that already exists in that cell's row, column, or 3x3 block.
-- **Expected:** The game does NOT end. Instead, both the newly inputted final answer and the conflicting final answer(s) turn red.
+- **Expected:** The game does NOT end. Instead, both the newly inputted final answer and the conflicting final answer(s) turn flat red (`ThemeConstants.COLOR_CONFLICT_ERROR`).
 - **Step 2:** Input a *candidate* note that conflicts with a final answer in the same row.
 - **Expected:** The candidate note does NOT turn red (error highlighting only applies to final answers).
 - **Step 3:** Delete the newly inputted conflicting final answer.
@@ -133,15 +134,16 @@ This document outlines the strict manual testing procedures required before any 
 
 ## Test 17.0: Selection & Number Matching Highlighting
 - **Step 1:** Tap an empty cell on the grid.
-- **Expected:** The selected cell turns flat orange. The rest of the cells in that same row, column, and 3x3 block turn a very light orange.
+- **Expected:** The selected cell turns flat orange (`ThemeConstants.COLOR_SELECTION`). The rest of the cells in that same row, column, and 3x3 block turn a very light translucent orange (`ThemeConstants.COLOR_PEER_HIGHLIGHT`).
 - **Step 2:** Tap the exact same cell again.
 - **Expected:** The cell (and the row/col/block highlights) deselects completely.
 - **Step 3:** Tap an empty cell, then tap anywhere outside the board.
 - **Expected:** The cell deselects completely.
 - **Step 4:** Ensure the board has some Candidate notes entered in various cells (e.g., several '3's).
 - **Step 5:** Tap a cell that contains a large, final answer '3'.
-- **Expected (Large Match):** All other cells containing a large '3' highlight in a darker orange/brownish color.
-- **Expected (Candidate Match):** All small candidate '3's across the entire board immediately become bold or enlarge, distinguishing them from the other candidate numbers.
+- **Expected (Large Match):** All other cells containing a large '3' highlight in a darker orange/brownish color (`ThemeConstants.COLOR_NUMBER_MATCH`).
+- **Expected (Candidate Match):** All small candidate '3's across the entire board immediately become bold or enlarge (`note_font_bold`), distinguishing them from the other candidate numbers.
+- **Automated Verification:** Verified in headless CI via `game/tests/test_theme_constants.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), confirming ThemeConstants color palette definitions and font variation styles.
 
 ## Test 18.0: Pause Functionality
 - **Step 1:** Tap the Pause button on the header row.
@@ -161,7 +163,7 @@ This document outlines the strict manual testing procedures required before any 
 
 ## Test 20.0: Numpad Exhaustion State
 - **Step 1:** Play a puzzle and fill the ninth instance of a specific number (e.g., '5') onto the board.
-- **Expected:** The number '5' button on the numpad visually **grays out** (it does not disappear) to indicate that nine 5s have been placed.
+- **Expected:** The number '5' button on the numpad visually **grays out** (it does not disappear; uses dimmed gray `ThemeConstants.COLOR_NUMPAD_EXHAUSTED`) to indicate that nine 5s have been placed.
 - **Step 2:** Tap 'Undo' or use the 'X' button to delete one of the 5s.
 - **Expected:** The number '5' button on the numpad lights back up to its normal active state.
 - **Step 3 (Cheat Prevention):** Intentionally place 9 instances of the number '5' on the board in completely wrong, conflicting cells.

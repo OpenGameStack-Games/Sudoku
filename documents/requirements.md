@@ -42,19 +42,31 @@ This document acts as the definitive source of truth for the game's features, lo
   - **Victory Screen Buttons:** "Play Again", "Main Menu", "Statistics", and "Admire Puzzle" (which hides the victory overlay so the player can view their completed board).
 
 ## 2. Visuals and Layout
-- **Theme and Aesthetics:** The game must use a 1930s monochrome cartoon/animation style (e.g., Steamboat Willie). The color palette is specifically **white-on-black**. 
+- **Theme and Aesthetics:** The game must use a 1930s monochrome cartoon/animation style (e.g., Steamboat Willie). The color palette is specifically **white-on-black**.
   - **Background Color:** The background color must use **Dark Gray (Hex #121212)** instead of pure black (#000000). This aligns with Android Material Design guidelines to prevent "OLED smearing" (motion blur when scrolling), reduce eye strain (halation), and allow for subtle drop shadows to convey UI depth.
+  - **Centralized Palette (`ThemeConstants`):** Defined statically in `game/scripts/theme_constants.gd` with strict static typing:
+    - `COLOR_BG_DARK_GRAY`: Dark Gray (`#121212`)
+    - `COLOR_UI_FOREGROUND`: Pure White (`#FFFFFF`)
+    - `COLOR_CONFLICT_ERROR`: Flat Red (`Color(0.83, 0.18, 0.18)`)
+    - `COLOR_SELECTION`: Flat Orange (`Color(0.96, 0.49, 0.0)`)
+    - `COLOR_PEER_HIGHLIGHT`: Very light translucent Orange (`Color(1.0, 0.88, 0.70, 0.35)`)
+    - `COLOR_NUMBER_MATCH`: Darker Orange/Brown (`Color(0.75, 0.21, 0.05)`)
+    - `COLOR_NUMPAD_EXHAUSTED`: Dimmed Gray (`Color(0.4, 0.4, 0.4)`)
+  - **1930s Theme Resource (`game/resources/theme_1930s.tres`):** Pre-configured Godot `Theme` resource establishing:
+    - Default button and panel `StyleBoxFlat` backgrounds using `#121212` with 2px solid white borders and 8px rounded corners.
+    - Standardized typography variations: `clue_font` (bold weight 700), `input_font` (regular weight), `note_font` (regular candidate notes), and `note_font_bold` (bold weight 700 for matching candidate notes).
+  - **Automated Verification:** Validated via unit tests in `game/tests/test_theme_constants.gd`, asserting theme resource existence, background hex color fidelity, constant distinctness, panel stylebox properties, and font configuration.
 - **Font Distinctions:** 
-  - **Original Clues:** Must use a bold, slightly larger white font.
-  - **Player Inputs:** Must use a standard, thinner white font to distinguish them from original clues. 
+  - **Original Clues:** Must use a bold, slightly larger white font (`clue_font`).
+  - **Player Inputs:** Must use a standard, thinner white font (`input_font`) to distinguish them from original clues. 
 - **Color Exceptions (Highlights):** Flat, non-bright colors are permitted ONLY for critical game interactions:
-  - **Error Highlight:** Conflicting final answers must be highlighted in a flat **Red**.
+  - **Error Highlight:** Conflicting final answers must be highlighted in a flat **Red** (`COLOR_CONFLICT_ERROR`).
   - **Selection (Orange Spectrum):** 
-    - The currently selected cell must be highlighted in a **flat Orange**.
-    - The row, column, and 3x3 macro-block of the selected cell must be highlighted in a **very light Orange**.
+    - The currently selected cell must be highlighted in a **flat Orange** (`COLOR_SELECTION`).
+    - The row, column, and 3x3 macro-block of the selected cell must be highlighted in a **very light Orange** (`COLOR_PEER_HIGHLIGHT`).
   - **Number Matching:** If a selected cell contains a final answer digit (e.g., '1'):
-    - All other cells containing that same final answer digit must be highlighted (e.g., in a darker orange/brownish tint).
-    - All matching *candidate notes* (e.g., small '1's) across the entire board must become **bold or increase in size** to stand out from the other tiny notes.
+    - All other cells containing that same final answer digit must be highlighted in a darker orange/brownish tint (`COLOR_NUMBER_MATCH`).
+    - All matching *candidate notes* (e.g., small '1's) across the entire board must become **bold or increase in size** (`note_font_bold`) to stand out from the other tiny notes.
 - **Mascot/Icon:** The game must feature a mascot character that acts as the game's primary icon, designed in the 1930s monochrome style.
 - **Main Menu Screen:** The main screen must feature:
   - The game's mascot/icon prominently displayed.

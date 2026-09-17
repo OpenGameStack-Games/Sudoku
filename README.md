@@ -24,6 +24,7 @@ To ensure your assets are tracked correctly:
 ## Core Architecture
 - **StatsManager (`game/autoloads/stats_manager.gd`):** Global autoload managing player statistics (games started, games won, best times, and average times) across Easy, Medium, and Hard difficulties, persisted locally in `user://stats.json`.
 - **TimeManager (`game/autoloads/time_manager.gd`):** Global autoload managing the gameplay timer, application focus lifecycle, and screen wake lock (`DisplayServer.screen_set_keep_on`). Respects device battery life by automatically pausing elapsed time and releasing the screen wake lock whenever the game is paused, backgrounded, or out of focus.
+- **Theme & Palette System (`game/scripts/theme_constants.gd` & `game/resources/theme_1930s.tres`):** Centralized 1930s monochrome cartoon aesthetic featuring Dark Gray (`#121212`) Material Design background to prevent OLED smearing, crisp white outlines and rounded borders, and flat highlighting colors for selection, peer highlights, number matches, conflict errors, and exhausted numpad digits. Configures dedicated typography variations for clues, player inputs, and candidate notes.
 
 ## Developer Tools
 ### Puzzle Generator (`tools/generate_puzzles.py`)
