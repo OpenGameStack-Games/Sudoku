@@ -106,6 +106,16 @@ This document acts as the definitive source of truth for the game's features, lo
     - Features the 1930s monochrome mascot graphic (`res://assets/icons/mascot_icon.jpg`), a large "PAUSED" title, and a styled "Resume" button.
     - Pausing halts `TimeManager` and releases screen wake lock (`DisplayServer.screen_set_keep_on(false)`).
     - Resuming unpauses `TimeManager`, restores screen wake lock, reveals the board, and hides the overlay.
+  - **Victory Overlay (`game/scenes/victory_overlay.tscn` & `game/scripts/victory_overlay.gd`):**
+    - Centered modal dialog card (`PanelContainer`) styled according to the 1930s monochrome aesthetic (`res://resources/theme_1930s.tres`) with a `#121212` background (`StyleBoxFlat`), 2px solid white borders, 8px rounded corners, and generous padding.
+    - Displays celebratory banner ("VICTORY!"), the 1930s monochrome mascot graphic (`res://assets/icons/mascot_icon.jpg`), and the final formatted completion time (`MM:SS`).
+    - Halts `TimeManager`, records winning statistics to `StatsManager` (`record_game_won`), and removes the completed game from active save slots via `SaveManager.clear_active_game()` / `SaveManager.clear_save()`.
+    - **Action Buttons:**
+      - **"Play Again":** Dismisses the overlay, loads a fresh puzzle of the same difficulty tier, resets the timer to `00:00`, and starts a new session.
+      - **"Main Menu":** Navigates back to the Main Menu (`res://scenes/main_menu.tscn`).
+      - **"Statistics":** Navigates directly to the Statistics screen (`res://scenes/statistics_screen.tscn`).
+      - **"Admire Puzzle":** Conceals the victory card dialog so the player can view their finished board, displaying a floating "Restore Dialog" button at top right to restore the modal at any time.
+    - **Automated Verification:** Verified in headless CI via `game/tests/test_victory_screen.gd`, testing win signal triggering, accurate parameter passing to `StatsManager` and `SaveManager`, mascot and theme asset presence, and button navigation routing.
   - **Background Deselection:** Tapping or clicking empty space outside the 9x9 grid or numpad (on the gameplay background) deselects the currently selected cell on `BoardUI`.
   - **Automated Verification:** Verified in headless CI via `game/tests/test_gameplay_screen.gd`, covering header initialization, pause button toggling board and timer, reset puzzle clearing moves and timer, new game distinct puzzle loading, background touch deselection, and asset verification.
   - **Sudoku Grid (`game/scenes/board.tscn` & `game/scenes/cell.tscn`):** A standard 9x9 grid, visually sectioned into 3x3 macro blocks. Each cell contains a 3x3 candidate micro-grid.

@@ -38,6 +38,7 @@ class MockSaveManager extends Node:
 		flush_called = true
 
 class MockGameManager extends Node:
+	signal game_won
 	var board: SudokuBoard
 	func _ready() -> void:
 		board = SudokuBoard.new()

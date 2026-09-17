@@ -10,10 +10,12 @@ var menu_button: MenuButton = null
 var board_node: BoardUI = null
 var input_controls: InputControls = null
 var pause_overlay: PauseOverlay = null
+var victory_overlay: Control = null
 
 var save_manager_node: Node = null
 var game_manager_node: Node = null
 var time_manager_node: Node = null
+var stats_manager_node: Node = null
 
 func _init_nodes() -> void:
 	if not background:
@@ -34,6 +36,8 @@ func _init_nodes() -> void:
 		input_controls = get_node_or_null("VBoxContainer/InputControls") as InputControls
 	if not pause_overlay:
 		pause_overlay = get_node_or_null("PauseOverlay") as PauseOverlay
+	if not victory_overlay:
+		victory_overlay = get_node_or_null("VictoryOverlay")
 
 func _ready() -> void:
 	_init_nodes()
@@ -47,6 +51,8 @@ func _ready() -> void:
 			game_manager_node = tree.root.get_node_or_null("GameManager")
 		if not time_manager_node and tree.root:
 			time_manager_node = tree.root.get_node_or_null("TimeManager")
+		if not stats_manager_node and tree.root:
+			stats_manager_node = tree.root.get_node_or_null("StatsManager")
 	
 	if board_node and board_node.cells.is_empty() and board_node.has_method("_ready"):
 		board_node._ready()
@@ -54,12 +60,25 @@ func _ready() -> void:
 		input_controls._ready()
 	if pause_overlay and pause_overlay.has_method("_ready"):
 		pause_overlay._ready()
+	if victory_overlay and victory_overlay.has_method("_ready"):
+		victory_overlay._ready()
 		
 	if game_manager_node and game_manager_node.get("board"):
 		if board_node and board_node.has_method("bind_to_board"):
 			board_node.bind_to_board(game_manager_node.board)
 		if input_controls and input_controls.has_method("bind_to_board") and board_node:
 			input_controls.bind_to_board(game_manager_node.board, board_node)
+			
+	if game_manager_node and not game_manager_node.game_won.is_connected(_on_game_won):
+		game_manager_node.game_won.connect(_on_game_won)
+		
+	if victory_overlay:
+		if not victory_overlay.play_again_requested.is_connected(_on_play_again_requested):
+			victory_overlay.play_again_requested.connect(_on_play_again_requested)
+		if not victory_overlay.main_menu_requested.is_connected(_on_main_menu_requested):
+			victory_overlay.main_menu_requested.connect(_on_main_menu_requested)
+		if not victory_overlay.statistics_requested.is_connected(_on_statistics_requested):
+			victory_overlay.statistics_requested.connect(_on_statistics_requested)
 			
 	if time_manager_node:
 		if not time_manager_node.time_updated.is_connected(_on_time_updated):
@@ -172,6 +191,40 @@ func _get_random_puzzle(diff: String, exclude_puzzle: String = "") -> String:
 						return filtered[randi() % filtered.size()] as String
 				return arr[randi() % arr.size()] as String
 	return ""
+
+func _on_game_won() -> void:
+	if time_manager_node:
+		time_manager_node.pause()
+	var elapsed: int = time_manager_node.get_elapsed_seconds() if time_manager_node else 0
+	var diff: String = save_manager_node.current_difficulty if save_manager_node else "medium"
+	
+	if not stats_manager_node:
+		var main_loop: MainLoop = Engine.get_main_loop()
+		if main_loop and main_loop is SceneTree and (main_loop as SceneTree).root:
+			stats_manager_node = (main_loop as SceneTree).root.get_node_or_null("StatsManager")
+		
+	if stats_manager_node and stats_manager_node.has_method("record_game_won"):
+		stats_manager_node.record_game_won(diff, elapsed)
+		
+	if save_manager_node:
+		if save_manager_node.has_method("clear_active_game"):
+			save_manager_node.clear_active_game()
+		elif save_manager_node.has_method("clear_save"):
+			save_manager_node.clear_save(diff)
+		
+	if victory_overlay and victory_overlay.has_method("show_victory"):
+		victory_overlay.show_victory(elapsed)
+		
+func _on_play_again_requested() -> void:
+	if victory_overlay:
+		victory_overlay.hide()
+	_on_menu_item_pressed(1) # Re-uses New Game logic
+
+func _on_main_menu_requested() -> void:
+	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
+
+func _on_statistics_requested() -> void:
+	get_tree().change_scene_to_file("res://scenes/statistics_screen.tscn")
 
 func _on_background_gui_input(event: InputEvent) -> void:
 	var is_mouse_press: bool = event is InputEventMouseButton and (event as InputEventMouseButton).pressed
