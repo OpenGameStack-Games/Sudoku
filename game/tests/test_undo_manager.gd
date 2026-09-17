@@ -107,3 +107,17 @@ func test_recalculation_of_conflicts_and_exhaustion() -> void:
 func test_autoload_asset_path() -> void:
 	assert_true(FileAccess.file_exists("res://scripts/undo_manager.gd"), "undo_manager.gd should exist.")
 
+func test_history_serialization() -> void:
+	var um = UndoManager.new()
+	um.record_value_action(0, 0, 5, [1, 2], [3], {1: [5]})
+	um.record_toggle_action(2, 4, true)
+	assert_true(um.has_undo())
+	
+	var state = um.get_history_state()
+	assert_eq(state.size(), 2)
+	
+	var restored_um = UndoManager.new()
+	restored_um.load_history_state(state)
+	assert_true(restored_um.has_undo())
+	assert_eq(restored_um.get_history_state().size(), 2)
+

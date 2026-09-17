@@ -74,6 +74,16 @@ This document outlines the strict manual testing procedures required before any 
 - **Step 1:** Make several inputs (Normal and Candidate mode) on the grid.
 - **Step 2:** Tap the "Undo" button repeatedly.
 - **Expected:** The board accurately steps backward through an unlimited history of inputs, including candidate notes.
+- **Step 3 (Auto-Cleared Candidate Restoration):** In an empty row, add candidate '5' to Cell B. In Cell A of the same row, place final answer '5'. Confirm that candidate '5' in Cell B is automatically cleared.
+- **Step 4:** Tap "Undo" to revert the placement of final answer '5' in Cell A.
+- **Expected:** Cell A's value reverts to empty, and candidate note '5' in Cell B is seamlessly restored.
+- **Step 5 (Conflict Highlighting Recalculation):** Place an identical digit in the same row, column, or block to trigger red conflict highlighting. Tap "Undo".
+- **Expected:** The conflict highlight immediately clears for the remaining cells.
+- **Step 6 (Numpad Exhaustion Recalculation):** Place the 9th instance of a digit so its numpad button grays out. Tap "Undo".
+- **Expected:** The numpad button re-enables and returns to its active visual state.
+- **Step 7 (Empty Stack Safety):** Tap "Undo" repeatedly until no further actions remain in history.
+- **Expected:** The app handles the empty stack gracefully with no crashes or unexpected state changes.
+- **Automated Verification:** Verified in headless CI via `game/tests/test_undo_manager.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), confirming empty stack safety, sequential final answer undo, sequential candidate note undo, compound action peer candidate restoration, conflict/exhaustion recalculation, and state serialization.
 
 ## Test 10.0: Puzzle Menus (Reset & New Game)
 - **Step 1:** Tap the triple-dot menu. Select "Reset Puzzle".
