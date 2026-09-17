@@ -41,3 +41,8 @@ environment/defaults/default_clear_color=Color(0.0705882, 0.0705882, 0.0705882, 
 
 
 
+
+[autoload]
+
+StatsManager="*res://autoloads/stats_manager.gd"
+
