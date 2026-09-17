@@ -14,6 +14,7 @@ Resolves #<issue_number>
 
 - [ ] Ran automated test suite via Godot headless runner.
 - [ ] Added new test cases in `game/tests/<test_file>.gd` covering these changes.
+- [ ] Added `FileAccess.file_exists` assertions for all newly introduced scene/script/asset files.
 - **Results:** `Test Results: <Passed> Passed, 0 Failed`
 
 ```text

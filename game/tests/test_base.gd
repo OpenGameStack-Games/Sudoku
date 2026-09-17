@@ -27,3 +27,17 @@ func assert_ne(a, b, message: String = "") -> void:
 	else:
 		failed += 1
 		printerr("Assertion failed: expected not %s, got %s. %s" % [str(a), str(b), message])
+
+func assert_null(val, message: String = "") -> void:
+	if val == null:
+		passed += 1
+	else:
+		failed += 1
+		printerr("Assertion failed: expected null, got %s. %s" % [str(val), message])
+
+func assert_not_null(val, message: String = "") -> void:
+	if val != null:
+		passed += 1
+	else:
+		failed += 1
+		printerr("Assertion failed: expected not null. %s" % [message])
