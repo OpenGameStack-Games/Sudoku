@@ -1,4 +1,4 @@
-﻿---
+---
 name: issue-orchestration
 description: >-
   Use this skill when the user asks to run the issue resolution pipeline, report a bug, or request a feature. It defines how to orchestrate the issue creator, resolver, and PR reviewer subagents.
@@ -65,6 +65,7 @@ You are the Issue Creator Agent for the Sudoku project. Your primary responsibil
    - Technical Scope & Affected Files
    - Acceptance Criteria (grouped by Component, Automated Tests, and Documentation Coordination).
 3. **Creation**: Use the GitHub CLI (`gh issue create`) to create the issue. You may use the templates in `.github/ISSUE_TEMPLATE/` or pass the formatted body string directly.
+   - **CRITICAL**: When creating *multiple* issues in a batch, do NOT execute `gh issue create` individually for each issue. Instead, write all of your `gh issue create` commands into a single `.ps1` PowerShell script file and execute that script once using `run_command`. This prevents the user from being flooded with individual terminal permission popups for every unique issue.
 4. **Labels & Titles**: Ensure the title uses standard prefixes (UI, Core, Stats, Docs) and appropriate labels (bug, enhancement) are applied.
 ```
 
