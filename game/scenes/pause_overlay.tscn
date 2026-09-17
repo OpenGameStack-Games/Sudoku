@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://pause_overlay"]
+[gd_scene load_steps=4 format=3 uid="uid://pause_overlay"]
 
 [ext_resource type="Script" path="res://scripts/pause_overlay.gd" id="1_pau"]
+[ext_resource type="Texture2D" path="res://assets/icons/mascot_icon.jpg" id="2_mascot"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg"]
 bg_color = Color(0.1, 0.1, 0.1, 0.95)
@@ -33,7 +34,15 @@ grow_vertical = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Panel/CenterContainer"]
 layout_mode = 2
-theme_override_constants/separation = 32
+theme_override_constants/separation = 24
+alignment = 1
+
+[node name="MascotRect" type="TextureRect" parent="Panel/CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(160, 160)
+layout_mode = 2
+texture = ExtResource("2_mascot")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="Label" type="Label" parent="Panel/CenterContainer/VBoxContainer"]
 layout_mode = 2
@@ -42,7 +51,7 @@ text = "PAUSED"
 horizontal_alignment = 1
 
 [node name="ResumeButton" type="Button" parent="Panel/CenterContainer/VBoxContainer"]
-custom_minimum_size = Vector2(200, 80)
+custom_minimum_size = Vector2(200, 70)
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Resume"

@@ -66,12 +66,17 @@ func _on_board_updated() -> void:
 func _on_conflict_changed() -> void:
 	_update_highlights()
 
-func _on_cell_selected(row: int, col: int) -> void:
-	if selected_row == row and selected_col == col:
-		# Deselect
+func deselect_cell() -> void:
+	if selected_row != -1 or selected_col != -1:
 		selected_row = -1
 		selected_col = -1
 		cell_deselected.emit()
+		_on_board_updated()
+
+func _on_cell_selected(row: int, col: int) -> void:
+	if selected_row == row and selected_col == col:
+		deselect_cell()
+		return
 	else:
 		selected_row = row
 		selected_col = col

@@ -60,11 +60,12 @@ This document outlines the strict manual testing procedures required before any 
 
 ## Test 6.0: Gameplay Screen Layout & Navigation
 - **Step 1:** On the Gameplay screen, observe the Header row.
-- **Expected:** Top-left is a Back arrow. Center-left is the Difficulty. Center-right is the Timer. Top-right is a three-dot menu.
+- **Expected:** Top-left is a `< Back` button. Center-left is the capitalized Difficulty label ("Easy", "Medium", or "Hard"). Center-right is the active Timer label. Top-right contains the Pause button and the triple-dot menu ("..."). The header maintains at least 32px top margin to remain clear of the non-immersive Android status bar.
 - **Step 2:** Observe the Grid and controls.
-- **Expected:** A 9x9 grid exists. Below it are two adjacent "Normal" and "Candidate" buttons, and an "Undo" button spaced to the right. Below that is a numpad containing 1-9 and an 'X' button.
-- **Step 3:** Tap the Back arrow.
-- **Expected:** Navigates back to the Main Menu.
+- **Expected:** A 9x9 grid exists centered within an aspect ratio container. Below it are mode toggle buttons ("Normal" and "Candidate"), an "Undo" button spaced to the right, a 1-9 & Erase numpad, and an Auto Candidate switch.
+- **Step 3:** Enter a move on the board (e.g. place a number into an empty cell), then tap the `< Back` button.
+- **Expected:** Navigates back to the Main Menu. The Main Menu button for that difficulty now reflects `"Resume [Difficulty]"`. Tapping Resume restores the exact board state and elapsed time, confirming the `< Back` button successfully flushed game state to `SaveManager`.
+- **Automated Verification:** Verified in headless CI via `game/tests/test_gameplay_screen.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), asserting header initialization, difficulty label capitalization, timer label binding, back button save flushing, and scene asset presence.
 
 ## Test 7.0: Gameplay Timer
 - **Step 1:** Enter a game. Observe the timer counting up from 00:00 (or saved elapsed time).
@@ -104,10 +105,12 @@ This document outlines the strict manual testing procedures required before any 
 - **Automated Verification:** Verified in headless CI via `game/tests/test_undo_manager.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), confirming empty stack safety, sequential final answer undo, sequential candidate note undo, compound action peer candidate restoration, conflict/exhaustion recalculation, and state serialization.
 
 ## Test 10.0: Puzzle Menus (Reset & New Game)
-- **Step 1:** Tap the triple-dot menu. Select "Reset Puzzle".
-- **Expected:** All inputs wipe, and the timer resets to 00:00.
-- **Step 2:** Tap the triple-dot menu. Select "New Game".
-- **Expected:** The board generates a brand new puzzle and the timer resets to 00:00.
+- **Step 1:** Enter a game, make several final answer inputs, toggle several candidate notes, and observe the elapsed timer (e.g. at 01:25).
+- **Step 2:** Tap the triple-dot menu ("...") on the top-right header and select "Reset Puzzle".
+- **Expected:** All user-entered numbers and candidate notes are wiped clean, restoring the grid back to its initial clue configuration. The undo history is cleared (Undo button disabled), the active timer restarts at `00:00`, and `SaveManager` persists the reset puzzle state to disk.
+- **Step 3:** Enter several moves again, then tap the triple-dot menu and select "New Game".
+- **Expected:** The board discards the current puzzle, retrieves a brand new distinct puzzle string for the same difficulty tier from `puzzles.json`, repopulates the initial clues, wipes undo history, restarts the timer at `00:00`, and overwrites the previous save file in `SaveManager`.
+- **Automated Verification:** Verified in headless CI via `game/tests/test_gameplay_screen.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), asserting Reset Puzzle reverts user inputs while zeroing the timer and flushing save data, and New Game loads distinct puzzle strings while resetting timer and save state.
 
 ## Test 11.0: Auto Candidate Mode
 - **Step 1:** While playing a puzzle, locate the "Auto Candidate Mode" toggle below the numpad.
@@ -182,11 +185,11 @@ This document outlines the strict manual testing procedures required before any 
 - **Automated Verification:** Verified in headless CI via `game/tests/test_board_ui.gd` and `game/tests/test_theme_constants.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), validating cell selection/deselection state transitions, peer highlights (`CellUI.COLOR_PEER`), number match highlights (`CellUI.COLOR_MATCH`), and matching candidate font enlargement.
 
 ## Test 18.0: Pause Functionality
-- **Step 1:** Tap the Pause button on the header row.
-- **Expected:** The timer stops, the Sudoku board completely hides or blurs to prevent cheating, and the screen wake lock is released (`DisplayServer.screen_set_keep_on(false)`), allowing the device to follow standard display sleep timeouts.
-- **Step 2:** Tap Resume/Unpause.
-- **Expected:** The board reappears, the timer continues, and the screen wake lock is restored (`DisplayServer.screen_set_keep_on(true)`).
-- **Automated Verification:** Verified in headless CI via `game/tests/test_game_timer.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), confirming timer halts during manual pause and resumes upon unpause.
+- **Step 1:** Tap the Pause button on the header row during an active game session.
+- **Expected:** The timer stops immediately. The Sudoku board completely hides behind an opaque/obscuring overlay (`#121212` background at 95% opacity) displaying the 1930s monochrome mascot graphic (`mascot_icon.jpg`), a large "PAUSED" title, and a styled "Resume" button to prevent cheating. The screen wake lock is released (`DisplayServer.screen_set_keep_on(false)`), allowing the device to follow standard display sleep timeouts.
+- **Step 2:** Tap the "Resume" button on the pause overlay.
+- **Expected:** The pause overlay disappears, the Sudoku board reappears with all clues, entries, and candidate notes intact, the timer resumes counting from the exact second it stopped, and the screen wake lock is restored (`DisplayServer.screen_set_keep_on(true)`).
+- **Automated Verification:** Verified in headless CI via `game/tests/test_game_timer.gd` and `game/tests/test_gameplay_screen.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), confirming timer halts during manual pause, the board hides while the pause overlay shows, and resuming cleanly reverses both states.
 
 ## Test 19.0: Screen Wake Lock
 - **Step 1:** Leave the app open on the active, unpaused gameplay screen without touching it for longer than the device's system sleep timeout (e.g., 2-5 minutes).

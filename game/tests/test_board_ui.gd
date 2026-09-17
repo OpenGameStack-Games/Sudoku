@@ -83,6 +83,13 @@ func test_board_integration() -> void:
 	assert_eq(deselected_emitted.size(), 1, "cell_deselected should be emitted")
 	assert_eq(first_cell.color, CellUI.COLOR_NORMAL, "Deselected cell should be normal")
 	
+	# Test explicit deselect_cell method
+	board_ui._on_cell_selected(0, 0)
+	assert_eq(board_ui.selected_row, 0)
+	board_ui.deselect_cell()
+	assert_eq(board_ui.selected_row, -1)
+	assert_eq(first_cell.color, CellUI.COLOR_NORMAL)
+	
 	# Match test: select (0,0) which contains digit 1.
 	board_ui._on_cell_selected(0, 0)
 	# Cell 80 (8,8) contains 1, is not in the same peer row/col/block, so it should be MATCH highlight
