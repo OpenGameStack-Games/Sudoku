@@ -77,12 +77,23 @@ func _update_numpad_exhaustion() -> void:
 	for i in range(1, 10):
 		var btn: Button = numpad_btns[i - 1]
 		if counts[i] >= 9:
-			btn.modulate = Color(0.4, 0.4, 0.4)
-			# Requirement: visually grays out, must NOT disappear. disabled is fine?
+			btn.modulate = ThemeConstants.COLOR_NUMPAD_EXHAUSTED
 			btn.disabled = true
+			if selected_digit == i:
+				selected_digit = -1
 		else:
-			btn.modulate = Color(1.0, 1.0, 1.0)
 			btn.disabled = false
+			if selected_digit == i:
+				btn.modulate = Color(0.8, 1.0, 0.8)
+			else:
+				btn.modulate = Color(1.0, 1.0, 1.0)
+				
+	if numpad_btns.size() > 9:
+		var erase_btn: Button = numpad_btns[9]
+		if selected_digit == 0:
+			erase_btn.modulate = Color(0.8, 1.0, 0.8)
+		else:
+			erase_btn.modulate = Color(1.0, 1.0, 1.0)
 
 func _on_mode_normal_pressed() -> void:
 	is_candidate_mode = false
@@ -103,16 +114,7 @@ func _update_mode_buttons() -> void:
 		mode_candidate_btn.modulate = Color(0.5, 0.5, 0.5)
 
 func _update_numpad_selection() -> void:
-	# Add visual indicator for selected digit (Number-first mode)
-	for i in range(10):
-		var btn: Button = numpad_btns[i]
-		if i + 1 == selected_digit or (selected_digit == 0 and i == 9):
-			btn.modulate = Color(0.8, 1.0, 0.8) if btn.disabled == false else Color(0.4, 0.5, 0.4)
-		else:
-			if i < 9 and btn.disabled:
-				btn.modulate = Color(0.4, 0.4, 0.4)
-			else:
-				btn.modulate = Color(1.0, 1.0, 1.0)
+	_update_numpad_exhaustion()
 
 func _on_numpad_pressed(digit: int) -> void:
 	# Cell-first mode
@@ -142,6 +144,8 @@ func _on_cell_selected(row: int, col: int) -> void:
 func _apply_digit_to_cell(row: int, col: int, digit: int) -> void:
 	if not board: return
 	var index: int = row * 9 + col
+	if board.cells[index].is_clue:
+		return
 	if digit == 0:
 		if board.cells[index].value != 0:
 			board.set_cell_value(index, 0)
@@ -166,21 +170,27 @@ func _on_auto_candidate_toggled(toggled_on: bool) -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.is_pressed() and not event.is_echo():
+		var handled: bool = false
 		if event.keycode >= KEY_1 and event.keycode <= KEY_9:
 			_on_numpad_pressed(event.keycode - KEY_0)
-			get_viewport().set_input_as_handled()
+			handled = true
 		elif event.keycode >= KEY_KP_1 and event.keycode <= KEY_KP_9:
 			_on_numpad_pressed(event.keycode - KEY_KP_0)
-			get_viewport().set_input_as_handled()
+			handled = true
 		elif event.keycode == KEY_BACKSPACE or event.keycode == KEY_DELETE or event.keycode == KEY_0 or event.keycode == KEY_KP_0 or event.keycode == KEY_X:
 			_on_numpad_pressed(0)
-			get_viewport().set_input_as_handled()
+			handled = true
 		elif event.keycode == KEY_C:
 			_on_mode_candidate_pressed()
-			get_viewport().set_input_as_handled()
+			handled = true
 		elif event.keycode == KEY_N:
 			_on_mode_normal_pressed()
-			get_viewport().set_input_as_handled()
+			handled = true
 		elif event.keycode == KEY_U or (event.keycode == KEY_Z and event.is_command_or_control_pressed()):
 			_on_undo_pressed()
-			get_viewport().set_input_as_handled()
+			handled = true
+			
+		if handled:
+			var vp: Viewport = get_viewport()
+			if vp:
+				vp.set_input_as_handled()
