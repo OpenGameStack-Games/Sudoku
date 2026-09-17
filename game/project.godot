@@ -47,4 +47,6 @@ environment/defaults/default_clear_color=Color(0.0705882, 0.0705882, 0.0705882, 
 StatsManager="*res://autoloads/stats_manager.gd"
 TimeManager="*res://autoloads/time_manager.gd"
 GameManager="*res://autoloads/game_manager.gd"
+ActionManager="*res://scripts/undo_manager.gd"
+
 
