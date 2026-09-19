@@ -174,3 +174,17 @@ func test_deselection_on_background_touch() -> void:
 	assert_eq(screen.board_node.selected_col, -1, "Cell should be deselected after background click")
 	
 	_teardown_nodes()
+
+func test_button_themes_applied() -> void:
+	_setup_nodes("medium")
+	
+	assert_true(screen.pause_button.theme != null, "Pause button should have a theme applied")
+	assert_true(screen.pause_overlay.resume_button.theme != null, "Resume button should have a theme applied")
+	
+	var style: StyleBoxFlat = screen.pause_button.theme.get_stylebox("normal", "Button") as StyleBoxFlat
+	assert_true(style != null, "Pause button theme should define a normal Button style")
+	assert_eq(style.border_color, Color.WHITE, "Button border should be white")
+	assert_eq(style.bg_color.to_html(false), Color("#121212").to_html(false), "Button background should be #121212")
+	
+	_teardown_nodes()
+
