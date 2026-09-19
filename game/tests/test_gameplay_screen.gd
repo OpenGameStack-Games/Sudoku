@@ -181,10 +181,23 @@ func test_button_themes_applied() -> void:
 	assert_true(screen.pause_button.theme != null, "Pause button should have a theme applied")
 	assert_true(screen.pause_overlay.resume_button.theme != null, "Resume button should have a theme applied")
 	
-	var style: StyleBoxFlat = screen.pause_button.theme.get_stylebox("normal", "Button") as StyleBoxFlat
-	assert_true(style != null, "Pause button theme should define a normal Button style")
-	assert_eq(style.border_color, Color.WHITE, "Button border should be white")
-	assert_eq(style.bg_color.to_html(false), Color("#121212").to_html(false), "Button background should be #121212")
+	var pause_style: StyleBoxFlat = screen.pause_button.theme.get_stylebox("normal", "Button") as StyleBoxFlat
+	assert_true(pause_style != null, "Pause button theme should define a normal Button style")
+	assert_eq(pause_style.border_color, Color.WHITE, "Pause button border should be white")
+	assert_eq(pause_style.bg_color.to_html(false), Color("#121212").to_html(false), "Pause button background should be #121212")
+	assert_eq(pause_style.border_width_left, 2, "Pause button border width left should be 2")
+	assert_eq(pause_style.border_width_top, 2, "Pause button border width top should be 2")
+	assert_eq(pause_style.border_width_right, 2, "Pause button border width right should be 2")
+	assert_eq(pause_style.border_width_bottom, 2, "Pause button border width bottom should be 2")
+	
+	var resume_style: StyleBoxFlat = screen.pause_overlay.resume_button.theme.get_stylebox("normal", "Button") as StyleBoxFlat
+	assert_true(resume_style != null, "Resume button theme should define a normal Button style")
+	assert_eq(resume_style.border_color, Color.WHITE, "Resume button border should be white")
+	assert_eq(resume_style.bg_color.to_html(false), Color("#121212").to_html(false), "Resume button background should be #121212")
+	assert_eq(resume_style.border_width_left, 2, "Resume button border width left should be 2")
+	assert_eq(resume_style.border_width_top, 2, "Resume button border width top should be 2")
+	assert_eq(resume_style.border_width_right, 2, "Resume button border width right should be 2")
+	assert_eq(resume_style.border_width_bottom, 2, "Resume button border width bottom should be 2")
 	
 	_teardown_nodes()
 
