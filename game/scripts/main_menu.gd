@@ -3,6 +3,7 @@ extends Control
 var save_manager_node: Node
 var game_manager_node: Node
 var stats_manager_node: Node
+var time_manager_node: Node
 
 func _ready() -> void:
 	var main_loop: MainLoop = Engine.get_main_loop()
@@ -14,6 +15,8 @@ func _ready() -> void:
 			game_manager_node = tree.root.get_node_or_null("GameManager")
 		if not stats_manager_node:
 			stats_manager_node = tree.root.get_node_or_null("StatsManager")
+		if not time_manager_node:
+			time_manager_node = tree.root.get_node_or_null("TimeManager")
 			
 	var easy_btn: Button = get_node_or_null("MarginContainer/VBoxContainer/ButtonsVBox/EasyButton") as Button
 	var medium_btn: Button = get_node_or_null("MarginContainer/VBoxContainer/ButtonsVBox/MediumButton") as Button
@@ -62,12 +65,17 @@ func _on_difficulty_pressed(diff: String) -> void:
 			save_manager_node.mark_active_game(diff, save_data["puzzle_string"])
 			if game_manager_node:
 				game_manager_node.start_game(save_data["puzzle_string"])
+			if time_manager_node:
+				time_manager_node.start(int(save_data.get("elapsed_seconds", 0)))
 	else:
 		var puzzle_string: String = _get_random_puzzle(diff)
 		if save_manager_node:
 			save_manager_node.mark_active_game(diff, puzzle_string)
 		if game_manager_node:
 			game_manager_node.start_game(puzzle_string)
+		if time_manager_node:
+			time_manager_node.reset()
+			time_manager_node.start(0)
 		if stats_manager_node:
 			stats_manager_node.record_game_started(diff)
 			

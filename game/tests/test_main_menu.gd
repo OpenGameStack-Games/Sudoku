@@ -112,6 +112,21 @@ func record_game_started(d: String) -> void:
 	stats_mgr.set_script(stats_script)
 	menu.stats_manager_node = stats_mgr
 	
+	var time_mgr: Node = Node.new()
+	var time_script: GDScript = GDScript.new()
+	time_script.source_code = """
+extends Node
+var reset_called: bool = false
+var start_seconds: int = -1
+func reset() -> void:
+	reset_called = true
+func start(secs: int) -> void:
+	start_seconds = secs
+"""
+	time_script.reload()
+	time_mgr.set_script(time_script)
+	menu.time_manager_node = time_mgr
+	
 	menu._ready()
 	
 	var easy_btn: Button = menu.get_node("MarginContainer/VBoxContainer/ButtonsVBox/EasyButton") as Button
@@ -121,7 +136,10 @@ func record_game_started(d: String) -> void:
 	assert_true(str(save_mgr.get("marked_puzzle")).length() == 81, "SaveManager should receive valid 81-character puzzle string")
 	assert_true(str(game_mgr.get("started_puzzle")).length() == 81, "GameManager should start valid 81-character puzzle")
 	assert_eq(stats_mgr.get("started_diff"), "easy", "StatsManager should record new game started for easy")
+	assert_true(time_mgr.get("reset_called"), "TimeManager should be reset on new game")
+	assert_eq(time_mgr.get("start_seconds"), 0, "TimeManager should start at 0 seconds on new game")
 	
+	time_mgr.free()
 	stats_mgr.free()
 	game_mgr.free()
 	save_mgr.free()
@@ -139,7 +157,10 @@ var marked_diff: String = ""
 var marked_puzzle: String = ""
 func has_save(diff: String) -> bool: return diff == "medium"
 func load_game(diff: String) -> Dictionary:
-	return {"puzzle_string": "123456789012345678901234567890123456789012345678901234567890123456789012345678901"}
+	return {
+		"puzzle_string": "123456789012345678901234567890123456789012345678901234567890123456789012345678901",
+		"elapsed_seconds": 45
+	}
 func mark_active_game(d: String, p: String) -> void:
 	marked_diff = d
 	marked_puzzle = p
@@ -172,6 +193,21 @@ func record_game_started(d: String) -> void:
 	stats_mgr.set_script(stats_script)
 	menu.stats_manager_node = stats_mgr
 	
+	var time_mgr: Node = Node.new()
+	var time_script: GDScript = GDScript.new()
+	time_script.source_code = """
+extends Node
+var reset_called: bool = false
+var start_seconds: int = -1
+func reset() -> void:
+	reset_called = true
+func start(secs: int) -> void:
+	start_seconds = secs
+"""
+	time_script.reload()
+	time_mgr.set_script(time_script)
+	menu.time_manager_node = time_mgr
+	
 	menu._ready()
 	
 	var medium_btn: Button = menu.get_node("MarginContainer/VBoxContainer/ButtonsVBox/MediumButton") as Button
@@ -181,7 +217,10 @@ func record_game_started(d: String) -> void:
 	assert_eq(save_mgr.get("marked_puzzle"), "123456789012345678901234567890123456789012345678901234567890123456789012345678901", "SaveManager should receive saved puzzle")
 	assert_eq(game_mgr.get("started_puzzle"), "123456789012345678901234567890123456789012345678901234567890123456789012345678901", "GameManager should start saved puzzle")
 	assert_eq(stats_mgr.get("started_diff"), "", "StatsManager should not record a new game started when resuming")
+	assert_false(time_mgr.get("reset_called"), "TimeManager should NOT be reset on resumed game")
+	assert_eq(time_mgr.get("start_seconds"), 45, "TimeManager should start at the saved elapsed seconds")
 	
+	time_mgr.free()
 	stats_mgr.free()
 	game_mgr.free()
 	save_mgr.free()
