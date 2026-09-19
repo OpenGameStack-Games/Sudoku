@@ -13,10 +13,10 @@ corner_radius_top_left = 8
 corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
-content_margin_left = 16.0
-content_margin_top = 16.0
-content_margin_right = 16.0
-content_margin_bottom = 16.0
+content_margin_left = 40.0
+content_margin_top = 40.0
+content_margin_right = 40.0
+content_margin_bottom = 40.0
 
 [node name="StatisticsScreen" type="Control"]
 layout_mode = 3
@@ -69,7 +69,7 @@ flat = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_font_sizes/font_size = 32
+theme_override_font_sizes/font_size = 64
 text = "STATISTICS"
 horizontal_alignment = 1
 
@@ -93,29 +93,33 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_card")
 
 [node name="VBox" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ScrollContainer/CardsContainer/EasyCard"]
 layout_mode = 2
-theme_override_constants/separation = 10
+theme_override_constants/separation = 30
 
 [node name="DifficultyLabel" type="Label" parent="MarginContainer/VBoxContainer/ScrollContainer/CardsContainer/EasyCard/VBox"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 48
 text = "Easy"
 horizontal_alignment = 1
 
 [node name="GridContainer" type="GridContainer" parent="MarginContainer/VBoxContainer/ScrollContainer/CardsContainer/EasyCard/VBox"]
 layout_mode = 2
 columns = 2
+theme_override_constants/h_separation = 30
+theme_override_constants/v_separation = 20
 
 [node name="StartedLabel" type="Label" parent="MarginContainer/VBoxContainer/ScrollContainer/CardsContainer/EasyCard/VBox/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 32
 text = "Games Started"
 
 [node name="StartedValue" type="Label" parent="MarginContainer/VBoxContainer/ScrollContainer/CardsContainer/EasyCard/VBox/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 32
 text = "0"
 horizontal_alignment = 2
 
@@ -123,12 +127,14 @@ horizontal_alignment = 2
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 32
 text = "Games Won"
 
 [node name="WonValue" type="Label" parent="MarginContainer/VBoxContainer/ScrollContainer/CardsContainer/EasyCard/VBox/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 32
 text = "0"
 horizontal_alignment = 2
 
@@ -136,12 +142,14 @@ horizontal_alignment = 2
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 32
 text = "Best Time"
 
 [node name="BestTimeValue" type="Label" parent="MarginContainer/VBoxContainer/ScrollContainer/CardsContainer/EasyCard/VBox/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 32
 text = "--:--"
 horizontal_alignment = 2
 
@@ -149,12 +157,14 @@ horizontal_alignment = 2
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 32
 text = "Average Time"
 
 [node name="AverageTimeValue" type="Label" parent="MarginContainer/VBoxContainer/ScrollContainer/CardsContainer/EasyCard/VBox/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 32
 text = "--:--"
 horizontal_alignment = 2
 
@@ -164,29 +174,33 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_card")
 
 [node name="VBox" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ScrollContainer/CardsContainer/MediumCard"]
 layout_mode = 2
-theme_override_constants/separation = 10
+theme_override_constants/separation = 30
 
 [node name="DifficultyLabel" type="Label" parent="MarginContainer/VBoxContainer/ScrollContainer/CardsContainer/MediumCard/VBox"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 48
 text = "Medium"
 horizontal_alignment = 1
 
 [node name="GridContainer" type="GridContainer" parent="MarginContainer/VBoxContainer/ScrollContainer/CardsContainer/MediumCard/VBox"]
 layout_mode = 2
 columns = 2
+theme_override_constants/h_separation = 30
+theme_override_constants/v_separation = 20
 
 [node name="StartedLabel" type="Label" parent="MarginContainer/VBoxContainer/ScrollContainer/CardsContainer/MediumCard/VBox/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 32
 text = "Games Started"
 
 [node name="StartedValue" type="Label" parent="MarginContainer/VBoxContainer/ScrollContainer/CardsContainer/MediumCard/VBox/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 32
 text = "0"
 horizontal_alignment = 2
 
@@ -194,12 +208,14 @@ horizontal_alignment = 2
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 32
 text = "Games Won"
 
 [node name="WonValue" type="Label" parent="MarginContainer/VBoxContainer/ScrollContainer/CardsContainer/MediumCard/VBox/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 32
 text = "0"
 horizontal_alignment = 2
 
@@ -207,12 +223,14 @@ horizontal_alignment = 2
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 32
 text = "Best Time"
 
 [node name="BestTimeValue" type="Label" parent="MarginContainer/VBoxContainer/ScrollContainer/CardsContainer/MediumCard/VBox/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 32
 text = "--:--"
 horizontal_alignment = 2
 
@@ -220,12 +238,14 @@ horizontal_alignment = 2
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 32
 text = "Average Time"
 
 [node name="AverageTimeValue" type="Label" parent="MarginContainer/VBoxContainer/ScrollContainer/CardsContainer/MediumCard/VBox/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 32
 text = "--:--"
 horizontal_alignment = 2
 
@@ -235,29 +255,33 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_card")
 
 [node name="VBox" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ScrollContainer/CardsContainer/HardCard"]
 layout_mode = 2
-theme_override_constants/separation = 10
+theme_override_constants/separation = 30
 
 [node name="DifficultyLabel" type="Label" parent="MarginContainer/VBoxContainer/ScrollContainer/CardsContainer/HardCard/VBox"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 48
 text = "Hard"
 horizontal_alignment = 1
 
 [node name="GridContainer" type="GridContainer" parent="MarginContainer/VBoxContainer/ScrollContainer/CardsContainer/HardCard/VBox"]
 layout_mode = 2
 columns = 2
+theme_override_constants/h_separation = 30
+theme_override_constants/v_separation = 20
 
 [node name="StartedLabel" type="Label" parent="MarginContainer/VBoxContainer/ScrollContainer/CardsContainer/HardCard/VBox/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 32
 text = "Games Started"
 
 [node name="StartedValue" type="Label" parent="MarginContainer/VBoxContainer/ScrollContainer/CardsContainer/HardCard/VBox/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 32
 text = "0"
 horizontal_alignment = 2
 
@@ -265,12 +289,14 @@ horizontal_alignment = 2
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 32
 text = "Games Won"
 
 [node name="WonValue" type="Label" parent="MarginContainer/VBoxContainer/ScrollContainer/CardsContainer/HardCard/VBox/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 32
 text = "0"
 horizontal_alignment = 2
 
@@ -278,12 +304,14 @@ horizontal_alignment = 2
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 32
 text = "Best Time"
 
 [node name="BestTimeValue" type="Label" parent="MarginContainer/VBoxContainer/ScrollContainer/CardsContainer/HardCard/VBox/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 32
 text = "--:--"
 horizontal_alignment = 2
 
@@ -291,11 +319,13 @@ horizontal_alignment = 2
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 32
 text = "Average Time"
 
 [node name="AverageTimeValue" type="Label" parent="MarginContainer/VBoxContainer/ScrollContainer/CardsContainer/HardCard/VBox/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 32
 text = "--:--"
 horizontal_alignment = 2
