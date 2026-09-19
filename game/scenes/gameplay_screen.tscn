@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" path="res://scenes/input_controls.tscn" id="3_inp"]
 [ext_resource type="PackedScene" path="res://scenes/pause_overlay.tscn" id="4_pau"]
 [ext_resource type="PackedScene" path="res://scenes/victory_overlay.tscn" id="5_vic"]
+[ext_resource type="Theme" path="res://resources/theme_1930s.tres" id="6_theme"]
 
 [node name="GameplayScreen" type="Control"]
 layout_mode = 3
@@ -63,6 +64,7 @@ horizontal_alignment = 2
 [node name="PauseButton" type="Button" parent="VBoxContainer/Header/HBoxContainer"]
 custom_minimum_size = Vector2(80, 60)
 layout_mode = 2
+theme = ExtResource("6_theme")
 text = "Pause"
 
 [node name="MenuButton" type="MenuButton" parent="VBoxContainer/Header/HBoxContainer"]
