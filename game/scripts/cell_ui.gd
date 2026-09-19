@@ -12,6 +12,8 @@ const COLOR_CONFLICT = Color("ff0000") # Flat Red
 
 var row: int = 0
 var col: int = 0
+var is_clue: bool = false
+
 
 func _ready() -> void:
 	color = COLOR_NORMAL
@@ -22,7 +24,8 @@ func _on_gui_input(event: InputEvent) -> void:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 			cell_selected.emit(row, col)
 
-func set_value(val: int, is_clue: bool) -> void:
+func set_value(val: int, clue: bool) -> void:
+	self.is_clue = clue
 	if val == 0:
 		$ValueLabel.text = ""
 	else:
@@ -52,7 +55,7 @@ func set_highlight_state(state: String) -> void:
 	match state:
 		"normal":
 			color = COLOR_NORMAL
-			text_color = Color.WHITE
+			text_color = Color.WHITE if is_clue else Color("#a0a0a0")
 		"selected":
 			color = COLOR_SELECTED
 			text_color = Color("#121212")
