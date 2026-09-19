@@ -89,8 +89,8 @@ This document outlines the strict manual testing procedures required before any 
 - **Automated Verification:** Verified in headless CI via `game/tests/test_game_timer.gd` and `game/tests/test_main_menu.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), confirming initial seconds loading, time formatting (`MM:SS` and `HH:MM:SS`), second-by-second incrementing, manual pause/resume, focus lifecycle state handling, and unconditional reset on new game routing.
 
 ## Test 8.0: Grid Input (Bi-Directional & Keyboard Shortcuts)
-- **Step 1 (Cell-First Input):** Tap an empty cell, then tap a number 1-9 on the numpad.
-- **Expected:** The number is entered into the cell.
+- **Step 1 (Cell-First Input & Visual Distinction):** Tap an empty cell, then tap a number 1-9 on the numpad.
+- **Expected:** The number is entered into the cell. Verify that the entered digit is rendered in a dimmer gray (`#a0a0a0`) and smaller font size (28pt) compared to the initial clue digits which remain bold, larger (32pt), and pure white (`Color.WHITE`), clearly differentiating player inputs while maintaining the 1930s monochrome aesthetic.
 - **Step 2 (Number-First Input):** Tap a number on the numpad (it highlights in soft green `Color(0.8, 1.0, 0.8)`), then tap several empty cells.
 - **Expected:** The number is entered into every cell tapped. Tapping the numpad button again deselects it.
 - **Step 3 (Mode Toggles):** Tap the "Candidate" button (or press `C` on a keyboard). Tap an empty cell and input digit '3'.
@@ -101,22 +101,27 @@ This document outlines the strict manual testing procedures required before any 
 - **Expected:** Corresponding digit is placed into the selected cell. Press `U` or `Ctrl+Z` to verify undo action.
 - **Step 6 (Auto-Clear Candidates):** Enter candidate '5' into several cells in a row. Then enter a final answer '5' in that row.
 - **Expected:** All candidate '5's in that row automatically disappear.
-- **Automated Verification:** Verified in headless CI via `game/tests/test_board_ui.gd` and `game/tests/test_input_controls.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), asserting cell-first and number-first input, candidate toggling, erase behavior, clue protection, keyboard shortcuts, undo emissions, and candidate micro-grid synchronization.
+- **Automated Verification:** Verified in headless CI via `game/tests/test_board_ui.gd` and `game/tests/test_input_controls.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), asserting cell-first and number-first input, candidate toggling, erase behavior, clue protection, keyboard shortcuts, undo emissions, candidate micro-grid synchronization, and font color differentiation (#a0a0a0 for user inputs vs white for clues).
 
 ## Test 9.0: Undo System
-- **Step 1:** Make several inputs (Normal and Candidate mode) on the grid.
-- **Step 2:** Tap the "Undo" button repeatedly.
+- **Step 1 (Initial Disabled State):** Upon starting a fresh puzzle or resetting an active puzzle, observe the "Undo" button on the controls row.
+- **Expected:** The "Undo" button is disabled (`disabled = true`) because the undo stack is empty.
+- **Step 2 (Dynamic Enable on Move):** Place a digit or toggle a candidate note onto the grid.
+- **Expected:** As soon as the action is performed, the "Undo" button immediately becomes enabled (`disabled = false`).
+- **Step 3 (Reverting and Re-disabling):** Tap the "Undo" button to revert the single action.
+- **Expected:** The action is undone, restoring the previous board or note state. Because the undo stack is now empty, the "Undo" button immediately becomes disabled (`disabled = true`) again.
+- **Step 4 (Sequential Input Undo):** Make several inputs (Normal and Candidate mode) on the grid. Tap the "Undo" button repeatedly.
 - **Expected:** The board accurately steps backward through an unlimited history of inputs, including candidate notes.
-- **Step 3 (Auto-Cleared Candidate Restoration):** In an empty row, add candidate '5' to Cell B. In Cell A of the same row, place final answer '5'. Confirm that candidate '5' in Cell B is automatically cleared.
-- **Step 4:** Tap "Undo" to revert the placement of final answer '5' in Cell A.
+- **Step 5 (Auto-Cleared Candidate Restoration):** In an empty row, add candidate '5' to Cell B. In Cell A of the same row, place final answer '5'. Confirm that candidate '5' in Cell B is automatically cleared.
+- **Step 6:** Tap "Undo" to revert the placement of final answer '5' in Cell A.
 - **Expected:** Cell A's value reverts to empty, and candidate note '5' in Cell B is seamlessly restored.
-- **Step 5 (Conflict Highlighting Recalculation):** Place an identical digit in the same row, column, or block to trigger red conflict highlighting. Tap "Undo".
+- **Step 7 (Conflict Highlighting Recalculation):** Place an identical digit in the same row, column, or block to trigger red conflict highlighting. Tap "Undo".
 - **Expected:** The conflict highlight immediately clears for the remaining cells.
-- **Step 6 (Numpad Exhaustion Recalculation):** Place the 9th instance of a digit so its numpad button grays out. Tap "Undo".
+- **Step 8 (Numpad Exhaustion Recalculation):** Place the 9th instance of a digit so its numpad button grays out. Tap "Undo".
 - **Expected:** The numpad button re-enables and returns to its active visual state.
-- **Step 7 (Empty Stack Safety):** Tap "Undo" repeatedly until no further actions remain in history.
-- **Expected:** The app handles the empty stack gracefully with no crashes or unexpected state changes.
-- **Automated Verification:** Verified in headless CI via `game/tests/test_undo_manager.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), confirming empty stack safety, sequential final answer undo, sequential candidate note undo, compound action peer candidate restoration, conflict/exhaustion recalculation, and state serialization.
+- **Step 9 (Empty Stack Safety):** Tap "Undo" repeatedly until no further actions remain in history.
+- **Expected:** The app handles the empty stack gracefully with no crashes or unexpected state changes, and the button remains disabled.
+- **Automated Verification:** Verified in headless CI via `game/tests/test_undo_manager.gd` and `game/tests/test_input_controls.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), confirming empty stack safety, sequential final answer undo, sequential candidate note undo, compound action peer candidate restoration, conflict/exhaustion recalculation, dynamic undo button disabled/enabled state synchronization (`test_undo_signal`), and state serialization.
 
 ## Test 10.0: Puzzle Menus (Reset & New Game)
 - **Step 1:** Enter a game, make several final answer inputs, toggle several candidate notes, and observe the elapsed timer (e.g. at 01:25).

@@ -227,12 +227,16 @@ func test_keyboard_input_routing() -> void:
 func test_undo_signal() -> void:
 	before_each()
 	
+	assert_true(controls.undo_btn.disabled, "Undo button should be disabled initially")
+	
 	board.set_cell_value(0, 3)
 	assert_eq(board.cells[0].value, 3)
+	assert_false(controls.undo_btn.disabled, "Undo button should be enabled after move")
 	
 	controls._on_undo_pressed()
 	
 	assert_eq(board.cells[0].value, 0)
+	assert_true(controls.undo_btn.disabled, "Undo button should be disabled after undoing")
 	
 	after_each()
 

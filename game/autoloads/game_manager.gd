@@ -7,6 +7,9 @@ var board: SudokuBoard
 
 func _ready() -> void:
 	board = SudokuBoard.new()
+	var am: UndoManager = get_node_or_null("/root/ActionManager") as UndoManager
+	if am:
+		board.undo_manager = am
 	board.game_won.connect(_on_game_won)
 
 func start_game(puzzle_string: String) -> void:

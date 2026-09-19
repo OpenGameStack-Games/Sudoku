@@ -37,9 +37,10 @@ This document acts as the definitive source of truth for the game's features, lo
   - **Bi-Modal History:** Records both final answer entries (cell index, old value, new value, previous user candidate states) and candidate note toggles (cell index, digit, whether added or removed).
   - **Restoration of Auto-Cleared Candidates:** Undoing a placed answer restores any candidate notes in that cell's row, column, and 3x3 block that were automatically cleared when the answer was originally entered.
   - **Board State Recalculation:** Undoing an action immediately recalculates conflict highlighting, candidate sets, numpad exhaustion states (re-enabling buttons if placed digit counts drop below 9), and win condition status.
+  - **Dynamic UI Button State:** The Undo button in `InputControls` is dynamically synchronized with `UndoManager.has_undo()`: disabled when the stack is empty (e.g., at game start or after undoing all actions), and enabled as soon as the player inputs a value or candidate note. `GameManager` connects `board.undo_manager` to `/root/ActionManager` during initialization so undo state transitions reliably trigger `history_changed`.
   - **Safe Empty Handling:** Gracefully handles empty undo stacks (no-op when no actions remain in history).
   - **Serialization:** Provides `get_history_state()` and `load_history_state()` helpers for persistent save state integration.
-  - **Automated Verification:** Unit tested in `game/tests/test_undo_manager.gd` covering empty stack safety, sequential value/note undos, peer candidate restoration, conflict/exhaustion recalculation, and state serialization.
+  - **Automated Verification:** Unit tested in `game/tests/test_undo_manager.gd` and `game/tests/test_input_controls.gd` covering empty stack safety, sequential value/note undos, peer candidate restoration, conflict/exhaustion recalculation, undo button enable/disable syncing, and state serialization.
 - **Error Handling (No Losing):** There are no "strikes" or game-over states for wrong answers. The player can keep trying indefinitely.
   - **Conflict Highlighting:** If a player inputs a final answer that already exists in the same row, column, or 3x3 block, both the newly inputted number and the conflicting number(s) must be highlighted in **red** (a permitted exception to the monochrome theme).
   - **Note:** Error highlighting applies *only* to final answers, not to candidate notes.
@@ -64,9 +65,9 @@ This document acts as the definitive source of truth for the game's features, lo
     - Default button and panel `StyleBoxFlat` backgrounds using `#121212` with 2px solid white borders and 8px rounded corners.
     - Standardized typography variations: `clue_font` (bold weight 700), `input_font` (regular weight), `note_font` (regular candidate notes), and `note_font_bold` (bold weight 700 for matching candidate notes).
   - **Automated Verification:** Validated via unit tests in `game/tests/test_theme_constants.gd`, asserting theme resource existence, background hex color fidelity, constant distinctness, panel stylebox properties, and font configuration.
-- **Font Distinctions:** 
-  - **Original Clues:** Must use a bold, slightly larger white font (`clue_font`).
-  - **Player Inputs:** Must use a standard, thinner white font (`input_font`) to distinguish them from original clues. 
+- **Font & Color Distinctions:** 
+  - **Original Clues:** Must use a bold, larger font size (32pt) rendered in pure white (`Color.WHITE`).
+  - **Player Inputs:** Must use a standard, smaller font size (28pt) rendered in dim gray (`#a0a0a0`) in the normal non-highlighted state to clearly distinguish them from original clues while preserving the 1930s monochrome aesthetic.
 - **Color Exceptions (Highlights):** Flat, non-bright colors are permitted ONLY for critical game interactions:
   - **Error Highlight:** Conflicting final answers must be highlighted in a flat **Red** (`COLOR_CONFLICT_ERROR`).
   - **Selection (Orange Spectrum):** 
@@ -75,7 +76,7 @@ This document acts as the definitive source of truth for the game's features, lo
   - **Number Matching:** If a selected cell contains a final answer digit (e.g., '1'):
     - All other cells containing that same final answer digit must be highlighted in a darker orange/brownish tint (`COLOR_NUMBER_MATCH`).
     - All matching *candidate notes* (e.g., small '1's) across the entire board must become **bold or increase in size** (`note_font_bold`) to stand out from the other tiny notes.
-  - **Text Contrast in Highlighted Cells:** When cells are highlighted with bright backgrounds (selected cell, peer row/col/block, or same-number matches), the text color of both the value label and candidate notes dynamically switches to dark gray (`#121212`) for high contrast and readability. Non-highlighted cells (normal `#222222`) and error cells (conflict red) retain white text (`Color.WHITE`).
+  - **Text Contrast in Highlighted Cells:** When cells are highlighted with bright backgrounds (selected cell, peer row/col/block, or same-number matches), the text color of both the value label and candidate notes dynamically switches to dark gray (`#121212`) for high contrast and readability. Non-highlighted cells (normal `#222222`) use pure white (`Color.WHITE`) for initial clues and dim gray (`#a0a0a0`) for player inputs. Error cells (conflict red) retain white text (`Color.WHITE`).
 - **Mascot/Icon:** The game must feature a mascot character that acts as the game's primary icon, designed in the 1930s monochrome style.
 - **Main Menu Screen (`game/scenes/main_menu.tscn` & `game/scripts/main_menu.gd`):** The primary entry point of the game (instanced by `game/scenes/main.tscn` as configured in `project.godot`). Embodies the 1930s monochrome cartoon aesthetic:
   - **Mascot Art:** The 1930s rubber-hose style monochrome mascot character (`game/assets/icons/mascot_icon.jpg`) is prominently displayed in the upper half of the screen inside an expand/aspect-centered `TextureRect`.

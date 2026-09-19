@@ -40,7 +40,11 @@ func test_cell_states() -> void:
 	
 	cell.set_highlight_state("normal")
 	assert_eq(cell.color, CellUI.COLOR_NORMAL, "Should be normal color")
-	assert_eq(cell.get_node("ValueLabel").get_theme_color("font_color"), Color.WHITE, "Normal state should use white text")
+	assert_eq(cell.get_node("ValueLabel").get_theme_color("font_color"), Color("#a0a0a0"), "Normal state should use gray text for non-clues")
+	
+	cell.is_clue = true
+	cell.set_highlight_state("normal")
+	assert_eq(cell.get_node("ValueLabel").get_theme_color("font_color"), Color.WHITE, "Normal state should use white text for clues")
 	
 	cell.queue_free()
 
