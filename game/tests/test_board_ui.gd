@@ -125,10 +125,10 @@ func test_candidates() -> void:
 	var label9 = cell.get_node("CandidatesGrid/Candidate9") as Label
 	var label2 = cell.get_node("CandidatesGrid/Candidate2") as Label
 	
-	assert_true(label1.visible, "1 should be visible")
-	assert_true(label5.visible, "5 should be visible")
-	assert_true(label9.visible, "9 should be visible")
-	assert_false(label2.visible, "2 should not be visible")
+	assert_eq(label1.text, "1", "1 should have text '1'")
+	assert_eq(label5.text, "5", "5 should have text '5'")
+	assert_eq(label9.text, "9", "9 should have text '9'")
+	assert_eq(label2.text, "", "2 should have empty text")
 	
 	assert_ne(label5.get_theme_font_size("font_size"), label1.get_theme_font_size("font_size"), "Matched candidate should have different font size")
 	
