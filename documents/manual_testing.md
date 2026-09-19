@@ -68,6 +68,15 @@ This document outlines the strict manual testing procedures required before any 
 - **Expected:** Navigates back to the Main Menu. The Main Menu button for that difficulty now reflects `"Resume [Difficulty]"`. Tapping Resume restores the exact board state and elapsed time, confirming the `< Back` button successfully flushed game state to `SaveManager`.
 - **Automated Verification:** Verified in headless CI via `game/tests/test_gameplay_screen.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), asserting header initialization, difficulty label capitalization, timer label binding, back button save flushing, and scene asset presence.
 
+## Test 6.1: Sudoku Board Grid Lines & Visual Separation
+- **Step 1:** Enter an active game on the Gameplay screen and inspect the 9x9 Sudoku board.
+- **Step 2 (Grid Lines & Aesthetics):** Verify that the board exhibits crisp, pure white grid lines separating dark cells (`#222222`), conforming to the 1930s monochrome aesthetic.
+- **Step 3 (Border Widths & Consistency):**
+  - Verify that the outer perimeter of the 9x9 board is bounded by a uniform 4px thick white border (`MarginContainer` margin = 4).
+  - Verify that the major division lines separating the nine 3x3 macro blocks are uniformly thick (4px separation), clearly and unmistakably delineating each 3x3 block.
+  - Verify that the minor inner lines separating individual cells within each 3x3 block are uniformly thin (1px separation) yet sharp and clearly visible.
+- **Automated Verification:** Verified in headless CI via `game/tests/test_board_ui.gd` (`test_grid_lines_consistency()`), asserting the presence of `MarginContainer` with 4px margins, `MacroGrid` with 4px `h_separation` and `v_separation`, each `MicroGrid` with 1px `h_separation` and `v_separation`, and `Background` ColorRect set to pure white `Color(1, 1, 1, 1)`.
+
 ## Test 7.0: Gameplay Timer
 - **Step 1:** Enter a game. Observe the timer counting up from 00:00 (or saved elapsed time).
 - **Step 2 (Resume Timer Continuation):** Start an Easy game and let the timer count for several seconds (e.g., 8 seconds). Tap `< Back` or Pause to exit back to the Main Menu. From the Main Menu, tap "Resume Easy".
