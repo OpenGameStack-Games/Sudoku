@@ -7,7 +7,7 @@ var board: SudokuBoard
 
 func _ready() -> void:
 	board = SudokuBoard.new()
-	var am = get_node_or_null("/root/ActionManager")
+	var am: UndoManager = get_node_or_null("/root/ActionManager") as UndoManager
 	if am:
 		board.undo_manager = am
 	board.game_won.connect(_on_game_won)
