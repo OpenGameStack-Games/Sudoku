@@ -101,7 +101,8 @@ git worktree add .worktrees/issue-21 -b feature/issue-21-absent-color-red
    * However, for heavily nested, repetitive UI scenes (like an 81-cell board `.tscn`), using a Python string-generation script to directly construct the `.tscn` file is endorsed. If a script doesn't exist, proactively write and execute a temporary Python generator script rather than attempting huge, error-prone manual text replacements. This approach avoids GDScript `PackedScene` hierarchy/owner initialization quirks.
    * **CRITICAL**: Godot 4 generates `.uid` metadata files alongside `.gd` scripts, scenes, and assets. Always stage and commit these `.uid` files alongside your changes.
 3. **Static Typing Everywhere:**
-   * Always annotate variable types and function returns. This applies equally to production scripts AND unit test files (`tests/*.gd`):
+   * Always annotate variable types and function returns. This applies equally to production scripts AND unit test files (`tests/*.gd`).
+   * Dynamic node lookups (`get_node()`, `get_node_or_null()`) MUST include explicit type annotations and type casting (e.g., `var node: TargetType = get_node_or_null(...) as TargetType`).
      ```gdscript
      var current_row: int = 0
      var secret_word: String = ""
