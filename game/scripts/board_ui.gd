@@ -16,7 +16,7 @@ func _ready() -> void:
 
 func _gather_cells() -> void:
 	cells.clear()
-	var macro = $MacroGrid
+	var macro = $MarginContainer/MacroGrid
 	if not macro:
 		return
 	

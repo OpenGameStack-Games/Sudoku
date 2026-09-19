@@ -124,3 +124,32 @@ func test_candidates() -> void:
 	assert_ne(label5.get_theme_font_size("font_size"), label1.get_theme_font_size("font_size"), "Matched candidate should have different font size")
 	
 	cell.queue_free()
+
+func test_grid_lines_consistency() -> void:
+	var board_scene = load("res://scenes/board.tscn")
+	var board_ui = board_scene.instantiate() as BoardUI
+	
+	var margin_container = board_ui.get_node("MarginContainer") as MarginContainer
+	assert_true(margin_container != null, "MarginContainer should exist for outer border")
+	assert_eq(margin_container.get("theme_override_constants/margin_left"), 4, "Outer border margin_left should be 4")
+	assert_eq(margin_container.get("theme_override_constants/margin_right"), 4, "Outer border margin_right should be 4")
+	assert_eq(margin_container.get("theme_override_constants/margin_top"), 4, "Outer border margin_top should be 4")
+	assert_eq(margin_container.get("theme_override_constants/margin_bottom"), 4, "Outer border margin_bottom should be 4")
+
+	var macro_grid = margin_container.get_node("MacroGrid") as GridContainer
+	assert_true(macro_grid != null, "MacroGrid should exist inside MarginContainer")
+	assert_eq(macro_grid.get("theme_override_constants/h_separation"), 4, "Thick borders separating 3x3 blocks should be 4")
+	assert_eq(macro_grid.get("theme_override_constants/v_separation"), 4, "Thick borders separating 3x3 blocks should be 4")
+	
+	for macro_r in range(3):
+		for macro_c in range(3):
+			var micro_grid = macro_grid.get_node("MicroGrid_%d_%d" % [macro_r, macro_c]) as GridContainer
+			assert_true(micro_grid != null, "MicroGrid should exist")
+			assert_eq(micro_grid.get("theme_override_constants/h_separation"), 1, "Thin borders within 3x3 blocks should be 1")
+			assert_eq(micro_grid.get("theme_override_constants/v_separation"), 1, "Thin borders within 3x3 blocks should be 1")
+
+	var bg = board_ui.get_node("Background") as ColorRect
+	assert_true(bg != null, "Background ColorRect should exist")
+	assert_eq(bg.color, Color.WHITE, "Background must be pure white to create white grid lines")
+
+	board_ui.queue_free()
