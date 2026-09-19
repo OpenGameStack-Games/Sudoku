@@ -30,9 +30,9 @@ This document outlines the strict manual testing procedures required before any 
 - **Expected:** The 1930s monochrome mascot character (`mascot_icon.jpg`) is prominently centered in the upper half. The screen contains four clear buttons reading: "Easy", "Medium", "Hard", and "Statistics".
 - **Step 2 (Resume State Indication):** If an active save exists for a difficulty tier (e.g., Easy), verify that the corresponding button dynamically updates to read `"Resume Easy"`. Unsaved difficulties remain `"Medium"` and `"Hard"`.
 - **Step 3 (Resume Navigation):** Tap a "Resume [Difficulty]" button.
-- **Expected:** The app transitions to the Gameplay screen (`board.tscn`), restoring the active saved puzzle for that difficulty without incrementing `games_started` in `StatsManager`.
+- **Expected:** The app transitions to the Gameplay screen (`res://scenes/gameplay_screen.tscn`), restoring the active saved puzzle for that difficulty without incrementing `games_started` in `StatsManager`, and actively unpausing the timer to continue counting from the saved elapsed seconds.
 - **Step 4 (Fresh Game Navigation):** From the Main Menu, tap a non-resumed difficulty button (e.g., "Medium").
-- **Expected:** The app starts a fresh game by selecting a random puzzle string from `game/data/puzzles.json`, marks it as the active save, increments `games_started` in `StatsManager`, and opens `board.tscn`.
+- **Expected:** The app starts a fresh game by selecting a random puzzle string from `game/data/puzzles.json`, marks it as the active save, unconditionally resets and starts `TimeManager` at 0 (unpaused), increments `games_started` in `StatsManager`, and opens `res://scenes/gameplay_screen.tscn`.
 - **Step 5 (Statistics Navigation):** Tap the "Statistics" button.
 - **Expected:** The app transitions to the Statistics screen (`res://scenes/statistics_screen.tscn`).
 - **Step 6 (Statistics Screen UI, Typography Scaling & Back Navigation):**
@@ -70,10 +70,14 @@ This document outlines the strict manual testing procedures required before any 
 
 ## Test 7.0: Gameplay Timer
 - **Step 1:** Enter a game. Observe the timer counting up from 00:00 (or saved elapsed time).
-- **Step 2:** Background the app, switch to another application, or return to the Main Menu, wait 5 seconds, and return to the game.
+- **Step 2 (Resume Timer Continuation):** Start an Easy game and let the timer count for several seconds (e.g., 8 seconds). Tap `< Back` or Pause to exit back to the Main Menu. From the Main Menu, tap "Resume Easy".
+- **Expected:** The game loads and the timer immediately unpauses and continues counting up from 8 seconds (`00:08`, `00:09`, `00:10`...). The timer is NOT frozen.
+- **Step 3 (Fresh Game Reset Verification):** From the resumed Easy game, tap `< Back` to return to the Main Menu. Tap a different difficulty without an active save (e.g., "Medium" or "Hard").
+- **Expected:** The new game starts with the timer reset to `00:00` and ticking normally (`00:01`, `00:02`...). The timer is NOT frozen, and does NOT retain or bleed the previous session's elapsed time.
+- **Step 4:** Background the app, switch to another application, or return to the Main Menu, wait 5 seconds, and return to the game.
 - **Expected:** The timer must pause while unfocused and resume counting exactly where it left off upon returning.
-- **Step 3:** Allow gameplay timer to pass 59 seconds and verify it transitions smoothly from `00:59` to `01:00`. If playing an extended session, verify it transitions to `HH:MM:SS` format past 3600 seconds.
-- **Automated Verification:** Verified in headless CI via `game/tests/test_game_timer.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), confirming initial seconds loading, time formatting (`MM:SS` and `HH:MM:SS`), second-by-second incrementing, manual pause/resume, and focus lifecycle state handling.
+- **Step 5:** Allow gameplay timer to pass 59 seconds and verify it transitions smoothly from `00:59` to `01:00`. If playing an extended session, verify it transitions to `HH:MM:SS` format past 3600 seconds.
+- **Automated Verification:** Verified in headless CI via `game/tests/test_game_timer.gd` and `game/tests/test_main_menu.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), confirming initial seconds loading, time formatting (`MM:SS` and `HH:MM:SS`), second-by-second incrementing, manual pause/resume, focus lifecycle state handling, and unconditional reset on new game routing.
 
 ## Test 8.0: Grid Input (Bi-Directional & Keyboard Shortcuts)
 - **Step 1 (Cell-First Input):** Tap an empty cell, then tap a number 1-9 on the numpad.
