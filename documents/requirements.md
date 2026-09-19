@@ -133,15 +133,19 @@ This document acts as the definitive source of truth for the game's features, lo
     - **Interaction & Signal Flow:** Tapping an unselected cell emits `cell_selected(row, col)`; tapping the actively selected cell deselects it and emits `cell_deselected`. Binds directly to `SudokuBoard.board_updated` to dynamically refresh cell numbers, candidate visibility, and conflict highlights.
     - **Automated Verification:** Verified in headless CI via `game/tests/test_board_ui.gd`, covering cell instantiation, candidate indices 1-9, state transitions, font color overrides for highlight states, selection toggling, candidate enlargement, board model signal synchronization, and grid lines consistency assertions (`test_grid_lines_consistency()`).
   - **Input Controls & Numpad Component (`game/scenes/input_controls.tscn` & `game/scripts/input_controls.gd`):** A standalone UI component managing player input below the 9x9 board, fully conforming to the 1930s monochrome styling via `res://resources/theme_1930s.tres`:
+    - **Container Padding & Spacing:** Root node is a `MarginContainer` configuring uniform 16px margins on the left, right, and bottom (`margin_left = 16`, `margin_right = 16`, `margin_bottom = 16`, `margin_top = 0`) to align with header margins and prevent elements from pressing against screen edges. Internal sections are arranged inside a child `VBoxContainer` with 8px separation.
     - **Mode & Action Row:**
       - Left side: Two adjacent mode toggle buttons ("Normal" and "Candidate") with mutually exclusive visual toggle modulation (`1.0` active, `0.5` inactive).
       - Right side (spaced apart): "Undo" button wired to `board.undo_manager.undo_last_action(board)`, automatically disabled when the undo history stack is empty.
+    - **Row Spacer:** A dedicated spacer control (`custom_minimum_size = Vector2(0, 16)`) positioned between the Mode/Undo row and the Numpad grid to provide ample vertical separation and clear visual hierarchy.
     - **Numpad Row:**
       - 10 buttons arranged in a 5-column grid: Digits `1` through `9`, and an `X` (erase/clear) button.
+      - **Button Sizing & Grid Spacing:** All numpad buttons configure a minimum vertical size of 64px (`custom_minimum_size = Vector2(0, 64)`) with horizontal expansion (`size_flags_horizontal = 3`) and 8px grid separation (`h_separation = 8`, `v_separation = 8`). This gives the buttons a taller, more balanced square or portrait aspect ratio on mobile viewports.
       - **Numpad Exhaustion State:** When 9 instances of a specific number exist on the board (regardless of correctness/conflicts, preventing use as a cheat engine), the corresponding digit button visually **grays out** with `ThemeConstants.COLOR_NUMPAD_EXHAUSTED` (`Color(0.4, 0.4, 0.4)`) and is disabled. The button remains in place without altering layout.
       - **Restoration & Deselection:** If an exhausted digit count drops below 9 via erase or undo, active styling (`Color(1.0, 1.0, 1.0)`) and button interaction are immediately restored. If an actively selected digit becomes exhausted, it is automatically deselected.
-    - **Auto Candidate Row:**
+    - **Auto Candidate Row & Styling:**
       - Located below the numpad. Contains an `AutoCandidateBtn` toggle switch signaling `board.set_auto_candidates(toggled_on)` and emitting `auto_candidate_toggled`.
+      - **Flat Styling:** Configured with `StyleBoxEmpty` overrides across normal, pressed, hover, hover_pressed, and focus states to eliminate heavy button borders and present a clean, text-only checkbox aesthetic.
     - **Bi-directional Workflows:**
       - **Cell-First:** Player selects a cell on the board, then presses a numpad digit or erase button. Clue cells are protected from modification.
       - **Number-First:** Player taps a numpad button to highlight/select it (`Color(0.8, 1.0, 0.8)`), then taps multiple cells across the board to rapidly fill or erase them until deselected.
@@ -151,7 +155,7 @@ This document acts as the definitive source of truth for the game's features, lo
       - `C`: Switch to Candidate mode.
       - `N`: Switch to Normal mode.
       - `U`, `Ctrl+Z`: Trigger Undo.
-    - **Automated Verification:** Verified in headless CI via `game/tests/test_input_controls.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), asserting scene and theme resources, mode switching, numpad exhaustion styling and cheat prevention, cell-first vs number-first event dispatching, candidate mode input, erase behavior, clue protection, keyboard shortcuts, undo emission, and auto-candidate toggle synchronization.
+    - **Automated Verification:** Verified in headless CI via `game/tests/test_input_controls.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), asserting scene and theme resources, MarginContainer margins and 64px button sizing (`test_layout_and_styling`), mode switching, numpad exhaustion styling and cheat prevention, cell-first vs number-first event dispatching, candidate mode input, erase behavior, clue protection, keyboard shortcuts, undo emission, and auto-candidate toggle synchronization.
 - **Dynamic Scaling & Anchoring:** All screens, objects, and nodes must adjust dynamically relative to one another. The UI must fit seamlessly across a wide range of resolutions, aspect ratios, and physical sizes without clipping or overlapping.
 - **Orientation:** The application must be locked to **Portrait mode**.
 - **Device Support:** The UI must be optimized for both Android phones and Android tablets.
