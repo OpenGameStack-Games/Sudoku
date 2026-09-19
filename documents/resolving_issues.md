@@ -6,7 +6,7 @@ This document establishes the official standards, Git worktree workflow, and cod
 
 ## 0. Operational Rules
 * **PowerShell Chaining:** When executing shell commands, NEVER use `&&` to chain commands together (it requires PowerShell 7+). Instead, use `;` or execute commands sequentially in separate tool calls.
-* **File Generation Encoding:** Generating text files via PowerShell pipes (e.g., `>` or `Set-Content`) often creates UTF-16 LE encoding errors that Godot cannot parse. ALWAYS use the `write_to_file` agent tool to generate text or script files to ensure proper UTF-8 encoding.
+* **File Generation Encoding:** Generating text files via PowerShell pipes (e.g., `>` or `Set-Content`) or .NET APIs often creates UTF-16 LE encoding errors or adds a UTF-8 BOM (Byte Order Mark). Godot will completely fail to parse `.tscn` files that contain a BOM (`Parse Error: Expected '['`). ALWAYS use the `write_to_file` and `replace_file_content` agent tools to generate/edit text or script files to ensure proper UTF-8 encoding without BOMs.
 * **Documentation Redundancy:** Before requesting the PR Reviewer to document a feature or testing steps, always verify if the documentation already exists in `documents/requirements.md` or `documents/manual_testing.md`. Do not duplicate existing specification notes.
 
 ## 1. Role Overview & Core Boundaries
@@ -101,7 +101,7 @@ git worktree add .worktrees/issue-21 -b feature/issue-21-absent-color-red
    * However, for heavily nested, repetitive UI scenes (like an 81-cell board `.tscn`), using a Python string-generation script to directly construct the `.tscn` file is endorsed, as it completely avoids GDScript `PackedScene` hierarchy/owner initialization quirks.
    * **CRITICAL**: Godot 4 generates `.uid` metadata files alongside `.gd` scripts, scenes, and assets. Always stage and commit these `.uid` files alongside your changes.
 3. **Static Typing Everywhere:**
-   * Always annotate variable types and function returns:
+   * Always annotate variable types and function returns. This applies equally to production scripts AND unit test files (`tests/*.gd`):
      ```gdscript
      var current_row: int = 0
      var secret_word: String = ""
