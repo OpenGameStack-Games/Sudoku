@@ -48,14 +48,25 @@ func set_candidates(candidates: Array[int], match_digit: int = 0) -> void:
 			cand_label.visible = false
 
 func set_highlight_state(state: String) -> void:
+	var text_color := Color.WHITE
 	match state:
 		"normal":
 			color = COLOR_NORMAL
+			text_color = Color.WHITE
 		"selected":
 			color = COLOR_SELECTED
+			text_color = Color("#121212")
 		"peer":
 			color = COLOR_PEER
+			text_color = Color("#121212")
 		"match":
 			color = COLOR_MATCH
+			text_color = Color("#121212")
 		"conflict":
 			color = COLOR_CONFLICT
+			text_color = Color.WHITE
+	
+	$ValueLabel.add_theme_color_override("font_color", text_color)
+	for i in range(1, 10):
+		var cand_label: Label = $CandidatesGrid.get_node("Candidate" + str(i)) as Label
+		cand_label.add_theme_color_override("font_color", text_color)

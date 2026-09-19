@@ -194,17 +194,18 @@ This document outlines the strict manual testing procedures required before any 
 - **Automated Verification:** Verified in headless CI via `game/tests/test_save_manager.gd` and `game/tests/test_main_menu.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), confirming concurrent saving and loading across Easy/Medium/Hard, save overwriting, complex state restoration (board, notes, undo history, elapsed seconds), save deletion, and menu label synchronization.
 
 ## Test 17.0: Selection & Number Matching Highlighting
-- **Step 1:** Tap an empty cell on the grid.
-- **Expected:** The selected cell turns flat orange (`ThemeConstants.COLOR_SELECTION`). The rest of the cells in that same row, column, and 3x3 block turn a very light translucent orange (`ThemeConstants.COLOR_PEER_HIGHLIGHT`).
+- **Step 1:** Tap an empty or filled cell on the grid.
+- **Expected (Cell & Peer Highlights):** The selected cell turns flat orange (`ThemeConstants.COLOR_SELECTION`). The rest of the cells in that same row, column, and 3x3 block turn a very light translucent orange (`ThemeConstants.COLOR_PEER_HIGHLIGHT`).
+- **Expected (Text Contrast Inversion):** Any existing numbers or candidate notes inside the selected cell and all highlighted peer cells (row, column, and 3x3 block) dynamically switch from white to dark text (`#121212`) so they contrast sharply and legibly against the bright orange backgrounds.
 - **Step 2:** Tap the exact same cell again.
-- **Expected:** The cell (and the row/col/block highlights) deselects completely.
+- **Expected:** The cell (and the row/col/block highlights) deselects completely, and text colors revert to standard white (`Color.WHITE`).
 - **Step 3:** Tap an empty cell, then tap anywhere outside the board.
-- **Expected:** The cell deselects completely.
+- **Expected:** The cell deselects completely, and text colors revert to standard white.
 - **Step 4:** Ensure the board has some Candidate notes entered in various cells (e.g., several '3's).
 - **Step 5:** Tap a cell that contains a large, final answer '3'.
-- **Expected (Large Match):** All other cells containing a large '3' highlight in a darker orange/brownish color (`ThemeConstants.COLOR_NUMBER_MATCH`).
+- **Expected (Large Match & Contrast):** All other cells containing a large '3' highlight in a darker orange/brownish color (`ThemeConstants.COLOR_NUMBER_MATCH`), and their numbers render in dark text (`#121212`).
 - **Expected (Candidate Match):** All small candidate '3's across the entire board immediately become bold or enlarge (`note_font_bold`), distinguishing them from the other candidate numbers.
-- **Automated Verification:** Verified in headless CI via `game/tests/test_board_ui.gd` and `game/tests/test_theme_constants.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), validating cell selection/deselection state transitions, peer highlights (`CellUI.COLOR_PEER`), number match highlights (`CellUI.COLOR_MATCH`), and matching candidate font enlargement.
+- **Automated Verification:** Verified in headless CI via `game/tests/test_board_ui.gd` and `game/tests/test_theme_constants.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), validating cell selection/deselection state transitions, peer highlights (`CellUI.COLOR_PEER`), number match highlights (`CellUI.COLOR_MATCH`), font color overrides (`#121212` for selected/peer/match, `Color.WHITE` for normal/conflict), and matching candidate font enlargement.
 
 ## Test 18.0: Pause Functionality & Button Styling
 - **Step 1:** During an active game session, inspect the "Pause" button in the gameplay header row.
