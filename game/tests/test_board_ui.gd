@@ -117,20 +117,34 @@ func test_candidates() -> void:
 	var cell = cell_scene.instantiate() as CellUI
 	cell._ready()
 	
+	# All candidate labels must remain visible to preserve fixed 3x3 GridContainer slots
+	for i in range(1, 10):
+		var label = cell.get_node("CandidatesGrid/Candidate" + str(i)) as Label
+		assert_true(label.visible, "Candidate %d label must be visible to preserve grid layout" % i)
+		assert_eq(label.text, "", "Candidate %d label text should be empty initially" % i)
+	
 	var candidates: Array[int] = [1, 5, 9]
 	cell.set_candidates(candidates, 5) # 5 is the match digit
 	
+	for i in range(1, 10):
+		var label = cell.get_node("CandidatesGrid/Candidate" + str(i)) as Label
+		assert_true(label.visible, "Candidate %d must stay visible in grid layout" % i)
+		if i in [1, 5, 9]:
+			assert_eq(label.text, str(i), "Candidate %d should display its digit" % i)
+		else:
+			assert_eq(label.text, "", "Inactive candidate %d should display empty string" % i)
+	
 	var label1 = cell.get_node("CandidatesGrid/Candidate1") as Label
 	var label5 = cell.get_node("CandidatesGrid/Candidate5") as Label
-	var label9 = cell.get_node("CandidatesGrid/Candidate9") as Label
-	var label2 = cell.get_node("CandidatesGrid/Candidate2") as Label
-	
-	assert_eq(label1.text, "1", "1 should have text '1'")
-	assert_eq(label5.text, "5", "5 should have text '5'")
-	assert_eq(label9.text, "9", "9 should have text '9'")
-	assert_eq(label2.text, "", "2 should have empty text")
-	
 	assert_ne(label5.get_theme_font_size("font_size"), label1.get_theme_font_size("font_size"), "Matched candidate should have different font size")
+	
+	# Clear candidates
+	var empty_candidates: Array[int] = []
+	cell.set_candidates(empty_candidates)
+	for i in range(1, 10):
+		var label = cell.get_node("CandidatesGrid/Candidate" + str(i)) as Label
+		assert_true(label.visible, "Candidate %d must remain visible when cleared" % i)
+		assert_eq(label.text, "", "Candidate %d text must be empty when cleared" % i)
 	
 	cell.queue_free()
 

@@ -255,3 +255,19 @@ This document outlines the strict manual testing procedures required before any 
 - **Step 5 (Auto Candidate Styling):** Inspect the "Auto Candidate Mode" toggle below the numpad.
 - **Expected:** The toggle lacks the standard 2px white button outline, presenting a sleek, flat checkbox/text-toggle aesthetic (`StyleBoxEmpty`).
 - **Automated Verification:** Verified in headless CI via `game/tests/test_input_controls.gd` (`test_layout_and_styling()`), asserting `MarginContainer` margin constants (16px), 64px button minimum vertical heights, and `StyleBoxEmpty` theme override styleboxes on the toggle button.
+
+## Test 22.0: Positional Candidate Notes (3x3 Micro-Grid Layout)
+- **Step 1:** Start a new game and switch to Candidate mode (tap "Candidate" button or press `C`).
+- **Step 2 (Isolated Note Positioning):** Select an empty cell. Input a single candidate note: digit '5'.
+- **Expected:** Digit '5' appears precisely in the dead center slot (row 2, column 2) of the cell's 3x3 micro-grid. It does NOT reflow or shift to the top-left slot.
+- **Step 3 (Multiple Disjoint Candidates):** Into the same cell, add candidate notes '1' and '9'.
+- **Expected:**
+  - '1' appears in the top-left slot (row 1, column 1).
+  - '5' remains anchored in the exact center slot (row 2, column 2).
+  - '9' appears in the bottom-right slot (row 3, column 3).
+  - All other slots (2, 3, 4, 6, 7, 8) remain empty and transparent without reflowing or altering the grid geometry.
+- **Step 4 (Candidate Note Toggling):** Tap digit '5' again to toggle it off.
+- **Expected:** Digit '5' disappears from the center slot. Digits '1' and '9' maintain their exact rigid positions in the top-left and bottom-right corners without jumping or shifting.
+- **Step 5 (Full 1-9 Grid Alignment):** In an empty cell, toggle all candidate digits 1 through 9.
+- **Expected:** Digits 1-9 form a perfectly aligned 3x3 numpad-style grid (1, 2, 3 on top row; 4, 5, 6 on middle row; 7, 8, 9 on bottom row) with clean font sizing (16pt regular, scaling to 24pt bold on number matching) matching the 1930s monochrome aesthetic.
+- **Automated Verification:** Verified in headless CI via `game/tests/test_board_ui.gd` (`test_candidates()`), verifying that all 9 candidate labels maintain permanent visibility (`visible = true`) in the `CandidatesGrid` layout container and dynamically toggle their `text` property between the digit and `""`.
