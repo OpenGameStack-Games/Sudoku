@@ -1,93 +1,124 @@
-[gd_scene load_steps=3 format=3 uid="uid://cxinputctrl"]
+[gd_scene load_steps=4 format=3 uid="uid://cxinputctrl"]
 
 [ext_resource type="Theme" path="res://resources/theme_1930s.tres" id="1_thm"]
 [ext_resource type="Script" path="res://scripts/input_controls.gd" id="2_scr"]
 
-[node name="InputControls" type="VBoxContainer"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_no_outline"]
+
+[node name="InputControls" type="MarginContainer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_thm")
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
 script = ExtResource("2_scr")
 
-[node name="ModeRow" type="HBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="ModeRow" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
 
-[node name="NormalBtn" type="Button" parent="ModeRow"]
+[node name="NormalBtn" type="Button" parent="VBoxContainer/ModeRow"]
 layout_mode = 2
 text = "Normal"
 
-[node name="CandidateBtn" type="Button" parent="ModeRow"]
+[node name="CandidateBtn" type="Button" parent="VBoxContainer/ModeRow"]
 layout_mode = 2
 text = "Candidate"
 
-[node name="Spacer" type="Control" parent="ModeRow"]
+[node name="Spacer" type="Control" parent="VBoxContainer/ModeRow"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="UndoBtn" type="Button" parent="ModeRow"]
+[node name="UndoBtn" type="Button" parent="VBoxContainer/ModeRow"]
 layout_mode = 2
 text = "Undo"
 
-[node name="NumpadRow" type="GridContainer" parent="."]
+[node name="RowSpacer" type="Control" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+
+[node name="NumpadRow" type="GridContainer" parent="VBoxContainer"]
 layout_mode = 2
 columns = 5
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 8
 
-[node name="Btn1" type="Button" parent="NumpadRow"]
+[node name="Btn1" type="Button" parent="VBoxContainer/NumpadRow"]
+custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "1"
 
-[node name="Btn2" type="Button" parent="NumpadRow"]
+[node name="Btn2" type="Button" parent="VBoxContainer/NumpadRow"]
+custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "2"
 
-[node name="Btn3" type="Button" parent="NumpadRow"]
+[node name="Btn3" type="Button" parent="VBoxContainer/NumpadRow"]
+custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "3"
 
-[node name="Btn4" type="Button" parent="NumpadRow"]
+[node name="Btn4" type="Button" parent="VBoxContainer/NumpadRow"]
+custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "4"
 
-[node name="Btn5" type="Button" parent="NumpadRow"]
+[node name="Btn5" type="Button" parent="VBoxContainer/NumpadRow"]
+custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "5"
 
-[node name="Btn6" type="Button" parent="NumpadRow"]
+[node name="Btn6" type="Button" parent="VBoxContainer/NumpadRow"]
+custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "6"
 
-[node name="Btn7" type="Button" parent="NumpadRow"]
+[node name="Btn7" type="Button" parent="VBoxContainer/NumpadRow"]
+custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "7"
 
-[node name="Btn8" type="Button" parent="NumpadRow"]
+[node name="Btn8" type="Button" parent="VBoxContainer/NumpadRow"]
+custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "8"
 
-[node name="Btn9" type="Button" parent="NumpadRow"]
+[node name="Btn9" type="Button" parent="VBoxContainer/NumpadRow"]
+custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "9"
 
-[node name="BtnX" type="Button" parent="NumpadRow"]
+[node name="BtnX" type="Button" parent="VBoxContainer/NumpadRow"]
+custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "X"
 
-[node name="AutoRow" type="HBoxContainer" parent="."]
+[node name="AutoRow" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
 
-[node name="AutoCandidateBtn" type="CheckButton" parent="AutoRow"]
+[node name="AutoCandidateBtn" type="CheckButton" parent="VBoxContainer/AutoRow"]
 layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_no_outline")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_no_outline")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_no_outline")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_no_outline")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_no_outline")
 text = "Auto Candidate Mode"

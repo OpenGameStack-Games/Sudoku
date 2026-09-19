@@ -1,5 +1,5 @@
 class_name InputControls
-extends VBoxContainer
+extends MarginContainer
 
 signal mode_changed(is_candidate_mode: bool)
 signal auto_candidate_toggled(enabled: bool)
@@ -11,21 +11,21 @@ var board_ui: BoardUI = null
 var selected_digit: int = -1
 var is_candidate_mode: bool = false
 
-@onready var mode_normal_btn: Button = $ModeRow/NormalBtn
-@onready var mode_candidate_btn: Button = $ModeRow/CandidateBtn
-@onready var undo_btn: Button = $ModeRow/UndoBtn
+@onready var mode_normal_btn: Button = $VBoxContainer/ModeRow/NormalBtn
+@onready var mode_candidate_btn: Button = $VBoxContainer/ModeRow/CandidateBtn
+@onready var undo_btn: Button = $VBoxContainer/ModeRow/UndoBtn
 
-@onready var auto_candidate_btn: CheckButton = $AutoRow/AutoCandidateBtn
+@onready var auto_candidate_btn: CheckButton = $VBoxContainer/AutoRow/AutoCandidateBtn
 
 var numpad_btns: Array[Button] = []
 
 func _ready() -> void:
 	for i in range(1, 10):
-		var btn: Button = get_node("NumpadRow/Btn%d" % i) as Button
+		var btn: Button = get_node("VBoxContainer/NumpadRow/Btn%d" % i) as Button
 		numpad_btns.append(btn)
 		btn.pressed.connect(_on_numpad_pressed.bind(i))
 		
-	var erase_btn: Button = $NumpadRow/BtnX as Button
+	var erase_btn: Button = $VBoxContainer/NumpadRow/BtnX as Button
 	numpad_btns.append(erase_btn)
 	erase_btn.pressed.connect(_on_numpad_pressed.bind(0))
 	

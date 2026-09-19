@@ -133,13 +133,14 @@ This document outlines the strict manual testing procedures required before any 
 
 ## Test 11.0: Auto Candidate Mode
 - **Step 1:** While playing a puzzle, locate the "Auto Candidate Mode" toggle below the numpad.
+- **Expected (Flat Styling):** The toggle button appears as a clean, flat text checkbox without standard heavy button outlines or borders (`StyleBoxEmpty`).
 - **Step 2:** Toggle it ON.
 - **Expected:** All empty cells automatically populate with correct, calculated candidates.
 - **Step 3:** Manually delete one of the auto-candidates using the 'X' button.
 - **Expected:** The candidate is deleted and stays deleted (the auto-calculator respects user edits).
 - **Step 4:** Toggle it OFF.
 - **Expected:** All auto-generated candidates disappear from the board.
-- **Automated Verification:** Verified in headless CI via `game/tests/test_sudoku_board.gd` and `game/tests/test_input_controls.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), verifying auto-candidate toggle signals, valid candidate generation, user deletion preservation, and dynamic UI synchronization.
+- **Automated Verification:** Verified in headless CI via `game/tests/test_sudoku_board.gd` and `game/tests/test_input_controls.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), verifying auto-candidate toggle signals, valid candidate generation, user deletion preservation, flat stylebox overrides, and dynamic UI synchronization.
 
 ## Test 12.0: Puzzle Database Load & Symmetry
 - **Step 1:** Tap "Easy", "Medium", and "Hard" sequentially from the main menu, exiting back to the menu between each.
@@ -242,3 +243,15 @@ This document outlines the strict manual testing procedures required before any 
 - **Step 4 (Number-First Deselection):** Select digit '5' in number-first mode. Place the 9th instance of '5'.
 - **Expected:** The '5' button grays out and is automatically deselected (`selected_digit` reset to -1).
 - **Automated Verification:** Verified in headless CI via `game/tests/test_input_controls.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), verifying button disablement, dimmed modulation, restoration on count drop, cheat prevention, and auto-deselection.
+
+## Test 21.0: Input Controls Layout & Sizing
+- **Step 1:** Launch the game and enter an active puzzle on the Gameplay screen.
+- **Step 2 (Container Margins & Alignment):** Observe the left, right, and bottom margins of the `InputControls` area below the 9x9 board.
+- **Expected:** The controls section exhibits uniform 16px padding on the left, right, and bottom (`MarginContainer`), aligning visually with the margins of the header and board rather than stretching flush against the screen edges.
+- **Step 3 (Vertical Spacing):** Observe the spacing between the Mode/Undo row ("Normal", "Candidate", "Undo") and the Numpad buttons.
+- **Expected:** A clear vertical spacer (16px) provides distinct separation between the mode controls and the digit keypad.
+- **Step 4 (Numpad Button Aspect Ratio):** Observe the 10 numpad buttons (1-9 and X).
+- **Expected:** Buttons maintain an explicit minimum height of 64px, resulting in a balanced square or portrait aspect ratio across mobile viewports rather than squashed horizontal strips.
+- **Step 5 (Auto Candidate Styling):** Inspect the "Auto Candidate Mode" toggle below the numpad.
+- **Expected:** The toggle lacks the standard 2px white button outline, presenting a sleek, flat checkbox/text-toggle aesthetic (`StyleBoxEmpty`).
+- **Automated Verification:** Verified in headless CI via `game/tests/test_input_controls.gd` (`test_layout_and_styling()`), asserting `MarginContainer` margin constants (16px), 64px button minimum vertical heights, and `StyleBoxEmpty` theme override styleboxes on the toggle button.
