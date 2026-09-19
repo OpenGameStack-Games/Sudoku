@@ -106,3 +106,20 @@ func test_back_button_exists_and_connected() -> void:
 	assert_true(is_conn, "BackButton should be connected to _on_back_pressed")
 	
 	_teardown_scene()
+
+func test_statistics_screen_styling_applied() -> void:
+	_setup_scene()
+	scene._ready()
+	
+	var easy_card = scene.get_node("MarginContainer/VBoxContainer/ScrollContainer/CardsContainer/EasyCard")
+	var style: StyleBoxFlat = easy_card.get_theme_stylebox("panel") as StyleBoxFlat
+	assert_eq(style.content_margin_left, 40.0, "Card left margin should be 40.0")
+	assert_eq(style.content_margin_top, 40.0, "Card top margin should be 40.0")
+	
+	var diff_lbl = scene.get_node("MarginContainer/VBoxContainer/ScrollContainer/CardsContainer/EasyCard/VBox/DifficultyLabel") as Label
+	assert_eq(diff_lbl.get_theme_font_size("font_size"), 48, "DifficultyLabel font size should be 48")
+	
+	var started_val = scene.get_node("MarginContainer/VBoxContainer/ScrollContainer/CardsContainer/EasyCard/VBox/GridContainer/StartedValue") as Label
+	assert_eq(started_val.get_theme_font_size("font_size"), 32, "Grid Labels should have font size 32")
+	
+	_teardown_scene()
