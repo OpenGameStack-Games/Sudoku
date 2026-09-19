@@ -18,6 +18,9 @@ var is_clue: bool = false
 func _ready() -> void:
 	color = COLOR_NORMAL
 	gui_input.connect(_on_gui_input)
+	for i in range(1, 10):
+		var cand_label: Label = $CandidatesGrid.get_node("Candidate" + str(i)) as Label
+		cand_label.text = ""
 
 func _on_gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
@@ -40,7 +43,7 @@ func set_candidates(candidates: Array[int], match_digit: int = 0) -> void:
 	for i in range(1, 10):
 		var cand_label: Label = $CandidatesGrid.get_node("Candidate" + str(i)) as Label
 		if candidates.has(i):
-			cand_label.visible = true
+			cand_label.text = str(i)
 			if i == match_digit:
 				cand_label.add_theme_font_size_override("font_size", 24) # Enlarged
 				cand_label.modulate = Color(1, 0.8, 0.2)
@@ -48,7 +51,7 @@ func set_candidates(candidates: Array[int], match_digit: int = 0) -> void:
 				cand_label.add_theme_font_size_override("font_size", 16)
 				cand_label.modulate = Color.WHITE
 		else:
-			cand_label.visible = false
+			cand_label.text = ""
 
 func set_highlight_state(state: String) -> void:
 	var text_color := Color.WHITE
