@@ -67,6 +67,7 @@ Determine whether a local worktree for this feature branch already exists:
   git fetch origin
   git worktree add .worktrees/review-pr-<pr_number> feature/issue-<number>-<short-description>
   ```
+  *(Note: If the `issue_resolver`'s worktree like `.worktrees/issue-<number>` still exists, you can simply change into it and use it directly instead of creating a new `review-pr-<pr_number>` worktree.)*
 
 ### 3. Run Automated Tests Locally
 Inside the feature worktree, run the headless Godot test suite to independently verify zero regressions. Always force an asset import pass first to cache any newly added binary files:
@@ -121,7 +122,7 @@ Once all acceptance criteria are met, automated tests pass, and documentation is
 Before merging, exit the review worktree, remove it, and return to the main workspace. Otherwise, `gh pr merge` will fail to delete the local branch because it is currently checked out in the worktree. **NOTE for Windows:** Ensure any background headless Godot tasks running inside the worktree are terminated using `manage_task kill`, otherwise `git worktree remove` will fail with a `Permission denied` error.
 ```powershell
 cd ../..
-git worktree remove .worktrees/review-pr-<pr_number> --force
+git worktree remove .worktrees/<worktree-name> --force
 ```
 
 #### 2. Merge the Pull Request
