@@ -97,7 +97,7 @@ git worktree add .worktrees/issue-21 -b feature/issue-21-absent-color-red
    * Emulating touch from mouse must use the correct Godot 4 path: `input_devices/pointing/emulate_touch_from_mouse=true`.
 2. **Asset Generation & Metadata:**
    * Using Python (e.g., `Pillow` or standard libraries) to generate or manipulate assets like PNG icons is completely acceptable and encouraged.
-   * For complex Godot resources (like `Theme` `.tres` files), avoid manual raw text manipulation. Instead, write a temporary Godot CLI script (e.g. `godot --headless -s generate.gd`) utilizing `ResourceSaver` to build and save the `.tres` file perfectly.
+   * For complex non-scene Godot resources (like `Theme` `.tres` files), avoid manual raw text manipulation. Instead, write a temporary Godot CLI script (e.g. `godot --headless -s generate.gd`) utilizing `ResourceSaver`. However, for minor tweaks to `.tscn` (scene) files (like attaching a theme or modifying a property), standard string/text replacement is preferred, as saving a `PackedScene` via `ResourceSaver` can destructively strip child nodes if their `owner` is not perfectly reassigned.
    * However, for heavily nested, repetitive UI scenes (like an 81-cell board `.tscn`), using a Python string-generation script to directly construct the `.tscn` file is endorsed, as it completely avoids GDScript `PackedScene` hierarchy/owner initialization quirks.
    * **CRITICAL**: Godot 4 generates `.uid` metadata files alongside `.gd` scripts, scenes, and assets. Always stage and commit these `.uid` files alongside your changes.
 3. **Static Typing Everywhere:**
