@@ -24,18 +24,23 @@ func test_cell_states() -> void:
 	
 	cell.set_highlight_state("selected")
 	assert_eq(cell.color, CellUI.COLOR_SELECTED, "Should be selected color")
+	assert_eq(cell.get_node("ValueLabel").get_theme_color("font_color"), Color("#121212"), "Selected state should use dark text")
 	
 	cell.set_highlight_state("peer")
 	assert_eq(cell.color, CellUI.COLOR_PEER, "Should be peer color")
+	assert_eq(cell.get_node("ValueLabel").get_theme_color("font_color"), Color("#121212"), "Peer state should use dark text")
 	
 	cell.set_highlight_state("match")
 	assert_eq(cell.color, CellUI.COLOR_MATCH, "Should be match color")
+	assert_eq(cell.get_node("ValueLabel").get_theme_color("font_color"), Color("#121212"), "Match state should use dark text")
 	
 	cell.set_highlight_state("conflict")
 	assert_eq(cell.color, CellUI.COLOR_CONFLICT, "Should be conflict color")
+	assert_eq(cell.get_node("ValueLabel").get_theme_color("font_color"), Color.WHITE, "Conflict state should use white text")
 	
 	cell.set_highlight_state("normal")
 	assert_eq(cell.color, CellUI.COLOR_NORMAL, "Should be normal color")
+	assert_eq(cell.get_node("ValueLabel").get_theme_color("font_color"), Color.WHITE, "Normal state should use white text")
 	
 	cell.queue_free()
 
