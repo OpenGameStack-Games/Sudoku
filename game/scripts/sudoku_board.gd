@@ -20,6 +20,7 @@ func _init() -> void:
 
 func load_puzzle(puzzle_string: String) -> void:
 	is_game_won = false
+	auto_candidates_enabled = false
 	for i in range(81):
 		var char_val: String = puzzle_string.substr(i, 1)
 		var val: int = char_val.to_int()

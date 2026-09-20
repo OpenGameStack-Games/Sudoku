@@ -65,12 +65,27 @@ func flush_save() -> void:
 	if time_manager_node:
 		elapsed = time_manager_node.get_elapsed_seconds()
 		
+	var input_mode: bool = false
+	var auto_candidates: bool = false
+	if game_manager_node and game_manager_node.board:
+		auto_candidates = game_manager_node.board.auto_candidates_enabled
+		
+	var main_loop: MainLoop = Engine.get_main_loop()
+	if main_loop and main_loop is SceneTree:
+		var tree: SceneTree = main_loop as SceneTree
+		if tree.current_scene and tree.current_scene.has_method("_on_pause_pressed"): # check if it's gameplay screen
+			var input_controls: Node = tree.current_scene.get_node_or_null("VBoxContainer/InputControls")
+			if input_controls and input_controls.get("is_candidate_mode") != null:
+				input_mode = input_controls.is_candidate_mode
+		
 	var save_data := {
 		"difficulty": current_difficulty,
 		"puzzle_string": current_puzzle_string,
 		"board_state": board_state,
 		"undo_stack": undo_stack,
-		"elapsed_seconds": elapsed
+		"elapsed_seconds": elapsed,
+		"auto_candidates": auto_candidates,
+		"input_mode": input_mode
 	}
 	
 	save_game(current_difficulty, save_data)

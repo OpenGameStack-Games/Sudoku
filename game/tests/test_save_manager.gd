@@ -121,3 +121,38 @@ func test_graceful_recovery_from_corruption() -> void:
 	assert_true(loaded.is_empty(), "Loading corrupted save should return empty dict")
 	
 	_teardown_manager()
+
+func test_state_isolation_between_difficulties() -> void:
+	_setup_manager()
+	
+	var easy_state := {
+		"difficulty": "easy",
+		"auto_candidates": true,
+		"input_mode": true,
+		"undo_stack": [{"action": "test1"}],
+		"elapsed_seconds": 10
+	}
+	save_manager.save_game("easy", easy_state)
+	
+	var medium_state := {
+		"difficulty": "medium",
+		"auto_candidates": false,
+		"input_mode": false,
+		"undo_stack": [{"action": "test2"}, {"action": "test3"}],
+		"elapsed_seconds": 50
+	}
+	save_manager.save_game("medium", medium_state)
+	
+	var loaded_easy = save_manager.load_game("easy")
+	var loaded_medium = save_manager.load_game("medium")
+	
+	assert_true(loaded_easy["auto_candidates"], "Easy should have auto candidates enabled")
+	assert_true(loaded_easy["input_mode"], "Easy should have input mode enabled")
+	assert_eq((loaded_easy["undo_stack"] as Array).size(), 1, "Easy should have 1 undo action")
+	
+	assert_false(loaded_medium["auto_candidates"], "Medium should have auto candidates disabled")
+	assert_false(loaded_medium["input_mode"], "Medium should have input mode disabled")
+	assert_eq((loaded_medium["undo_stack"] as Array).size(), 2, "Medium should have 2 undo actions")
+	
+	_teardown_manager()
+
