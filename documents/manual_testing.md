@@ -273,3 +273,14 @@ This document outlines the strict manual testing procedures required before any 
 - **Step 5 (Full 1-9 Grid Alignment):** In an empty cell, toggle all candidate digits 1 through 9.
 - **Expected:** Digits 1-9 form a perfectly aligned 3x3 numpad-style grid (1, 2, 3 on top row; 4, 5, 6 on middle row; 7, 8, 9 on bottom row) with clean font sizing (16pt regular, scaling to 24pt bold on number matching) matching the 1930s monochrome aesthetic. The 20x20 minimum size lock prevents the bottom row (7, 8, 9) from touching the cell boundary, and highlighting an active number (e.g., '5') does not shift or push the bottom row out of view.
 - **Automated Verification:** Verified in headless CI via `game/tests/test_board_ui.gd` (`test_candidates()`), verifying that all 9 candidate labels maintain permanent visibility (`visible = true`) in the `CandidatesGrid` layout container and dynamically toggle their `text` property between the digit and `""`.
+ 
+ # #   T e s t   2 3 . 0 :   I s o l a t e   I n p u t   C o n t r o l s   B e t w e e n   D i f f i c u l t i e s  
+ -   * * S t e p   1 : * *   S t a r t   a   n e w   ' E a s y '   g a m e .   T o g g l e   t h e   ' C a n d i d a t e '   i n p u t   m o d e   o n   a n d   c h e c k   t h e   ' A u t o   C a n d i d a t e   M o d e '   t o g g l e   o n .  
+ -   * * S t e p   2 : * *   P a u s e   t h e   g a m e   a n d   r e t u r n   t o   t h e   M a i n   M e n u .  
+ -   * * S t e p   3 : * *   S t a r t   a   n e w   ' M e d i u m '   g a m e .  
+ -   * * E x p e c t e d : * *   T h e   ' M e d i u m '   g a m e   s t a r t s   f r e s h   w i t h   ' N o r m a l '   i n p u t   m o d e   a n d   ' A u t o   C a n d i d a t e   M o d e '   O F F .   T h e   t o g g l e s   f r o m   t h e   E a s y   g a m e   d i d   n o t   b l e e d   o v e r .  
+ -   * * S t e p   4 : * *   P a u s e   t h e   ' M e d i u m '   g a m e   a n d   r e t u r n   t o   t h e   M a i n   M e n u .  
+ -   * * S t e p   5 : * *   T a p   ' R e s u m e   E a s y ' .  
+ -   * * E x p e c t e d : * *   T h e   ' E a s y '   g a m e   r e s t o r e s   w i t h   ' C a n d i d a t e '   i n p u t   m o d e   a n d   ' A u t o   C a n d i d a t e   M o d e '   O N   e x a c t l y   a s   t h e y   w e r e   l e f t .  
+ -   * * A u t o m a t e d   V e r i f i c a t i o n : * *   V e r i f i e d   i n   h e a d l e s s   C I   v i a   ` g a m e / t e s t s / t e s t _ s a v e _ m a n a g e r . g d `   ( ` t e s t _ s t a t e _ i s o l a t i o n _ b e t w e e n _ d i f f i c u l t i e s ( ) ` ) ,   e n s u r i n g   i n d e p e n d e n t   t o g g l e s   a r e   s t o r e d   a n d   r e s t o r e d   c o r r e c t l y   a c r o s s   d i f f i c u l t i e s .  
+ 

@@ -92,6 +92,17 @@ func _ready() -> void:
 				if diff != "" and save_manager_node.has_save(diff):
 					var save_data: Dictionary = save_manager_node.load_game(diff)
 					initial_seconds = int(save_data.get("elapsed_seconds", 0))
+					
+					if save_data.has("auto_candidates") and game_manager_node and game_manager_node.board:
+						game_manager_node.board.set_auto_candidates(bool(save_data["auto_candidates"]))
+						if input_controls:
+							input_controls.auto_candidate_btn.button_pressed = bool(save_data["auto_candidates"])
+					
+					if save_data.has("input_mode") and input_controls:
+						if bool(save_data["input_mode"]):
+							input_controls._on_mode_candidate_pressed()
+						else:
+							input_controls._on_mode_normal_pressed()
 			time_manager_node.start(initial_seconds)
 		
 	if save_manager_node and difficulty_label:
@@ -155,6 +166,9 @@ func _on_menu_item_pressed(id: int) -> void:
 			time_manager_node.start(0)
 		if save_manager_node and save_manager_node.has_method("flush_save"):
 			save_manager_node.flush_save()
+		if input_controls:
+			input_controls._on_mode_normal_pressed()
+			input_controls.auto_candidate_btn.button_pressed = false
 	elif id == 1:
 		# New Game
 		if save_manager_node and game_manager_node:
@@ -170,6 +184,9 @@ func _on_menu_item_pressed(id: int) -> void:
 			time_manager_node.start(0)
 		if save_manager_node and save_manager_node.has_method("flush_save"):
 			save_manager_node.flush_save()
+		if input_controls:
+			input_controls._on_mode_normal_pressed()
+			input_controls.auto_candidate_btn.button_pressed = false
 
 func _get_random_puzzle(diff: String, exclude_puzzle: String = "") -> String:
 	if not FileAccess.file_exists("res://data/puzzles.json"):
