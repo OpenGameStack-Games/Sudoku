@@ -249,14 +249,14 @@ This document outlines the strict manual testing procedures required before any 
 ## Test 21.0: Input Controls Layout & Sizing
 - **Step 1:** Launch the game and enter an active puzzle on the Gameplay screen.
 - **Step 2 (Container Margins & Alignment):** Observe the left, right, and bottom margins of the `InputControls` area below the 9x9 board.
-- **Expected:** The controls section exhibits uniform 16px padding on the left, right, and bottom (`MarginContainer`), aligning visually with the margins of the header and board rather than stretching flush against the screen edges.
-- **Step 3 (Vertical Spacing):** Observe the spacing between the Mode/Undo row ("Normal", "Candidate", "Undo") and the Numpad buttons.
-- **Expected:** A clear vertical spacer (16px) provides distinct separation between the mode controls and the digit keypad.
-- **Step 4 (Numpad Button Aspect Ratio):** Observe the 10 numpad buttons (1-9 and X).
-- **Expected:** Buttons maintain an explicit minimum height of 64px, resulting in a balanced square or portrait aspect ratio across mobile viewports rather than squashed horizontal strips.
-- **Step 5 (Auto Candidate Styling):** Inspect the "Auto Candidate Mode" toggle below the numpad.
-- **Expected:** The toggle lacks the standard 2px white button outline, presenting a sleek, flat checkbox/text-toggle aesthetic (`StyleBoxEmpty`).
-- **Automated Verification:** Verified in headless CI via `game/tests/test_input_controls.gd` (`test_layout_and_styling()`), asserting `MarginContainer` margin constants (16px), 64px button minimum vertical heights, and `StyleBoxEmpty` theme override styleboxes on the toggle button.
+- **Expected:** The controls section exhibits explicit 56px padding on the left and right (`MarginContainer`) to precisely align with the 9x9 board boundaries, and 48px bottom padding.
+- **Step 3 (Vertical Spacing & Centering):** Observe the Mode/Undo row ("Normal", "Candidate", "Undo").
+- **Expected:** The row is visually centered. "Normal", "Candidate", and "Undo" buttons possess enlarged touch target dimensions. A clear vertical spacer (16px) provides distinct separation between the mode controls and the digit keypad.
+- **Step 4 (Numpad Button Sizing & Font):** Observe the 10 numpad buttons (1-9 and X).
+- **Expected:** Buttons maintain an explicit minimum height of 64px and feature a larger 36px font size for improved legibility on mobile viewports.
+- **Step 5 (Auto Candidate Centering & Styling):** Inspect the "Auto Candidate Mode" toggle below the numpad.
+- **Expected:** The toggle lacks the standard 2px white button outline, presenting a sleek, flat checkbox/text-toggle aesthetic (`StyleBoxEmpty`), and remains visually centered below the numpad.
+- **Automated Verification:** Verified in headless CI via `game/tests/test_input_controls.gd` (`test_layout_and_styling()`), asserting `MarginContainer` margin constants (56px/48px), 64px button minimum vertical heights, and `StyleBoxEmpty` theme override styleboxes on the toggle button.
 
 ## Test 22.0: Positional Candidate Notes (3x3 Micro-Grid Layout)
 - **Step 1:** Start a new game and switch to Candidate mode (tap "Candidate" button or press `C`).
