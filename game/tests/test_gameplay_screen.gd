@@ -122,9 +122,16 @@ func test_reset_puzzle() -> void:
 	save_manager_node.current_puzzle_string = initial_clues
 	game_manager_node.board.load_puzzle(initial_clues)
 	
-	# Enter player move
+	# Enter player move, candidate, and undo history
 	game_manager_node.board.set_cell_value(1, 5)
+	game_manager_node.board.toggle_candidate(2, 3)
+	if game_manager_node.board.undo_manager:
+		game_manager_node.board.undo_manager.record_value_action(1, 0, 5, [], [], {})
+	
 	assert_eq(game_manager_node.board.cells[1].value, 5, "Cell 1 should have user value 5")
+	assert_true(game_manager_node.board.cells[2].user_candidates.has(3), "Cell 2 should have candidate 3")
+	if game_manager_node.board.undo_manager:
+		assert_true(game_manager_node.board.undo_manager.has_undo(), "Undo history should not be empty")
 	
 	time_manager_node.start(45)
 	assert_eq(time_manager_node.get_elapsed_seconds(), 45)
@@ -135,6 +142,9 @@ func test_reset_puzzle() -> void:
 	
 	assert_eq(time_manager_node.get_elapsed_seconds(), 0, "Timer should be reset to 0")
 	assert_eq(game_manager_node.board.cells[1].value, 0, "User input should be reset to initial empty clue")
+	assert_false(game_manager_node.board.cells[2].user_candidates.has(3), "Candidate notes should be cleared")
+	if game_manager_node.board.undo_manager:
+		assert_false(game_manager_node.board.undo_manager.has_undo(), "Undo history should be cleared")
 	assert_true(save_manager_node.flush_called, "SaveManager should be flushed after reset")
 	
 	_teardown_nodes()
