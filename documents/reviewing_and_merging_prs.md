@@ -120,8 +120,10 @@ gh pr review <pr_number> --request-changes --body "<Detailed description of what
 Once all acceptance criteria are met, automated tests pass, and documentation is updated and pushed to the feature branch, proceed to merge.
 
 #### 1. Prepare for Merge
-Before merging, exit the review worktree, remove it, and return to the main workspace. Otherwise, `gh pr merge` will fail to delete the local branch because it is currently checked out in the worktree. **NOTE for Windows:** Ensure any background headless Godot tasks running inside the worktree are terminated using `manage_task kill`, and completely `cd` out of the worktree directory back to the root, otherwise `git worktree remove` will fail with a `Permission denied` error.
+#### 1. Prepare for Merge
+Before merging, exit the review worktree, remove it, and return to the main workspace. Otherwise, `gh pr merge` will fail to delete the local branch because it is currently checked out in the worktree. **NOTE for Windows:** Ensure any background headless Godot tasks running inside the worktree are terminated, and completely `cd` out of the worktree directory back to the root. If `git worktree remove` still fails with `Permission denied`, forcefully kill any lingering engine instances using `Stop-Process -Name "godot" -Force -ErrorAction SilentlyContinue`.
 ```powershell
+Stop-Process -Name "godot" -Force -ErrorAction SilentlyContinue
 cd ../..
 git worktree remove .worktrees/<worktree-name> --force
 ```
