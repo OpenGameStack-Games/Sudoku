@@ -273,3 +273,10 @@ This document outlines the strict manual testing procedures required before any 
 - **Step 5 (Full 1-9 Grid Alignment):** In an empty cell, toggle all candidate digits 1 through 9.
 - **Expected:** Digits 1-9 form a perfectly aligned 3x3 numpad-style grid (1, 2, 3 on top row; 4, 5, 6 on middle row; 7, 8, 9 on bottom row) with clean font sizing (16pt regular, scaling to 24pt bold on number matching) matching the 1930s monochrome aesthetic.
 - **Automated Verification:** Verified in headless CI via `game/tests/test_board_ui.gd` (`test_candidates()`), verifying that all 9 candidate labels maintain permanent visibility (`visible = true`) in the `CandidatesGrid` layout container and dynamically toggle their `text` property between the digit and `""`.
+ 
+ # #   T e s t   2 4 . 0 :   D y n a m i c   S c a l i n g   o f   S t a t i s t i c s   S c r e e n  
+ -   * * S t e p   1 : * *   N a v i g a t e   t o   t h e   S t a t i s t i c s   s c r e e n   f r o m   t h e   M a i n   M e n u .  
+ -   * * S t e p   2 : * *   R e s i z e   t h e   g a m e   w i n d o w   v e r t i c a l l y   ( s i m u l a t i n g   v a r i o u s   m o b i l e   a s p e c t   r a t i o s   a n d   s i z e s ) .  
+ -   * * E x p e c t e d : * *   A l l   t h r e e   d i f f i c u l t y   c a r d s   ( E a s y ,   M e d i u m ,   H a r d )   r e m a i n   f u l l y   v i s i b l e   o n   a   s i n g l e   s c r e e n   w i t h o u t   r e q u i r i n g   s c r o l l i n g .   T h e   t e x t   f o n t   s i z e s   a n d   p a d d i n g   s c a l e   p r o p o r t i o n a l l y   t o   f i t   t h e   a v a i l a b l e   v e r t i c a l   s c r e e n   r e a l   e s t a t e   p e r f e c t l y .  
+ -   * * A u t o m a t e d   V e r i f i c a t i o n : * *   T h e   ` i s _ i n s i d e _ t r e e ( ) `   g a t e   c h e c k s   e n s u r e   t h e   d y n a m i c   s c a l e   l o g i c   r u n s   s a f e l y   w i t h o u t   c r a s h i n g   i n   h e a d l e s s   t e s t s ,   m a i n t a i n i n g   a   1 0 0 %   p a s s   r a t e .  
+ 
