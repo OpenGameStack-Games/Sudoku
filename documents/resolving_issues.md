@@ -143,10 +143,11 @@ Every feature or bug fix touching game logic or autoloads must be backed by auto
 
 ### Agentic Visual QA (MCP Bridge)
 If your issue involves UI layout, coloring, or visual polish, you MUST visually verify your changes before submitting the PR.
-1. Run the game in the background (`godot --path game`).
-2. This will automatically spin up the `McpInteractionServer` AutoLoad.
+1. Start a fresh instance of the game in the background using `godot --path game`. Do NOT rely on an already-running instance, as it won't have your latest changes.
+2. This fresh instance will automatically spin up the `McpInteractionServer` AutoLoad.
 3. Use your MCP tools (or raw TCP payloads to port 9090) to capture a screenshot (`{"command":"screenshot"}`) and inspect the SceneTree.
 4. Visually verify that your changes adhere to the 1930s style guidelines, look good, and don't break existing layouts.
+5. **CRITICAL:** Once your visual QA is complete, you must kill the background task running the Godot process to close the window and free up port 9090.
 
 ### Test Architecture
 * Tests are located in `game/tests/`.
