@@ -36,6 +36,7 @@ Before approving or merging any Pull Request, verify the following:
 * [ ] **Automated Test Report:** PR body includes evidence that all automated tests pass (`Test Results: X Passed, 0 Failed`).
 * [ ] **Independent Test Execution:** Reviewer independently runs the test suite on the checked-out branch and confirms zero failures.
 * [ ] **New Tests Added:** If core logic, autoloads, or calculations were altered, corresponding unit tests are present in `game/tests/`.
+* [ ] **Visual QA (MCP Bridge):** If the PR modifies UI or visual layout, the reviewer MUST launch the game locally (`godot --path game`) and use the MCP `screenshot` tool to visually verify that the UI changes match the 1930s style rules and don't introduce visual regressions before merging.
 * [ ] **Asset Verification:** Any file paths referenced in configuration files (like `export_presets.cfg` or `project.godot`) must be explicitly asserted to exist on disk within the unit tests using `FileAccess.file_exists()`.
 
 

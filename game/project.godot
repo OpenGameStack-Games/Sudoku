@@ -49,5 +49,6 @@ TimeManager="*res://autoloads/time_manager.gd"
 GameManager="*res://autoloads/game_manager.gd"
 ActionManager="*res://scripts/undo_manager.gd"
 SaveManager="*res://autoloads/save_manager.gd"
+McpInteractionServer="*res://autoloads/mcp_interaction_server.gd"
 
 
