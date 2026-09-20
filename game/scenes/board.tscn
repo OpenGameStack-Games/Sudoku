@@ -24,16 +24,16 @@ theme_override_constants/margin_bottom = 4
 
 [node name="MacroGrid" type="GridContainer" parent="MarginContainer"]
 layout_mode = 2
-theme_override_constants/h_separation = 4
-theme_override_constants/v_separation = 4
+theme_override_constants/h_separation = 6
+theme_override_constants/v_separation = 6
 columns = 3
 
 [node name="MicroGrid_0_0" type="GridContainer" parent="MarginContainer/MacroGrid"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_constants/h_separation = 1
-theme_override_constants/v_separation = 1
+theme_override_constants/h_separation = 2
+theme_override_constants/v_separation = 2
 columns = 3
 
 [node name="Cell_0_0" parent="MarginContainer/MacroGrid/MicroGrid_0_0" instance=ExtResource("2_cel")]
@@ -85,8 +85,8 @@ size_flags_vertical = 3
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_constants/h_separation = 1
-theme_override_constants/v_separation = 1
+theme_override_constants/h_separation = 2
+theme_override_constants/v_separation = 2
 columns = 3
 
 [node name="Cell_0_3" parent="MarginContainer/MacroGrid/MicroGrid_0_1" instance=ExtResource("2_cel")]
@@ -138,8 +138,8 @@ size_flags_vertical = 3
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_constants/h_separation = 1
-theme_override_constants/v_separation = 1
+theme_override_constants/h_separation = 2
+theme_override_constants/v_separation = 2
 columns = 3
 
 [node name="Cell_0_6" parent="MarginContainer/MacroGrid/MicroGrid_0_2" instance=ExtResource("2_cel")]
@@ -191,8 +191,8 @@ size_flags_vertical = 3
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_constants/h_separation = 1
-theme_override_constants/v_separation = 1
+theme_override_constants/h_separation = 2
+theme_override_constants/v_separation = 2
 columns = 3
 
 [node name="Cell_3_0" parent="MarginContainer/MacroGrid/MicroGrid_1_0" instance=ExtResource("2_cel")]
@@ -244,8 +244,8 @@ size_flags_vertical = 3
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_constants/h_separation = 1
-theme_override_constants/v_separation = 1
+theme_override_constants/h_separation = 2
+theme_override_constants/v_separation = 2
 columns = 3
 
 [node name="Cell_3_3" parent="MarginContainer/MacroGrid/MicroGrid_1_1" instance=ExtResource("2_cel")]
@@ -297,8 +297,8 @@ size_flags_vertical = 3
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_constants/h_separation = 1
-theme_override_constants/v_separation = 1
+theme_override_constants/h_separation = 2
+theme_override_constants/v_separation = 2
 columns = 3
 
 [node name="Cell_3_6" parent="MarginContainer/MacroGrid/MicroGrid_1_2" instance=ExtResource("2_cel")]
@@ -350,8 +350,8 @@ size_flags_vertical = 3
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_constants/h_separation = 1
-theme_override_constants/v_separation = 1
+theme_override_constants/h_separation = 2
+theme_override_constants/v_separation = 2
 columns = 3
 
 [node name="Cell_6_0" parent="MarginContainer/MacroGrid/MicroGrid_2_0" instance=ExtResource("2_cel")]
@@ -403,8 +403,8 @@ size_flags_vertical = 3
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_constants/h_separation = 1
-theme_override_constants/v_separation = 1
+theme_override_constants/h_separation = 2
+theme_override_constants/v_separation = 2
 columns = 3
 
 [node name="Cell_6_3" parent="MarginContainer/MacroGrid/MicroGrid_2_1" instance=ExtResource("2_cel")]
@@ -456,8 +456,8 @@ size_flags_vertical = 3
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_constants/h_separation = 1
-theme_override_constants/v_separation = 1
+theme_override_constants/h_separation = 2
+theme_override_constants/v_separation = 2
 columns = 3
 
 [node name="Cell_6_6" parent="MarginContainer/MacroGrid/MicroGrid_2_2" instance=ExtResource("2_cel")]

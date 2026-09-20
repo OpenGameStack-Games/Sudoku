@@ -73,9 +73,11 @@ This document outlines the strict manual testing procedures required before any 
 - **Step 2 (Grid Lines & Aesthetics):** Verify that the board exhibits crisp, pure white grid lines separating dark cells (`#222222`), conforming to the 1930s monochrome aesthetic.
 - **Step 3 (Border Widths & Consistency):**
   - Verify that the outer perimeter of the 9x9 board is bounded by a uniform 4px thick white border (`MarginContainer` margin = 4).
-  - Verify that the major division lines separating the nine 3x3 macro blocks are uniformly thick (4px separation), clearly and unmistakably delineating each 3x3 block.
-  - Verify that the minor inner lines separating individual cells within each 3x3 block are uniformly thin (1px separation) yet sharp and clearly visible.
-- **Automated Verification:** Verified in headless CI via `game/tests/test_board_ui.gd` (`test_grid_lines_consistency()`), asserting the presence of `MarginContainer` with 4px margins, `MacroGrid` with 4px `h_separation` and `v_separation`, each `MicroGrid` with 1px `h_separation` and `v_separation`, and `Background` ColorRect set to pure white `Color(1, 1, 1, 1)`.
+  - Verify that the major division lines separating the nine 3x3 macro blocks are uniformly thick (6px separation), clearly and unmistakably delineating each 3x3 block.
+  - Verify that the minor inner lines separating individual cells within each 3x3 block are uniformly thin (2px separation) yet sharp and clearly visible.
+- **Step 4 (Dynamic Scaling Verification):**
+  - Scale the game window dynamically (e.g., resizing the window or testing on smaller resolutions) and verify that all 81 cells maintain solidly rendered borders without any dropping out or becoming sub-pixel invisible.
+- **Automated Verification:** Verified in headless CI via `game/tests/test_board_ui.gd` (`test_grid_lines_consistency()`), asserting the presence of `MarginContainer` with 4px margins, `MacroGrid` with 6px `h_separation` and `v_separation`, each `MicroGrid` with 2px `h_separation` and `v_separation`, and `Background` ColorRect set to pure white `Color(1, 1, 1, 1)`.
 
 ## Test 7.0: Gameplay Timer
 - **Step 1:** Enter a game. Observe the timer counting up from 00:00 (or saved elapsed time).

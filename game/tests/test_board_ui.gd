@@ -161,15 +161,15 @@ func test_grid_lines_consistency() -> void:
 
 	var macro_grid = margin_container.get_node("MacroGrid") as GridContainer
 	assert_true(macro_grid != null, "MacroGrid should exist inside MarginContainer")
-	assert_eq(macro_grid.get("theme_override_constants/h_separation"), 4, "Thick borders separating 3x3 blocks should be 4")
-	assert_eq(macro_grid.get("theme_override_constants/v_separation"), 4, "Thick borders separating 3x3 blocks should be 4")
+	assert_eq(macro_grid.get("theme_override_constants/h_separation"), 6, "Thick borders separating 3x3 blocks should be 6")
+	assert_eq(macro_grid.get("theme_override_constants/v_separation"), 6, "Thick borders separating 3x3 blocks should be 6")
 	
 	for macro_r in range(3):
 		for macro_c in range(3):
 			var micro_grid = macro_grid.get_node("MicroGrid_%d_%d" % [macro_r, macro_c]) as GridContainer
 			assert_true(micro_grid != null, "MicroGrid should exist")
-			assert_eq(micro_grid.get("theme_override_constants/h_separation"), 1, "Thin borders within 3x3 blocks should be 1")
-			assert_eq(micro_grid.get("theme_override_constants/v_separation"), 1, "Thin borders within 3x3 blocks should be 1")
+			assert_eq(micro_grid.get("theme_override_constants/h_separation"), 2, "Thin borders within 3x3 blocks should be 2")
+			assert_eq(micro_grid.get("theme_override_constants/v_separation"), 2, "Thin borders within 3x3 blocks should be 2")
 
 	var bg = board_ui.get_node("Background") as ColorRect
 	assert_true(bg != null, "Background ColorRect should exist")
