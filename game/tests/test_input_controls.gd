@@ -59,9 +59,9 @@ func test_layout_and_styling() -> void:
 	before_each()
 	
 	assert_true(controls is MarginContainer, "InputControls root should be MarginContainer")
-	assert_eq(controls.get_theme_constant("margin_left"), 16, "Left margin should be 16")
-	assert_eq(controls.get_theme_constant("margin_right"), 16, "Right margin should be 16")
-	assert_eq(controls.get_theme_constant("margin_bottom"), 16, "Bottom margin should be 16")
+	assert_eq(controls.get_theme_constant("margin_left"), 56, "Left margin should be 56")
+	assert_eq(controls.get_theme_constant("margin_right"), 56, "Right margin should be 56")
+	assert_eq(controls.get_theme_constant("margin_bottom"), 48, "Bottom margin should be 48")
 	
 	assert_true(controls.numpad_btns.size() == 10, "Should have 10 numpad buttons (1-9 and X)")
 	for btn: Button in controls.numpad_btns:
