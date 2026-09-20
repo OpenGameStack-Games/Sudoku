@@ -29,8 +29,8 @@ def generate_board():
     out.append('')
     out.append('[node name="MacroGrid" type="GridContainer" parent="MarginContainer"]')
     out.append('layout_mode = 2')
-    out.append('theme_override_constants/h_separation = 4')
-    out.append('theme_override_constants/v_separation = 4')
+    out.append('theme_override_constants/h_separation = 6')
+    out.append('theme_override_constants/v_separation = 6')
     out.append('columns = 3')
     out.append('')
 
@@ -40,8 +40,8 @@ def generate_board():
             out.append('layout_mode = 2')
             out.append('size_flags_horizontal = 3')
             out.append('size_flags_vertical = 3')
-            out.append('theme_override_constants/h_separation = 1')
-            out.append('theme_override_constants/v_separation = 1')
+            out.append('theme_override_constants/h_separation = 2')
+            out.append('theme_override_constants/v_separation = 2')
             out.append('columns = 3')
             out.append('')
             
