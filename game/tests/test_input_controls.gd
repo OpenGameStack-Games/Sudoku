@@ -80,13 +80,13 @@ func test_mode_switching() -> void:
 	
 	controls._on_mode_candidate_pressed()
 	assert_true(controls.is_candidate_mode)
-	assert_eq(controls.mode_candidate_btn.modulate, Color(1.0, 1.0, 1.0))
-	assert_eq(controls.mode_normal_btn.modulate, Color(0.5, 0.5, 0.5))
+	assert_eq(controls.mode_candidate_btn.get_theme_color("font_color"), Color(0.0, 0.0, 0.0, 1.0))
+	assert_eq(controls.mode_normal_btn.get_theme_color("font_color"), Color(1.0, 1.0, 1.0, 1.0))
 	
 	controls._on_mode_normal_pressed()
 	assert_false(controls.is_candidate_mode)
-	assert_eq(controls.mode_candidate_btn.modulate, Color(0.5, 0.5, 0.5))
-	assert_eq(controls.mode_normal_btn.modulate, Color(1.0, 1.0, 1.0))
+	assert_eq(controls.mode_candidate_btn.get_theme_color("font_color"), Color(1.0, 1.0, 1.0, 1.0))
+	assert_eq(controls.mode_normal_btn.get_theme_color("font_color"), Color(0.0, 0.0, 0.0, 1.0))
 	
 	after_each()
 
