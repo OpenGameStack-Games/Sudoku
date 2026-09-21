@@ -153,7 +153,7 @@ This document acts as the definitive source of truth for the game's features, lo
       - **Numpad Exhaustion State:** When 9 instances of a specific number exist on the board (regardless of correctness/conflicts, preventing use as a cheat engine), the corresponding digit button visually **grays out** with `ThemeConstants.COLOR_NUMPAD_EXHAUSTED` (`Color(0.4, 0.4, 0.4)`) and is disabled. The button remains in place without altering layout.
       - **Restoration & Deselection:** If an exhausted digit count drops below 9 via erase or undo, active styling (`Color(1.0, 1.0, 1.0)`) and button interaction are immediately restored. If an actively selected digit becomes exhausted, it is automatically deselected.
     - **Auto Candidate Row & Styling:**
-      - Located below the numpad, dynamically centered (`alignment = 1`). Contains an `AutoCandidateBtn` toggle switch signaling `board.set_auto_candidates(toggled_on)` and emitting `auto_candidate_toggled`.
+      - Located below the numpad, dynamically centered (`alignment = 1`). Contains an `AutoCandidateBtn` toggle switch signaling `board.set_auto_candidates(toggled_on)` and emitting `auto_candidate_toggled`. The text is explicitly sized to 32 (`theme_override_font_sizes/font_size = 32`) for better visibility, and the layout shifts dynamically based on this.
       - **Flat Styling:** Configured with `StyleBoxEmpty` overrides across normal, pressed, hover, hover_pressed, and focus states to eliminate heavy button borders and present a clean, text-only checkbox aesthetic.
     - **Bi-directional Workflows:**
       - **Cell-First:** Player selects a cell on the board, then presses a numpad digit or erase button. Clue cells are protected from modification.
