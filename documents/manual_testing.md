@@ -94,7 +94,7 @@ This document outlines the strict manual testing procedures required before any 
 ## Test 8.0: Grid Input (Bi-Directional & Keyboard Shortcuts)
 - **Step 1 (Cell-First Input & Visual Distinction):** Tap an empty cell, then tap a number 1-9 on the numpad.
 - **Expected:** The number is entered into the cell. Verify that the entered digit is rendered in a dimmer gray (`#a0a0a0`) and smaller font size (28pt) compared to the initial clue digits which remain bold, larger (32pt), and pure white (`Color.WHITE`), clearly differentiating player inputs while maintaining the 1930s monochrome aesthetic.
-- **Step 2 (Number-First Input):** Tap a number on the numpad (it highlights in soft green `Color(0.8, 1.0, 0.8)`), then tap several empty cells.
+- **Step 2 (Number-First Input):** Tap a number on the numpad (it highlights in flat orange `Color("ffa500")`), then tap several empty cells.
 - **Expected:** The number is entered into every cell tapped. Tapping the numpad button again deselects it.
 - **Step 3 (Mode Toggles):** Tap the "Candidate" button (or press `C` on a keyboard). Tap an empty cell and input digit '3'.
 - **Expected:** '3' is placed into the cell's candidate micro-grid. Tap "Normal" (or press `N`) to switch back to normal answer input mode.

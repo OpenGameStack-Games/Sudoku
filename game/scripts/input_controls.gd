@@ -84,14 +84,14 @@ func _update_numpad_exhaustion() -> void:
 		else:
 			btn.disabled = false
 			if selected_digit == i:
-				btn.modulate = Color(0.8, 1.0, 0.8)
+				btn.modulate = Color("ffa500")
 			else:
 				btn.modulate = Color(1.0, 1.0, 1.0)
 				
 	if numpad_btns.size() > 9:
 		var erase_btn: Button = numpad_btns[9]
 		if selected_digit == 0:
-			erase_btn.modulate = Color(0.8, 1.0, 0.8)
+			erase_btn.modulate = Color("ffa500")
 		else:
 			erase_btn.modulate = Color(1.0, 1.0, 1.0)
 
