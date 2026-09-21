@@ -47,7 +47,7 @@ layout_mode = 2
 [node name="BackButton" type="Button" parent="VBoxContainer/Header/HBoxContainer"]
 custom_minimum_size = Vector2(80, 60)
 layout_mode = 2
-text = "< Back"
+text = "<"
 
 [node name="DifficultyLabel" type="Label" parent="VBoxContainer/Header/HBoxContainer"]
 layout_mode = 2

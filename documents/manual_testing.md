@@ -37,11 +37,11 @@ This document outlines the strict manual testing procedures required before any 
 - **Step 5 (Statistics Navigation):** Tap the "Statistics" button.
 - **Expected:** The app transitions to the Statistics screen (`res://scenes/statistics_screen.tscn`).
 - **Step 6 (Statistics Screen UI, Typography Scaling & Back Navigation):**
-  - Verify the header displays the prominent "STATISTICS" title (font size 64) and a "< Back" button.
+  - Verify the header displays the prominent "STATISTICS" title (font size 64) and a "<" back button.
   - Verify three independent cards ("Easy", "Medium", and "Hard") displaying "Games Started", "Games Won", "Best Time", and "Average Time".
   - **Visual Real Estate & Readability Verification:** Verify that the statistics cards and typography are enlarged to comfortably fill the vertical screen real estate without feeling cramped or leaving excessive blank space. Difficulty headers should be large (48pt) and stat labels/values should be prominent (32pt) with generous inner card padding (40px) and vertical separation (30px).
   - Verify the 1930s monochrome styling with Dark Gray `#121212` background, crisp white borders, and balanced monochrome typography.
-  - Tap the "< Back" button.
+  - Tap the "<" button.
   - **Expected:** The app returns cleanly to the Main Menu.
 - **Automated Verification:** Verified in headless CI via `game/tests/test_main_menu.gd` and `game/tests/test_statistics_screen.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), confirming scene asset existence, dynamic button text adaptation for saves vs fresh states, button signal routing, statistics screen data binding from mock StatsManager, formatting of empty vs recorded metrics, enlarged styling/padding assertions, and Back button signal wiring.
 
@@ -62,11 +62,11 @@ This document outlines the strict manual testing procedures required before any 
 
 ## Test 6.0: Gameplay Screen Layout & Navigation
 - **Step 1:** On the Gameplay screen, observe the Header row.
-- **Expected:** Top-left is a `< Back` button. Center-left is the capitalized Difficulty label ("Easy", "Medium", or "Hard"). Center-right is the active Timer label. Top-right contains the Pause button and the triple-dot menu ("..."). The header maintains at least 32px top margin to remain clear of the non-immersive Android status bar.
+- **Expected:** Top-left is a `<` button. Center-left is the capitalized Difficulty label ("Easy", "Medium", or "Hard"). Center-right is the active Timer label. Top-right contains the Pause button and the triple-dot menu ("..."). The header maintains at least 32px top margin to remain clear of the non-immersive Android status bar.
 - **Step 2:** Observe the Grid and controls.
 - **Expected:** A 9x9 grid exists centered within an aspect ratio container. Below it are mode toggle buttons ("Normal" and "Candidate"), an "Undo" button spaced to the right, a 1-9 & Erase numpad, and an Auto Candidate switch.
-- **Step 3:** Enter a move on the board (e.g. place a number into an empty cell), then tap the `< Back` button.
-- **Expected:** Navigates back to the Main Menu. The Main Menu button for that difficulty now reflects `"Resume [Difficulty]"`. Tapping Resume restores the exact board state and elapsed time, confirming the `< Back` button successfully flushed game state to `SaveManager`.
+- **Step 3:** Enter a move on the board (e.g. place a number into an empty cell), then tap the `<` button.
+- **Expected:** Navigates back to the Main Menu. The Main Menu button for that difficulty now reflects `"Resume [Difficulty]"`. Tapping Resume restores the exact board state and elapsed time, confirming the `<` button successfully flushed game state to `SaveManager`.
 - **Automated Verification:** Verified in headless CI via `game/tests/test_gameplay_screen.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), asserting header initialization, difficulty label capitalization, timer label binding, back button save flushing, and scene asset presence.
 
 ## Test 6.1: Sudoku Board Grid Lines & Visual Separation
@@ -82,9 +82,9 @@ This document outlines the strict manual testing procedures required before any 
 
 ## Test 7.0: Gameplay Timer
 - **Step 1:** Enter a game. Observe the timer counting up from 00:00 (or saved elapsed time).
-- **Step 2 (Resume Timer Continuation):** Start an Easy game and let the timer count for several seconds (e.g., 8 seconds). Tap `< Back` or Pause to exit back to the Main Menu. From the Main Menu, tap "Resume Easy".
+- **Step 2 (Resume Timer Continuation):** Start an Easy game and let the timer count for several seconds (e.g., 8 seconds). Tap `<` or Pause to exit back to the Main Menu. From the Main Menu, tap "Resume Easy".
 - **Expected:** The game loads and the timer immediately unpauses and continues counting up from 8 seconds (`00:08`, `00:09`, `00:10`...). The timer is NOT frozen.
-- **Step 3 (Fresh Game Reset Verification):** From the resumed Easy game, tap `< Back` to return to the Main Menu. Tap a different difficulty without an active save (e.g., "Medium" or "Hard").
+- **Step 3 (Fresh Game Reset Verification):** From the resumed Easy game, tap `<` to return to the Main Menu. Tap a different difficulty without an active save (e.g., "Medium" or "Hard").
 - **Expected:** The new game starts with the timer reset to `00:00` and ticking normally (`00:01`, `00:02`...). The timer is NOT frozen, and does NOT retain or bleed the previous session's elapsed time.
 - **Step 4:** Background the app, switch to another application, or return to the Main Menu, wait 5 seconds, and return to the game.
 - **Expected:** The timer must pause while unfocused and resume counting exactly where it left off upon returning.
@@ -183,7 +183,7 @@ This document outlines the strict manual testing procedures required before any 
 - **Expected:** Transitions to the Statistics Screen, where the newly recorded win and updated best/average times are visibly displayed for the current difficulty tier.
 - **Step 5:** Return to an active game, trigger win state, and tap "Play Again".
 - **Expected:** The victory overlay dismisses, the timer resets to `00:00`, and a fresh puzzle of the same difficulty starts immediately.
-- **Step 6:** Tap "< Back" to return to the Main Menu.
+- **Step 6:** Tap "<" to return to the Main Menu.
 - **Expected:** The Main Menu difficulty button displays its default text (e.g. "Medium", not "Resume Medium"), confirming the completed puzzle was purged from active save tracking.
 - **Automated Verification:** Verified in headless CI via `game/tests/test_victory_screen.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), asserting overlay activation on win signal, accurate parameter passing to `StatsManager.record_game_won` and `SaveManager.clear_save`, asset presence (`victory_overlay.tscn`, `mascot_icon.jpg`, `theme_1930s.tres`), and button routing (Play Again, Main Menu, Statistics, Admire Puzzle, Restore Dialog).
 
