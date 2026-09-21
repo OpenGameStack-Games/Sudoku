@@ -62,7 +62,7 @@ This document outlines the strict manual testing procedures required before any 
 
 ## Test 6.0: Gameplay Screen Layout & Navigation
 - **Step 1:** On the Gameplay screen, observe the Header row.
-- **Expected:** Top-left is a `<` button. Center-left is the capitalized Difficulty label ("Easy", "Medium", or "Hard"). Center-right is the active Timer label. Top-right contains the Pause button and the triple-dot menu ("..."). The header maintains at least 32px top margin to remain clear of the non-immersive Android status bar.
+- **Expected:** Top-left is a `<` button. Center-left is the capitalized Difficulty label ("Easy", "Medium", or "Hard"). Center-right is the active Timer label. Top-right contains the Pause button and the triple-dot menu ("..."). The header maintains at least a 48px top margin to remain clear of the non-immersive Android status bar. The header elements are properly centered and distributed with 32px separation, and scale nicely without getting misaligned or clipped on extra wide or extra tall aspect ratios.
 - **Step 2:** Observe the Grid and controls.
 - **Expected:** A 9x9 grid exists centered within an aspect ratio container. Below it are mode toggle buttons ("Normal" and "Candidate"), an "Undo" button spaced to the right, a 1-9 & Erase numpad, and an Auto Candidate switch.
 - **Step 3:** Enter a move on the board (e.g. place a number into an empty cell), then tap the `<` button.

@@ -92,6 +92,14 @@ func test_header_initialization() -> void:
 	
 	assert_eq(screen.difficulty_label.text, "Medium", "Difficulty label should display capitalized difficulty")
 	assert_eq(screen.timer_label.text, "00:00", "Timer label should initialize to 00:00")
+	
+	var header_margin: MarginContainer = screen.get_node("VBoxContainer/Header") as MarginContainer
+	assert_eq(header_margin.get_theme_constant("margin_top"), 48, "Header top margin should be scaled to 48")
+	
+	var header_hbox: HBoxContainer = screen.get_node("VBoxContainer/Header/HBoxContainer") as HBoxContainer
+	assert_eq(header_hbox.get_theme_constant("separation"), 32, "Header items should have 32 separation")
+	assert_eq(header_hbox.alignment, BoxContainer.ALIGNMENT_CENTER, "Header items should be centrally aligned")
+	
 	_teardown_nodes()
 
 func test_pause_button_toggles_board_and_timer() -> void:
@@ -207,7 +215,7 @@ func test_button_themes_applied() -> void:
 func test_menu_button_scale_and_font_size() -> void:
 	_setup_nodes("medium")
 	
-	assert_eq(screen.menu_button.custom_minimum_size.x, 100, "MenuButton custom_minimum_size width should be 100")
+	assert_eq(screen.menu_button.custom_minimum_size.x, 80, "MenuButton custom_minimum_size width should be 80")
 	assert_eq(screen.menu_button.custom_minimum_size.y, 80, "MenuButton custom_minimum_size height should be 80")
 	assert_eq(screen.menu_button.get_theme_font_size("font_size"), 64, "MenuButton font size should be 64")
 	
