@@ -204,3 +204,12 @@ func test_button_themes_applied() -> void:
 	
 	_teardown_nodes()
 
+func test_pause_overlay_mascot_size() -> void:
+	_setup_nodes("medium")
+	
+	var mascot_rect: TextureRect = screen.pause_overlay.get_node_or_null("Panel/CenterContainer/VBoxContainer/MascotRect") as TextureRect
+	assert_true(mascot_rect != null, "MascotRect should exist on pause overlay")
+	assert_eq(mascot_rect.custom_minimum_size.x, 320, "MascotRect custom_minimum_size width should be 320")
+	assert_eq(mascot_rect.custom_minimum_size.y, 320, "MascotRect custom_minimum_size height should be 320")
+	
+	_teardown_nodes()
