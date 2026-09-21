@@ -132,6 +132,7 @@ This document outlines the strict manual testing procedures required before any 
 - **Expected:** All user-entered numbers and candidate notes are wiped clean, restoring the grid back to its initial clue configuration. The undo history is cleared (Undo button disabled), the active timer restarts at `00:00`, and `SaveManager` persists the reset puzzle state to disk.
 - **Step 3:** Enter several moves again, then tap the triple-dot menu and select "New Game".
 - **Expected:** The board discards the current puzzle, retrieves a brand new distinct puzzle string for the same difficulty tier from `puzzles.json`, repopulates the initial clues, wipes undo history, restarts the timer at `00:00`, and overwrites the previous save file in `SaveManager`.
+- **Step 4:** Visually ensure the Triple-Dot Menu popup appears legibly across small devices without vertical clipping, scaling adequately to 3x/4x dimensions for touch accessibility.
 - **Automated Verification:** Verified in headless CI via `game/tests/test_gameplay_screen.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), asserting Reset Puzzle reverts user inputs while zeroing the timer and flushing save data, and New Game loads distinct puzzle strings while resetting timer and save state.
 
 ## Test 11.0: Auto Candidate Mode

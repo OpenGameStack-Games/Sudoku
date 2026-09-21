@@ -102,7 +102,7 @@ This document acts as the definitive source of truth for the game's features, lo
     - **Difficulty Label:** Displays the capitalized current difficulty tier (`"Easy"`, `"Medium"`, `"Hard"`).
     - **Timer Label:** Displays active elapsed gameplay time formatted as `MM:SS` (or `HH:MM:SS` for 3600s+), updated dynamically via `TimeManager.time_updated`.
     - **Pause Button:** Pauses the active timer and opens the full-screen Pause Overlay. Uses the universal monochrome ASCII emoji `⏸︎` (U+23F8 U+FE0E) rather than raw text. Styled with `theme_1930s.tres` (2px solid white border, #121212 background, and 8px rounded corners) to demarcate interactive controls.
-    - **Triple-Dot Menu (`MenuButton`):** Provides in-game session reset actions:
+    - **Triple-Dot Menu (`MenuButton`):** Provides in-game session reset actions. To ensure touch accessibility, the menu button is scaled with a `custom_minimum_size` of `100x80` and a font size of 64px. The popup options text is scaled to 48px.
       - **"Reset Puzzle":** Reverts the board back to the initial puzzle clues, clears player answers and candidate notes, clears undo history, resets timer to `00:00`, and flushes the reset state to `SaveManager`.
       - **"New Game":** Fetches a new distinct puzzle string from `game/data/puzzles.json` for the current difficulty tier, starts the new puzzle, wipes undo history, resets timer to `00:00`, and updates `SaveManager`.
   - **Pause Overlay (`game/scenes/pause_overlay.tscn` & `game/scripts/pause_overlay.gd`):**

@@ -204,6 +204,19 @@ func test_button_themes_applied() -> void:
 	
 	_teardown_nodes()
 
+func test_menu_button_scale_and_font_size() -> void:
+	_setup_nodes("medium")
+	
+	assert_eq(screen.menu_button.custom_minimum_size.x, 100, "MenuButton custom_minimum_size width should be 100")
+	assert_eq(screen.menu_button.custom_minimum_size.y, 80, "MenuButton custom_minimum_size height should be 80")
+	assert_eq(screen.menu_button.get_theme_font_size("font_size"), 64, "MenuButton font size should be 64")
+	
+	var popup: PopupMenu = screen.menu_button.get_popup()
+	assert_true(popup != null, "PopupMenu should exist")
+	assert_eq(popup.get_theme_font_size("font_size"), 48, "PopupMenu font size should be 48")
+	
+	_teardown_nodes()
+
 func test_pause_overlay_mascot_size() -> void:
 	_setup_nodes("medium")
 	

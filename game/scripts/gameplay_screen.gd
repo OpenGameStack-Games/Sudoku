@@ -116,9 +116,12 @@ func _ready() -> void:
 		pause_button.pressed.connect(_on_pause_pressed)
 	
 	if menu_button:
+		menu_button.add_theme_font_size_override("font_size", 64)
 		var popup: PopupMenu = menu_button.get_popup()
-		if popup and not popup.id_pressed.is_connected(_on_menu_item_pressed):
-			popup.id_pressed.connect(_on_menu_item_pressed)
+		if popup:
+			popup.add_theme_font_size_override("font_size", 48)
+			if not popup.id_pressed.is_connected(_on_menu_item_pressed):
+				popup.id_pressed.connect(_on_menu_item_pressed)
 	
 	if pause_overlay and not pause_overlay.resume_requested.is_connected(_on_resume_requested):
 		pause_overlay.resume_requested.connect(_on_resume_requested)
