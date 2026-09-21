@@ -43,7 +43,7 @@ custom_minimum_size = Vector2(16, 0)
 [node name="UndoBtn" type="Button" parent="VBoxContainer/ModeRow"]
 custom_minimum_size = Vector2(140, 64)
 layout_mode = 2
-text = "↩️ Undo"
+text = "↩︎"
 
 [node name="RowSpacer" type="Control" parent="VBoxContainer"]
 custom_minimum_size = Vector2(0, 16)
