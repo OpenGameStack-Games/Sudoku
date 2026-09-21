@@ -120,7 +120,7 @@ This document acts as the definitive source of truth for the game's features, lo
       - **"Play Again":** Dismisses the overlay, loads a fresh puzzle of the same difficulty tier, resets the timer to `00:00`, and starts a new session.
       - **"Main Menu":** Navigates back to the Main Menu (`res://scenes/main_menu.tscn`).
       - **"Statistics":** Navigates directly to the Statistics screen (`res://scenes/statistics_screen.tscn`).
-      - **"Admire Puzzle":** Conceals the victory card dialog so the player can view their finished board, displaying a floating "Restore Dialog" button at top right to restore the modal at any time.
+      - **"Admire Puzzle":** Conceals the victory card dialog so the player can view their finished board, displaying a "Restore Dialog" button horizontally centered directly above the game board to restore the modal at any time.
     - **Automated Verification:** Verified in headless CI via `game/tests/test_victory_screen.gd`, testing win signal triggering, accurate parameter passing to `StatsManager` and `SaveManager`, mascot and theme asset presence, and button navigation routing.
   - **Background Deselection:** Tapping or clicking empty space outside the 9x9 grid or numpad (on the gameplay background) deselects the currently selected cell on `BoardUI`.
   - **Automated Verification:** Verified in headless CI via `game/tests/test_gameplay_screen.gd`, covering header initialization, button theme styling (`test_button_themes_applied` asserting 2px white border and `#121212` background for Pause and Resume buttons), pause button toggling board and timer, reset puzzle clearing moves and timer, new game distinct puzzle loading, background touch deselection, and asset verification.

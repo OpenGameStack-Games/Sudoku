@@ -177,7 +177,7 @@ This document outlines the strict manual testing procedures required before any 
 - **Expected (Visual & Theme):** The Victory Screen overlay appears centered over the board with 1930s monochrome card styling (2px white borders on `#121212` background, 8px rounded corners), displaying the "VICTORY!" banner, the 1930s rubber-hose mascot artwork (`mascot_icon.jpg`), and formatted completion time (`Completion Time: MM:SS`).
 - **Expected (Managers):** `StatsManager` increments `games_won`, updates best time, and recalculates average time. `SaveManager` removes the in-progress save file for this difficulty (`clear_save` / `clear_active_game`).
 - **Step 2:** Tap "Admire Puzzle".
-- **Expected:** The victory dialog card hides, revealing the completed Sudoku board clearly. A floating "Restore Dialog" button appears at the top right of the screen.
+- **Expected:** The victory dialog card hides, revealing the completed Sudoku board clearly. A "Restore Dialog" button appears horizontally centered directly above the game board, without overlapping the header controls or the board itself.
 - **Step 3:** Tap "Restore Dialog".
 - **Expected:** The victory dialog card reappears in full, and the "Restore Dialog" button hides.
 - **Step 4:** Tap "Statistics".
