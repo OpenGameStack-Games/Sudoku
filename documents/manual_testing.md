@@ -96,8 +96,8 @@ This document outlines the strict manual testing procedures required before any 
 - **Expected:** The number is entered into the cell. Verify that the entered digit is rendered in a dimmer gray (`#a0a0a0`) and smaller font size (28pt) compared to the initial clue digits which remain bold, larger (32pt), and pure white (`Color.WHITE`), clearly differentiating player inputs while maintaining the 1930s monochrome aesthetic.
 - **Step 2 (Number-First Input):** Tap a number on the numpad (it highlights in flat orange `Color("ffa500")`), then tap several empty cells.
 - **Expected:** The number is entered into every cell tapped. Tapping the numpad button again deselects it.
-- **Step 3 (Mode Toggles):** Tap the "Candidate" button (or press `C` on a keyboard). Tap an empty cell and input digit '3'.
-- **Expected:** '3' is placed into the cell's candidate micro-grid. Tap "Normal" (or press `N`) to switch back to normal answer input mode.
+- **Step 3 (Mode Toggles):** Tap the "Candidate" button (or press `C` on a keyboard). Observe the segmented toggle control. Tap an empty cell and input digit '3'.
+- **Expected:** The "Candidate" button visually inverts (light background, dark text) to indicate it is active, and the "Normal" button reverts to inactive (dark background, light text). '3' is placed into the cell's candidate micro-grid. Tap "Normal" (or press `N`) to switch back to normal answer input mode and verify color inversion flips back.
 - **Step 4 (Erase Button):** Select a cell containing a number or candidate notes, then tap the 'X' numpad button (or press `X`, `0`, `Backspace`, or `Delete` on keyboard).
 - **Expected:** Final answer is cleared, or candidate notes are deleted. Clue cells remain unaffected.
 - **Step 5 (Keyboard Shortcuts):** With a cell selected, press keys `1`-`9` (or numpad keys `KP_1`-`KP_9`).
@@ -253,7 +253,7 @@ This document outlines the strict manual testing procedures required before any 
 - **Step 2 (Container Margins & Alignment):** Observe the left, right, and bottom margins of the `InputControls` area below the 9x9 board.
 - **Expected:** The controls section exhibits explicit 56px padding on the left and right (`MarginContainer`) to precisely align with the 9x9 board boundaries, and 48px bottom padding.
 - **Step 3 (Vertical Spacing & Centering):** Observe the Mode/Undo row ("Normal", "Candidate", "Undo").
-- **Expected:** The row is visually centered. "Normal", "Candidate", and "Undo" buttons possess enlarged touch target dimensions. A clear vertical spacer (16px) provides distinct separation between the mode controls and the digit keypad.
+- **Expected:** The row is visually centered. "Normal" and "Candidate" buttons are unified into a single segmented control with 0 separation, and the "Undo" button is spaced to their right. All buttons possess enlarged touch target dimensions. A clear vertical spacer (16px) provides distinct separation between the mode controls and the digit keypad.
 - **Step 4 (Numpad Button Sizing & Font):** Observe the 10 numpad buttons (1-9 and X).
 - **Expected:** Buttons maintain an explicit minimum height of 64px and feature a larger 36px font size for improved legibility on mobile viewports.
 - **Step 5 (Auto Candidate Centering & Styling):** Inspect the "Auto Candidate Mode" toggle below the numpad, especially on different aspect ratios.

@@ -144,8 +144,8 @@ This document acts as the definitive source of truth for the game's features, lo
     - **Container Padding & Spacing:** Root node is a `MarginContainer` configuring explicit 56px margins on the left and right to align visually with the puzzle board boundaries, and 48px on the bottom (`margin_left = 56`, `margin_right = 56`, `margin_bottom = 48`, `margin_top = 0`). Internal sections are arranged inside a child `VBoxContainer` with 8px separation.
     - **Mode & Action Row:**
       - Row layout (`HBoxContainer`) dynamically centers its elements (`alignment = 1`).
-      - Left side: Two adjacent mode toggle buttons ("Normal" and "Candidate") with minimum size `Vector2(140, 64)` and mutually exclusive visual toggle modulation (`1.0` active, `0.5` inactive).
-      - Right side (spaced apart): "Undo" button (labeled '↩️ Undo', minimum size `Vector2(140, 64)`) wired to `board.undo_manager.undo_last_action(board)`, automatically disabled when the undo history stack is empty.
+      - Left side: Two mode buttons ("Normal" and "Candidate") grouped in a `ToggleContainer` (0 separation) acting as a single cohesive segmented control. Each button has a minimum size of `Vector2(170, 80)` and 28pt font size. They use dynamic `StyleBoxFlat` overrides to invert colors (light background/dark text for active mode) and merge their borders, squaring adjoining corners.
+      - Right side (spaced apart): "Undo" button (labeled '↩️', minimum size `Vector2(80, 80)`, 32pt font) wired to `board.undo_manager.undo_last_action(board)`, automatically disabled when the undo history stack is empty.
     - **Row Spacer:** A dedicated spacer control (`custom_minimum_size = Vector2(0, 16)`) positioned between the Mode/Undo row and the Numpad grid to provide ample vertical separation and clear visual hierarchy.
     - **Numpad Row:**
       - 10 buttons arranged in a 5-column grid: Digits `1` through `9`, and an `X` (erase/clear) button.

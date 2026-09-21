@@ -11,8 +11,8 @@ var board_ui: BoardUI = null
 var selected_digit: int = -1
 var is_candidate_mode: bool = false
 
-@onready var mode_normal_btn: Button = $VBoxContainer/ModeRow/NormalBtn
-@onready var mode_candidate_btn: Button = $VBoxContainer/ModeRow/CandidateBtn
+@onready var mode_normal_btn: Button = $VBoxContainer/ModeRow/ToggleContainer/NormalBtn
+@onready var mode_candidate_btn: Button = $VBoxContainer/ModeRow/ToggleContainer/CandidateBtn
 @onready var undo_btn: Button = $VBoxContainer/ModeRow/UndoBtn
 
 @onready var auto_candidate_btn: CheckButton = $VBoxContainer/AutoRow/AutoCandidateBtn
@@ -106,12 +106,47 @@ func _on_mode_candidate_pressed() -> void:
 	mode_changed.emit(true)
 
 func _update_mode_buttons() -> void:
+	var color_bg_active = Color(1.0, 1.0, 1.0, 1.0)
+	var color_text_active = Color(0.0, 0.0, 0.0, 1.0)
+	var color_bg_inactive = Color(0.07, 0.07, 0.07, 1.0)
+	var color_text_inactive = Color(1.0, 1.0, 1.0, 1.0)
+	
 	if is_candidate_mode:
-		mode_normal_btn.modulate = Color(0.5, 0.5, 0.5)
-		mode_candidate_btn.modulate = Color(1.0, 1.0, 1.0)
+		_apply_button_style(mode_normal_btn, true, color_bg_inactive, color_text_inactive)
+		_apply_button_style(mode_candidate_btn, false, color_bg_active, color_text_active)
 	else:
-		mode_normal_btn.modulate = Color(1.0, 1.0, 1.0)
-		mode_candidate_btn.modulate = Color(0.5, 0.5, 0.5)
+		_apply_button_style(mode_normal_btn, true, color_bg_active, color_text_active)
+		_apply_button_style(mode_candidate_btn, false, color_bg_inactive, color_text_inactive)
+		
+	# Clear previous modulate if any
+	mode_normal_btn.modulate = Color.WHITE
+	mode_candidate_btn.modulate = Color.WHITE
+
+func _apply_button_style(btn: Button, is_left: bool, bg_color: Color, text_color: Color) -> void:
+	var sb = StyleBoxFlat.new()
+	sb.bg_color = bg_color
+	sb.border_color = Color.WHITE
+	sb.border_width_top = 2
+	sb.border_width_bottom = 2
+	if is_left:
+		sb.border_width_left = 2
+		sb.border_width_right = 1
+		sb.corner_radius_top_left = 8
+		sb.corner_radius_bottom_left = 8
+	else:
+		sb.border_width_left = 1
+		sb.border_width_right = 2
+		sb.corner_radius_top_right = 8
+		sb.corner_radius_bottom_right = 8
+		
+	btn.add_theme_stylebox_override("normal", sb)
+	btn.add_theme_stylebox_override("hover", sb)
+	btn.add_theme_stylebox_override("pressed", sb)
+	btn.add_theme_stylebox_override("focus", sb)
+	btn.add_theme_color_override("font_color", text_color)
+	btn.add_theme_color_override("font_hover_color", text_color)
+	btn.add_theme_color_override("font_pressed_color", text_color)
+	btn.add_theme_color_override("font_focus_color", text_color)
 
 func _update_numpad_selection() -> void:
 	_update_numpad_exhaustion()
