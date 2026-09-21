@@ -184,7 +184,9 @@ This document outlines the strict manual testing procedures required before any 
 - **Expected:** Transitions to the Statistics Screen, where the newly recorded win and updated best/average times are visibly displayed for the current difficulty tier.
 - **Step 5:** Return to an active game, trigger win state, and tap "Play Again".
 - **Expected:** The victory overlay dismisses, the timer resets to `00:00`, and a fresh puzzle of the same difficulty starts immediately.
-- **Step 6:** Tap "<" to return to the Main Menu.
+- **Step 6:** Inspect the new board and toggle Auto-Candidate mode ON.
+- **Expected:** The new board has initial clues populated (it is not a blank grid). Auto-Candidate correctly calculates and displays candidates for the new puzzle.
+- **Step 7:** Tap "<" to return to the Main Menu.
 - **Expected:** The Main Menu difficulty button displays its default text (e.g. "Medium", not "Resume Medium"), confirming the completed puzzle was purged from active save tracking.
 - **Automated Verification:** Verified in headless CI via `game/tests/test_victory_screen.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), asserting overlay activation on win signal, accurate parameter passing to `StatsManager.record_game_won` and `SaveManager.clear_save`, asset presence (`victory_overlay.tscn`, `mascot_icon.jpg`, `theme_1930s.tres`), and button routing (Play Again, Main Menu, Statistics, Admire Puzzle, Restore Dialog).
 
