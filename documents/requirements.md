@@ -63,6 +63,7 @@ This document acts as the definitive source of truth for the game's features, lo
     - `COLOR_NUMPAD_EXHAUSTED`: Dimmed Gray (`Color(0.4, 0.4, 0.4)`)
   - **1930s Theme Resource (`game/resources/theme_1930s.tres`):** Pre-configured Godot `Theme` resource establishing:
     - Default button and panel `StyleBoxFlat` backgrounds using `#121212` with 2px solid white borders and 8px rounded corners.
+    - Explicit `Button` hover styles that retain the exact 2px solid white borders and corner radiuses of the normal state, while shifting the background color slightly lighter to indicate interaction.
     - Monochrome symbol enforcement: UI buttons utilizing Unicode symbols (e.g. Pause, Resume, Undo) MUST rely on the `SystemFont` fallback sequence embedded in `theme_1930s.tres` (prioritizing monochrome symbol fonts) to ensure they render as white shapes, as solely appending the text variation selector (`U+FE0E`) fails on certain OS fallback stacks.
     - Standardized typography variations: `clue_font` (bold weight 700), `input_font` (regular weight), `note_font` (regular candidate notes), and `note_font_bold` (bold weight 700 for matching candidate notes).
   - **Automated Verification:** Validated via unit tests in `game/tests/test_theme_constants.gd`, asserting theme resource existence, background hex color fidelity, constant distinctness, panel stylebox properties, and font configuration.
