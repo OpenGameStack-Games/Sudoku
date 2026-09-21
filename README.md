@@ -43,6 +43,7 @@ The game supports intuitive touch/mouse controls as well as full keyboard naviga
 - **Session & Post-Game Controls:**
   - `< Back`: Flushes the active game state to disk and returns to the Main Menu.
   - `Pause`: Halts the timer, conceals the grid behind a 1930s themed mascot overlay, and releases the screen wake lock.
+  - `Undo` (represented strictly by a '↩︎' back arrow icon instead of the text "Undo"): Reverts the last move made on the board.
   - `Reset Puzzle`: Restores initial clues, clears player answers and notes, and resets the timer to 00:00.
   - `New Game` / `Play Again`: Fetches a fresh distinct puzzle from `puzzles.json` of the current difficulty tier and restarts the session.
   - `Admire Puzzle`: Temporarily conceals the victory dialog card so the player can view their finished board, with a floating `Restore Dialog` button to bring it back.
