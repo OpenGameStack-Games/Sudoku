@@ -306,3 +306,8 @@ This document outlines the strict manual testing procedures required before any 
  -   * * A u t o m a t e d   V e r i f i c a t i o n : * *   V e r i f i e d   i n   h e a d l e s s   C I   v i a   ` g a m e / t e s t s / t e s t _ s a v e _ m a n a g e r . g d `   ( ` t e s t _ s t a t e _ i s o l a t i o n _ b e t w e e n _ d i f f i c u l t i e s ( ) ` ) ,   e n s u r i n g   i n d e p e n d e n t   t o g g l e s   a r e   s t o r e d   a n d   r e s t o r e d   c o r r e c t l y   a c r o s s   d i f f i c u l t i e s . 
  
  
+## Test 25.0: Button Hover States
+- **Step 1:** Launch the app on a device or platform that supports mouse cursor input (e.g., PC, or Android with a connected mouse).
+- **Step 2:** Move the mouse cursor to hover over various interactable UI buttons (e.g., Pause, Resume, Normal/Candidate toggles, Numpad digits, Easy/Medium/Hard menu buttons).
+- **Expected:** The background color of the button shifts slightly to indicate the hover state, while the 2px solid white border explicitly remains visible and does not vanish or disappear during the hover.
+
