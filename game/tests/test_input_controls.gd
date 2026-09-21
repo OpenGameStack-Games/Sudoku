@@ -69,6 +69,7 @@ func test_layout_and_styling() -> void:
 		
 	var normal_style: StyleBox = controls.auto_candidate_btn.get_theme_stylebox("normal")
 	assert_true(normal_style is StyleBoxEmpty, "Auto candidate button should have StyleBoxEmpty normal style")
+	assert_eq(controls.auto_candidate_btn.get_theme_font_size("font_size"), 32, "Auto candidate button should have font size 32")
 	
 	after_each()
 

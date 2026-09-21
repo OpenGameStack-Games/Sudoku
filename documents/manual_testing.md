@@ -256,9 +256,9 @@ This document outlines the strict manual testing procedures required before any 
 - **Expected:** The row is visually centered. "Normal", "Candidate", and "Undo" buttons possess enlarged touch target dimensions. A clear vertical spacer (16px) provides distinct separation between the mode controls and the digit keypad.
 - **Step 4 (Numpad Button Sizing & Font):** Observe the 10 numpad buttons (1-9 and X).
 - **Expected:** Buttons maintain an explicit minimum height of 64px and feature a larger 36px font size for improved legibility on mobile viewports.
-- **Step 5 (Auto Candidate Centering & Styling):** Inspect the "Auto Candidate Mode" toggle below the numpad.
-- **Expected:** The toggle lacks the standard 2px white button outline, presenting a sleek, flat checkbox/text-toggle aesthetic (`StyleBoxEmpty`), and remains visually centered below the numpad.
-- **Automated Verification:** Verified in headless CI via `game/tests/test_input_controls.gd` (`test_layout_and_styling()`), asserting `MarginContainer` margin constants (56px/48px), 64px button minimum vertical heights, and `StyleBoxEmpty` theme override styleboxes on the toggle button.
+- **Step 5 (Auto Candidate Centering & Styling):** Inspect the "Auto Candidate Mode" toggle below the numpad, especially on different aspect ratios.
+- **Expected:** The toggle lacks the standard 2px white button outline, presenting a sleek, flat checkbox/text-toggle aesthetic (`StyleBoxEmpty`), and remains visually centered below the numpad. The "Auto Candidate Mode" text must be scaled up (explicitly sized to 32) and clearly readable. The layout must dynamically shift upwards such that the Numpad isn't pushed too far up or clipping into the board.
+- **Automated Verification:** Verified in headless CI via `game/tests/test_input_controls.gd` (`test_layout_and_styling()`), asserting `MarginContainer` margin constants (56px/48px), 64px button minimum vertical heights, `StyleBoxEmpty` theme override styleboxes, and font size 32 on the toggle button.
 
 ## Test 22.0: Positional Candidate Notes (3x3 Micro-Grid Layout)
 - **Step 1:** Start a new game and switch to Candidate mode (tap "Candidate" button or press `C`).
