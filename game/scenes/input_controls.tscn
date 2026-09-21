@@ -131,6 +131,7 @@ layout_mode = 2
 
 [node name="AutoCandidateBtn" type="CheckButton" parent="VBoxContainer/AutoRow"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = SubResource("StyleBoxEmpty_no_outline")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_no_outline")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_no_outline")
