@@ -100,13 +100,13 @@ This document acts as the definitive source of truth for the game's features, lo
     - **Back Button (`< Back`):** Automatically saves progress to `SaveManager` (`flush_save()`), pauses `TimeManager`, and transitions to the Main Menu (`res://scenes/main_menu.tscn`).
     - **Difficulty Label:** Displays the capitalized current difficulty tier (`"Easy"`, `"Medium"`, `"Hard"`).
     - **Timer Label:** Displays active elapsed gameplay time formatted as `MM:SS` (or `HH:MM:SS` for 3600s+), updated dynamically via `TimeManager.time_updated`.
-    - **Pause Button:** Pauses the active timer and opens the full-screen Pause Overlay. Styled with `theme_1930s.tres` (2px solid white border, #121212 background, and 8px rounded corners) to demarcate interactive controls.
+    - **Pause Button:** Pauses the active timer and opens the full-screen Pause Overlay. Uses the universal monochrome ASCII emoji `⏸︎` (U+23F8 U+FE0E) rather than raw text. Styled with `theme_1930s.tres` (2px solid white border, #121212 background, and 8px rounded corners) to demarcate interactive controls.
     - **Triple-Dot Menu (`MenuButton`):** Provides in-game session reset actions:
       - **"Reset Puzzle":** Reverts the board back to the initial puzzle clues, clears player answers and candidate notes, clears undo history, resets timer to `00:00`, and flushes the reset state to `SaveManager`.
       - **"New Game":** Fetches a new distinct puzzle string from `game/data/puzzles.json` for the current difficulty tier, starts the new puzzle, wipes undo history, resets timer to `00:00`, and updates `SaveManager`.
   - **Pause Overlay (`game/scenes/pause_overlay.tscn` & `game/scripts/pause_overlay.gd`):**
     - Opaque/obscuring overlay (`#121212` background at 95% opacity) that completely conceals the 9x9 board when active to prevent cheating.
-    - Features the 1930s monochrome mascot graphic (`res://assets/icons/mascot_icon.jpg`), a large "PAUSED" title, and a styled "Resume" button (2px solid white border, #121212 background, and 8px rounded corners via `theme_1930s.tres`).
+    - Features the 1930s monochrome mascot graphic (`res://assets/icons/mascot_icon.jpg`), a large "PAUSED" title, and a styled "Resume" button utilizing the universal monochrome ASCII emoji `▶︎` (U+25B6 U+FE0E) (2px solid white border, #121212 background, and 8px rounded corners via `theme_1930s.tres`).
     - Pausing halts `TimeManager` and releases screen wake lock (`DisplayServer.screen_set_keep_on(false)`).
     - Resuming unpauses `TimeManager`, restores screen wake lock, reveals the board, and hides the overlay.
   - **Victory Overlay (`game/scenes/victory_overlay.tscn` & `game/scripts/victory_overlay.gd`):**

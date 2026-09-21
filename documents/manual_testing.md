@@ -217,11 +217,11 @@ This document outlines the strict manual testing procedures required before any 
 
 ## Test 18.0: Pause Functionality & Button Styling
 - **Step 1:** During an active game session, inspect the "Pause" button in the gameplay header row.
-- **Expected (Pause Button Styling):** The "Pause" button displays a crisp 2px solid white border, rounded corners, and a `#121212` background conforming to the 1930s monochrome aesthetic (`res://resources/theme_1930s.tres`), distinguishing it clearly as an interactive element.
+- **Expected (Pause Button Styling):** The "Pause" button displays a crisp 2px solid white border, rounded corners, and a `#121212` background conforming to the 1930s monochrome aesthetic (`res://resources/theme_1930s.tres`), distinguishing it clearly as an interactive element. Ensure the button renders the monochrome ASCII emoji `⏸︎` correctly without clipping or falling back to a missing glyph box on the target device.
 - **Step 2:** Tap the "Pause" button.
 - **Expected:** The timer stops immediately. The Sudoku board completely hides behind an opaque/obscuring overlay (`#121212` background at 95% opacity) displaying the 1930s monochrome mascot graphic (`mascot_icon.jpg`), a large "PAUSED" title, and a styled "Resume" button to prevent cheating. The screen wake lock is released (`DisplayServer.screen_set_keep_on(false)`), allowing the device to follow standard display sleep timeouts.
 - **Step 3:** Inspect the "Resume" button on the pause overlay.
-- **Expected (Resume Button Styling):** The "Resume" button displays a crisp 2px solid white border, rounded corners, and a `#121212` background conforming to `theme_1930s.tres`.
+- **Expected (Resume Button Styling):** The "Resume" button displays a crisp 2px solid white border, rounded corners, and a `#121212` background conforming to `theme_1930s.tres`. Ensure the button renders the monochrome ASCII emoji `▶︎` correctly without clipping or falling back to a missing glyph box on the target device.
 - **Step 4:** Tap the "Resume" button on the pause overlay.
 - **Expected:** The pause overlay disappears, the Sudoku board reappears with all clues, entries, and candidate notes intact, the timer resumes counting from the exact second it stopped, and the screen wake lock is restored (`DisplayServer.screen_set_keep_on(true)`).
 - **Automated Verification:** Verified in headless CI via `game/tests/test_game_timer.gd` and `game/tests/test_gameplay_screen.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), confirming timer halts during manual pause, the board hides while the pause overlay shows, theme resource assignment with 2px white borders and #121212 background (`test_button_themes_applied`), and resuming cleanly reverses both states.
