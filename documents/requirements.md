@@ -113,8 +113,9 @@ This document acts as the definitive source of truth for the game's features, lo
     - Pausing halts `TimeManager` and releases screen wake lock (`DisplayServer.screen_set_keep_on(false)`).
     - Resuming unpauses `TimeManager`, restores screen wake lock, reveals the board, and hides the overlay.
   - **Victory Overlay (`game/scenes/victory_overlay.tscn` & `game/scripts/victory_overlay.gd`):**
-    - Centered modal dialog card (`PanelContainer`) styled according to the 1930s monochrome aesthetic (`res://resources/theme_1930s.tres`) with a `#121212` background (`StyleBoxFlat`), 2px solid white borders, 8px rounded corners, and generous padding.
-    - Displays celebratory banner ("VICTORY!"), the 1930s monochrome mascot graphic (`res://assets/icons/mascot_icon.jpg`), and the final formatted completion time (`MM:SS`).
+    - Full-screen responsive modal dialog card (`PanelContainer`) styled according to the 1930s monochrome aesthetic (`res://resources/theme_1930s.tres`). It employs responsive margin-based anchoring (rather than a static size) to ensure it dynamically scales and never clips on various aspect ratios or screen resolutions.
+    - Features a larger (~2x scaled) UI for prominence, utilizing a `#121212` background (`StyleBoxFlat`), 4px solid white borders, 16px rounded corners, and generous padding.
+    - Displays celebratory banner ("VICTORY!"), the scaled 1930s monochrome mascot graphic (`res://assets/icons/mascot_icon.jpg`), and the final formatted completion time (`MM:SS`).
     - Halts `TimeManager`, records winning statistics to `StatsManager` (`record_game_won`), and removes the completed game from active save slots via `SaveManager.clear_active_game()` / `SaveManager.clear_save()`.
     - **Action Buttons:**
       - **"Play Again":** Dismisses the overlay, loads a fresh puzzle of the same difficulty tier as the completed puzzle, resets the timer to `00:00`, and starts a new session. If no new puzzle can be found, it must fall back to the Main Menu.
