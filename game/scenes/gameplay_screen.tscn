@@ -37,39 +37,46 @@ theme_override_constants/separation = 16
 [node name="Header" type="MarginContainer" parent="VBoxContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 16
-theme_override_constants/margin_top = 32
+theme_override_constants/margin_top = 48
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Header"]
 layout_mode = 2
+theme_override_constants/separation = 32
+alignment = 1
 
 [node name="BackButton" type="Button" parent="VBoxContainer/Header/HBoxContainer"]
-custom_minimum_size = Vector2(80, 60)
+custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
+theme = ExtResource("6_theme")
+theme_override_font_sizes/font_size = 48
 text = "<"
 
 [node name="DifficultyLabel" type="Label" parent="VBoxContainer/Header/HBoxContainer"]
 layout_mode = 2
-size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 32
 text = "Medium"
 horizontal_alignment = 1
 
 [node name="TimerLabel" type="Label" parent="VBoxContainer/Header/HBoxContainer"]
-custom_minimum_size = Vector2(100, 0)
+custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
+theme_override_font_sizes/font_size = 32
 text = "00:00"
-horizontal_alignment = 2
+horizontal_alignment = 1
 
 [node name="PauseButton" type="Button" parent="VBoxContainer/Header/HBoxContainer"]
-custom_minimum_size = Vector2(80, 60)
+custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
 theme = ExtResource("6_theme")
+theme_override_font_sizes/font_size = 48
 text = "⏸︎"
 
 [node name="MenuButton" type="MenuButton" parent="VBoxContainer/Header/HBoxContainer"]
-custom_minimum_size = Vector2(100, 80)
+custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
+theme = ExtResource("6_theme")
 theme_override_font_sizes/font_size = 64
 text = "..."
 item_count = 2
