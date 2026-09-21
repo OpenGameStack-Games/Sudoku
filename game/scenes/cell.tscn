@@ -22,74 +22,155 @@ theme_override_constants/h_separation = 0
 theme_override_constants/v_separation = 0
 columns = 3
 
-[node name="Candidate1" type="Label" parent="CandidatesCenter/CandidatesGrid" unique_id=1349699011]
+[node name="Slot1" type="Control" parent="CandidatesCenter/CandidatesGrid"]
 custom_minimum_size = Vector2(20, 20)
-clip_text = true
 layout_mode = 2
+mouse_filter = 2
+
+[node name="Candidate1" type="Label" parent="CandidatesCenter/CandidatesGrid/Slot1"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+clip_text = true
 text = "1"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Candidate2" type="Label" parent="CandidatesCenter/CandidatesGrid" unique_id=512303531]
+[node name="Slot2" type="Control" parent="CandidatesCenter/CandidatesGrid"]
 custom_minimum_size = Vector2(20, 20)
-clip_text = true
 layout_mode = 2
+mouse_filter = 2
+
+[node name="Candidate2" type="Label" parent="CandidatesCenter/CandidatesGrid/Slot2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+clip_text = true
 text = "2"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Candidate3" type="Label" parent="CandidatesCenter/CandidatesGrid" unique_id=727645984]
+[node name="Slot3" type="Control" parent="CandidatesCenter/CandidatesGrid"]
 custom_minimum_size = Vector2(20, 20)
-clip_text = true
 layout_mode = 2
+mouse_filter = 2
+
+[node name="Candidate3" type="Label" parent="CandidatesCenter/CandidatesGrid/Slot3"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+clip_text = true
 text = "3"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Candidate4" type="Label" parent="CandidatesCenter/CandidatesGrid" unique_id=868961113]
+[node name="Slot4" type="Control" parent="CandidatesCenter/CandidatesGrid"]
 custom_minimum_size = Vector2(20, 20)
-clip_text = true
 layout_mode = 2
+mouse_filter = 2
+
+[node name="Candidate4" type="Label" parent="CandidatesCenter/CandidatesGrid/Slot4"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+clip_text = true
 text = "4"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Candidate5" type="Label" parent="CandidatesCenter/CandidatesGrid" unique_id=297084185]
+[node name="Slot5" type="Control" parent="CandidatesCenter/CandidatesGrid"]
 custom_minimum_size = Vector2(20, 20)
-clip_text = true
 layout_mode = 2
+mouse_filter = 2
+
+[node name="Candidate5" type="Label" parent="CandidatesCenter/CandidatesGrid/Slot5"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+clip_text = true
 text = "5"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Candidate6" type="Label" parent="CandidatesCenter/CandidatesGrid" unique_id=2045211406]
+[node name="Slot6" type="Control" parent="CandidatesCenter/CandidatesGrid"]
 custom_minimum_size = Vector2(20, 20)
-clip_text = true
 layout_mode = 2
+mouse_filter = 2
+
+[node name="Candidate6" type="Label" parent="CandidatesCenter/CandidatesGrid/Slot6"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+clip_text = true
 text = "6"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Candidate7" type="Label" parent="CandidatesCenter/CandidatesGrid" unique_id=103583214]
+[node name="Slot7" type="Control" parent="CandidatesCenter/CandidatesGrid"]
 custom_minimum_size = Vector2(20, 20)
-clip_text = true
 layout_mode = 2
+mouse_filter = 2
+
+[node name="Candidate7" type="Label" parent="CandidatesCenter/CandidatesGrid/Slot7"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+clip_text = true
 text = "7"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Candidate8" type="Label" parent="CandidatesCenter/CandidatesGrid" unique_id=695806457]
+[node name="Slot8" type="Control" parent="CandidatesCenter/CandidatesGrid"]
 custom_minimum_size = Vector2(20, 20)
-clip_text = true
 layout_mode = 2
+mouse_filter = 2
+
+[node name="Candidate8" type="Label" parent="CandidatesCenter/CandidatesGrid/Slot8"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+clip_text = true
 text = "8"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Candidate9" type="Label" parent="CandidatesCenter/CandidatesGrid" unique_id=1340318626]
+[node name="Slot9" type="Control" parent="CandidatesCenter/CandidatesGrid"]
 custom_minimum_size = Vector2(20, 20)
-clip_text = true
 layout_mode = 2
+mouse_filter = 2
+
+[node name="Candidate9" type="Label" parent="CandidatesCenter/CandidatesGrid/Slot9"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+clip_text = true
 text = "9"
 horizontal_alignment = 1
 vertical_alignment = 1
