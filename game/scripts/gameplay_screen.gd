@@ -16,6 +16,7 @@ var save_manager_node: Node = null
 var game_manager_node: Node = null
 var time_manager_node: Node = null
 var stats_manager_node: Node = null
+var _last_played_difficulty: String = ""
 
 func _init_nodes() -> void:
 	if not background:
@@ -176,8 +177,15 @@ func _on_menu_item_pressed(id: int) -> void:
 		# New Game
 		if save_manager_node and game_manager_node:
 			var diff: String = save_manager_node.current_difficulty
+			if diff == "":
+				diff = _last_played_difficulty
 			var current_puz: String = save_manager_node.current_puzzle_string
 			var puzzle: String = _get_random_puzzle(diff, current_puz)
+			
+			if puzzle == "":
+				_on_main_menu_requested()
+				return
+				
 			save_manager_node.mark_active_game(diff, puzzle)
 			game_manager_node.start_game(puzzle)
 			if game_manager_node.board and game_manager_node.board.undo_manager:
@@ -225,6 +233,8 @@ func _on_game_won() -> void:
 		
 	if stats_manager_node and stats_manager_node.has_method("record_game_won"):
 		stats_manager_node.record_game_won(diff, elapsed)
+		
+	_last_played_difficulty = diff
 		
 	if save_manager_node:
 		if save_manager_node.has_method("clear_active_game"):
