@@ -117,7 +117,7 @@ This document acts as the definitive source of truth for the game's features, lo
     - Displays celebratory banner ("VICTORY!"), the 1930s monochrome mascot graphic (`res://assets/icons/mascot_icon.jpg`), and the final formatted completion time (`MM:SS`).
     - Halts `TimeManager`, records winning statistics to `StatsManager` (`record_game_won`), and removes the completed game from active save slots via `SaveManager.clear_active_game()` / `SaveManager.clear_save()`.
     - **Action Buttons:**
-      - **"Play Again":** Dismisses the overlay, loads a fresh puzzle of the same difficulty tier, resets the timer to `00:00`, and starts a new session.
+      - **"Play Again":** Dismisses the overlay, loads a fresh puzzle of the same difficulty tier as the completed puzzle, resets the timer to `00:00`, and starts a new session. If no new puzzle can be found, it must fall back to the Main Menu.
       - **"Main Menu":** Navigates back to the Main Menu (`res://scenes/main_menu.tscn`).
       - **"Statistics":** Navigates directly to the Statistics screen (`res://scenes/statistics_screen.tscn`).
       - **"Admire Puzzle":** Conceals the victory card dialog so the player can view their finished board, displaying a "Restore Dialog" button horizontally centered directly above the game board to restore the modal at any time.

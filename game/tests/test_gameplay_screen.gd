@@ -34,6 +34,9 @@ class MockSaveManager extends Node:
 		return false
 	func load_game(diff: String) -> Dictionary:
 		return {}
+	func clear_active_game() -> void:
+		current_difficulty = ""
+		current_puzzle_string = ""
 	func flush_save() -> void:
 		flush_called = true
 
@@ -232,5 +235,32 @@ func test_pause_overlay_mascot_size() -> void:
 	assert_true(mascot_rect != null, "MascotRect should exist on pause overlay")
 	assert_eq(mascot_rect.custom_minimum_size.x, 320, "MascotRect custom_minimum_size width should be 320")
 	assert_eq(mascot_rect.custom_minimum_size.y, 320, "MascotRect custom_minimum_size height should be 320")
+	
+	_teardown_nodes()
+
+func test_play_again() -> void:
+	_setup_nodes("medium")
+	
+	var old_puzzle: String = "1".repeat(81)
+	save_manager_node.current_puzzle_string = old_puzzle
+	time_manager_node.start(120)
+	
+	# Simulate winning the game
+	save_manager_node.current_difficulty = "medium"
+	screen._on_game_won()
+	
+	# After _on_game_won(), active game should be cleared
+	assert_eq(save_manager_node.current_difficulty, "", "Active game should be cleared after win")
+	assert_eq(save_manager_node.current_puzzle_string, "", "Active game puzzle should be cleared after win")
+	
+	# Verify that Play Again loads a new game with the correct difficulty instead of a blank string
+	save_manager_node.flush_called = false
+	screen._on_play_again_requested()
+	
+	assert_eq(time_manager_node.get_elapsed_seconds(), 0, "Timer should be reset to 0 on Play Again")
+	assert_true(save_manager_node.current_puzzle_string != old_puzzle, "Play Again should load a fresh puzzle string")
+	assert_eq(save_manager_node.current_puzzle_string.length(), 81, "New puzzle string should have length 81")
+	assert_eq(save_manager_node.current_difficulty, "medium", "New game should inherit previous difficulty")
+	assert_true(save_manager_node.flush_called, "SaveManager should be flushed on new game")
 	
 	_teardown_nodes()
