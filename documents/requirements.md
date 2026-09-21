@@ -157,7 +157,7 @@ This document acts as the definitive source of truth for the game's features, lo
       - **Flat Styling:** Configured with `StyleBoxEmpty` overrides across normal, pressed, hover, hover_pressed, and focus states to eliminate heavy button borders and present a clean, text-only checkbox aesthetic.
     - **Bi-directional Workflows:**
       - **Cell-First:** Player selects a cell on the board, then presses a numpad digit or erase button. Clue cells are protected from modification.
-      - **Number-First:** Player taps a numpad button to highlight/select it (`Color(0.8, 1.0, 0.8)`), then taps multiple cells across the board to rapidly fill or erase them until deselected.
+      - **Number-First:** Player taps a numpad button to highlight/select it (`Color("ffa500")` Flat Orange), then taps multiple cells across the board to rapidly fill or erase them until deselected.
     - **Keyboard Input Shortcuts (`_unhandled_input`):**
       - Digits `1`-`9` / Keypad `1`-`9`: Trigger numpad digit input.
       - `X`, `0`, `KP_0`, `Backspace`, `Delete`: Trigger erase action.
