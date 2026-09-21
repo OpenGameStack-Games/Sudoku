@@ -106,7 +106,7 @@ This document acts as the definitive source of truth for the game's features, lo
       - **"New Game":** Fetches a new distinct puzzle string from `game/data/puzzles.json` for the current difficulty tier, starts the new puzzle, wipes undo history, resets timer to `00:00`, and updates `SaveManager`.
   - **Pause Overlay (`game/scenes/pause_overlay.tscn` & `game/scripts/pause_overlay.gd`):**
     - Opaque/obscuring overlay (`#121212` background at 95% opacity) that completely conceals the 9x9 board when active to prevent cheating.
-    - Features the 1930s monochrome mascot graphic (`res://assets/icons/mascot_icon.jpg`), a large "PAUSED" title, and a styled "Resume" button utilizing the universal monochrome ASCII emoji `▶︎` (U+25B6 U+FE0E) (2px solid white border, #121212 background, and 8px rounded corners via `theme_1930s.tres`).
+    - Features the 1930s monochrome mascot graphic (`res://assets/icons/mascot_icon.jpg`) scaled to a minimum size of 320x320, a large "PAUSED" title, and a styled "Resume" button utilizing the universal monochrome ASCII emoji `▶︎` (U+25B6 U+FE0E) (2px solid white border, #121212 background, and 8px rounded corners via `theme_1930s.tres`).
     - Pausing halts `TimeManager` and releases screen wake lock (`DisplayServer.screen_set_keep_on(false)`).
     - Resuming unpauses `TimeManager`, restores screen wake lock, reveals the board, and hides the overlay.
   - **Victory Overlay (`game/scenes/victory_overlay.tscn` & `game/scripts/victory_overlay.gd`):**

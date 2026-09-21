@@ -39,7 +39,7 @@ theme_override_constants/separation = 24
 alignment = 1
 
 [node name="MascotRect" type="TextureRect" parent="Panel/CenterContainer/VBoxContainer"]
-custom_minimum_size = Vector2(160, 160)
+custom_minimum_size = Vector2(320, 320)
 layout_mode = 2
 texture = ExtResource("2_mascot")
 expand_mode = 1
