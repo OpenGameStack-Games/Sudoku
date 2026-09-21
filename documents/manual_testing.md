@@ -23,6 +23,7 @@ This document outlines the strict manual testing procedures required before any 
 - **Expected:** The entire app conforms to a 1930s monochrome cartoon aesthetic.
 - **Expected (Colors):** The global palette must be **white-on-black**. The background MUST be Dark Gray (`#121212`, `ThemeConstants.COLOR_BG_DARK_GRAY`) per Material Design guidelines, rather than pure black. Fonts and lines must be white (`ThemeConstants.COLOR_UI_FOREGROUND`). Color is ONLY used for critical game moves, and the colors are flat and not overly bright.
 - **Expected (Assets & Theme):** The mascot icon is visible and themed correctly. Buttons and panels apply 1930s rounded styling from `game/resources/theme_1930s.tres`.
+- **Expected (Monochrome Symbols):** Buttons utilizing Unicode symbols (Undo, Pause, Resume) MUST render as flat monochrome white shapes on a dark gray background. They must NOT render as blue or colored emojis on any OS (including Windows and Android).
 - **Automated Verification:** Verified in headless CI via `game/tests/test_theme_constants.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), confirming ThemeConstants color palette definitions, distinct values, and successful loading and panel/font styling of `game/resources/theme_1930s.tres`.
 
 ## Test 5.0: Main Menu & Navigation
