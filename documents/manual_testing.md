@@ -174,7 +174,8 @@ This document outlines the strict manual testing procedures required before any 
 ## Test 15.0: Win State & Victory Screen
 - **Step 1:** Successfully enter the final correct number filling the entire grid with 0 conflicts.
 - **Expected:** The game detects the win state. The timer halts immediately and elapsed time is captured.
-- **Expected (Visual & Theme):** The Victory Screen overlay appears centered over the board with 1930s monochrome card styling (2px white borders on `#121212` background, 8px rounded corners), displaying the "VICTORY!" banner, the 1930s rubber-hose mascot artwork (`mascot_icon.jpg`), and formatted completion time (`Completion Time: MM:SS`).
+- **Expected (Visual & Theme):** The Victory Screen overlay appears full-screen with responsive margins over the board with 1930s monochrome card styling (4px white borders on `#121212` background, 16px rounded corners). It displays a large scaled "VICTORY!" banner, the 1930s rubber-hose mascot artwork (`mascot_icon.jpg`), and formatted completion time (`Completion Time: MM:SS`).
+- **Expected (Resolution & Scaling):** Resize the game window or view on varying devices (e.g., tablet vs. tall mobile). The modal should dynamically size without clipping the scaled buttons and banner, ensuring the ~2x UI components remain readable and prominent.
 - **Expected (Managers):** `StatsManager` increments `games_won`, updates best time, and recalculates average time. `SaveManager` removes the in-progress save file for this difficulty (`clear_save` / `clear_active_game`).
 - **Step 2:** Tap "Admire Puzzle".
 - **Expected:** The victory dialog card hides, revealing the completed Sudoku board clearly. A "Restore Dialog" button appears horizontally centered directly above the game board, without overlapping the header controls or the board itself.

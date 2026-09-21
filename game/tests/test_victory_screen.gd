@@ -154,3 +154,42 @@ func test_restore_button_layout() -> void:
 	
 	_teardown_nodes()
 
+func test_victory_modal_scaling() -> void:
+	_setup_nodes()
+	
+	var overlay = screen.victory_overlay
+	var panel = overlay.panel
+	var vbox = panel.get_node("VBoxContainer")
+	var banner = vbox.get_node("Banner") as Label
+	var time_label = overlay.time_label
+	var play_again_btn = overlay.play_again_btn
+	var mascot = overlay.mascot_rect
+	
+	# Verify responsive anchors
+	assert_eq(int(panel.anchors_preset), 15, "Panel should be anchored to fill screen")
+	assert_eq(panel.anchor_right, 1.0, "Panel anchor_right should be 1.0")
+	assert_eq(panel.anchor_bottom, 1.0, "Panel anchor_bottom should be 1.0")
+	assert_eq(panel.offset_left, 36.0, "Panel should have screen margin left")
+	assert_eq(panel.offset_top, 100.0, "Panel should have screen margin top")
+	assert_eq(panel.offset_right, -36.0, "Panel should have screen margin right")
+	assert_eq(panel.offset_bottom, -100.0, "Panel should have screen margin bottom")
+	
+	# Verify 2x scaled internal elements
+	assert_eq(banner.get_theme_font_size("font_size"), 64, "Banner font size should be 2x")
+	assert_eq(time_label.get_theme_font_size("font_size"), 40, "TimeLabel font size should be 2x")
+	assert_eq(play_again_btn.custom_minimum_size.x, 440, "Button width should be 2x")
+	assert_eq(play_again_btn.custom_minimum_size.y, 92, "Button height should be 2x")
+	assert_eq(play_again_btn.get_theme_font_size("font_size"), 40, "Button font size should be 2x")
+	assert_eq(mascot.custom_minimum_size.x, 260, "Mascot width should be 2x")
+	assert_eq(mascot.custom_minimum_size.y, 260, "Mascot height should be 2x")
+	assert_eq(vbox.get_theme_constant("separation"), 28, "VBox separation should be 2x")
+	
+	var stylebox = panel.get_theme_stylebox("panel") as StyleBoxFlat
+	assert_true(stylebox != null, "StyleBoxFlat should exist")
+	if stylebox:
+		assert_eq(stylebox.content_margin_left, 48.0, "Stylebox margin left should be 2x")
+		assert_eq(stylebox.content_margin_top, 48.0, "Stylebox margin top should be 2x")
+		assert_eq(stylebox.border_width_left, 4, "Stylebox border should be 2x")
+		assert_eq(stylebox.corner_radius_top_left, 16, "Stylebox corner radius should be 2x")
+	
+	_teardown_nodes()
