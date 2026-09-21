@@ -126,3 +126,17 @@ func test_statistics_screen_styling_applied() -> void:
 	assert_eq(started_val.get_theme_font_size("font_size"), 32, "Grid Labels should have font size 32")
 	
 	_teardown_scene()
+
+func test_scroll_container_properties() -> void:
+	_setup_scene()
+	scene._ready()
+	
+	var scroll_container = scene.get_node_or_null("MarginContainer/VBoxContainer/ScrollContainer")
+	assert_true(scroll_container != null, "ScrollContainer should exist")
+	assert_true(scroll_container is ScrollContainer, "ScrollContainer should be of type ScrollContainer")
+	
+	if scroll_container is ScrollContainer:
+		assert_eq(scroll_container.horizontal_scroll_mode, ScrollContainer.SCROLL_MODE_DISABLED, "Horizontal scrolling should be disabled")
+		assert_eq(scroll_container.vertical_scroll_mode, ScrollContainer.SCROLL_MODE_AUTO, "Vertical scrolling should be enabled")
+		
+	_teardown_scene()
