@@ -139,3 +139,18 @@ func test_victory_buttons_routing() -> void:
 	assert_false(overlay.visible, "Overlay should hide on play again")
 	
 	_teardown_nodes()
+
+func test_restore_button_layout() -> void:
+	_setup_nodes()
+	
+	var overlay = screen.victory_overlay
+	var btn = overlay.restore_btn
+	
+	# Verify button is centered horizontally at the top (anchor_preset = 5)
+	assert_eq(int(btn.anchors_preset), int(Control.PRESET_TOP_WIDE) if btn.anchors_preset == 10 else 5, "Anchor preset should be top center")
+	assert_eq(btn.anchor_left, 0.5, "Anchor left should be 0.5")
+	assert_eq(btn.anchor_right, 0.5, "Anchor right should be 0.5")
+	assert_eq(btn.offset_top, 160.0, "Offset top should be 160.0 to be above the grid")
+	
+	_teardown_nodes()
+
