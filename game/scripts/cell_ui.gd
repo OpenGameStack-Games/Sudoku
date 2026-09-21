@@ -19,7 +19,7 @@ func _ready() -> void:
 	color = COLOR_NORMAL
 	gui_input.connect(_on_gui_input)
 	for i in range(1, 10):
-		var cand_label: Label = $CandidatesCenter/CandidatesGrid.get_node("Candidate" + str(i)) as Label
+		var cand_label: Label = $CandidatesCenter/CandidatesGrid.get_node("Slot" + str(i) + "/Candidate" + str(i)) as Label
 		cand_label.text = ""
 
 func _on_gui_input(event: InputEvent) -> void:
@@ -41,7 +41,7 @@ func set_value(val: int, clue: bool) -> void:
 
 func set_candidates(candidates: Array[int], match_digit: int = 0) -> void:
 	for i in range(1, 10):
-		var cand_label: Label = $CandidatesCenter/CandidatesGrid.get_node("Candidate" + str(i)) as Label
+		var cand_label: Label = $CandidatesCenter/CandidatesGrid.get_node("Slot" + str(i) + "/Candidate" + str(i)) as Label
 		if candidates.has(i):
 			cand_label.text = str(i)
 			if i == match_digit:
@@ -74,5 +74,5 @@ func set_highlight_state(state: String) -> void:
 	
 	$ValueLabel.add_theme_color_override("font_color", text_color)
 	for i in range(1, 10):
-		var cand_label: Label = $CandidatesCenter/CandidatesGrid.get_node("Candidate" + str(i)) as Label
+		var cand_label: Label = $CandidatesCenter/CandidatesGrid.get_node("Slot" + str(i) + "/Candidate" + str(i)) as Label
 		cand_label.add_theme_color_override("font_color", text_color)

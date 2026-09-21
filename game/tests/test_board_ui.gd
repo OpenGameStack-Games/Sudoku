@@ -10,7 +10,7 @@ func test_cell_instantiation() -> void:
 	
 	# Test candidates are 1..9
 	for i in range(1, 10):
-		var label = cell.get_node("CandidatesCenter/CandidatesGrid/Candidate" + str(i)) as Label
+		var label = cell.get_node("CandidatesCenter/CandidatesGrid/Slot" + str(i) + "/Candidate" + str(i)) as Label
 		assert_true(label != null, "Candidate label %d should exist" % i)
 		assert_eq(label.text, str(i), "Label text should match index")
 	cell.queue_free()
@@ -119,7 +119,7 @@ func test_candidates() -> void:
 	
 	# All candidate labels must remain visible to preserve fixed 3x3 GridContainer slots
 	for i in range(1, 10):
-		var label = cell.get_node("CandidatesCenter/CandidatesGrid/Candidate" + str(i)) as Label
+		var label = cell.get_node("CandidatesCenter/CandidatesGrid/Slot" + str(i) + "/Candidate" + str(i)) as Label
 		assert_true(label.visible, "Candidate %d label must be visible to preserve grid layout" % i)
 		assert_eq(label.text, "", "Candidate %d label text should be empty initially" % i)
 	
@@ -127,22 +127,22 @@ func test_candidates() -> void:
 	cell.set_candidates(candidates, 5) # 5 is the match digit
 	
 	for i in range(1, 10):
-		var label = cell.get_node("CandidatesCenter/CandidatesGrid/Candidate" + str(i)) as Label
+		var label = cell.get_node("CandidatesCenter/CandidatesGrid/Slot" + str(i) + "/Candidate" + str(i)) as Label
 		assert_true(label.visible, "Candidate %d must stay visible in grid layout" % i)
 		if i in [1, 5, 9]:
 			assert_eq(label.text, str(i), "Candidate %d should display its digit" % i)
 		else:
 			assert_eq(label.text, "", "Inactive candidate %d should display empty string" % i)
 	
-	var label1 = cell.get_node("CandidatesCenter/CandidatesGrid/Candidate1") as Label
-	var label5 = cell.get_node("CandidatesCenter/CandidatesGrid/Candidate5") as Label
+	var label1 = cell.get_node("CandidatesCenter/CandidatesGrid/Slot1/Candidate1") as Label
+	var label5 = cell.get_node("CandidatesCenter/CandidatesGrid/Slot5/Candidate5") as Label
 	assert_ne(label5.get_theme_font_size("font_size"), label1.get_theme_font_size("font_size"), "Matched candidate should have different font size")
 	
 	# Clear candidates
 	var empty_candidates: Array[int] = []
 	cell.set_candidates(empty_candidates)
 	for i in range(1, 10):
-		var label = cell.get_node("CandidatesCenter/CandidatesGrid/Candidate" + str(i)) as Label
+		var label = cell.get_node("CandidatesCenter/CandidatesGrid/Slot" + str(i) + "/Candidate" + str(i)) as Label
 		assert_true(label.visible, "Candidate %d must remain visible when cleared" % i)
 		assert_eq(label.text, "", "Candidate %d text must be empty when cleared" % i)
 	
