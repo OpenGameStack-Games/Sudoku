@@ -62,7 +62,7 @@ This document outlines the strict manual testing procedures required before any 
 
 ## Test 5.2: Credits Menu & Studio Attributions
 - **Step 1:** On the Main Menu, tap the "Credits" button.
-- **Expected:** A full-screen `CreditsModal` appears as an overlay on top of the menu. The modal title reads "CREDITS".
+- **Expected:** A full-screen `CreditsModal` appears as an overlay on top of the menu. The modal background must be nearly opaque (98% opacity) to ensure the UI elements behind it are adequately obscured and do not interfere with readability. The modal title reads "CREDITS".
 - **Step 2:** Scroll through the modal (if necessary) and observe the attribution blocks.
 - **Expected:** There are three distinct blocks for Open Game Stack, Audrain Entertainment, and GitHub. Each block features the corresponding studio/service logo and descriptive text.
 - **Step 3:** Tap the Web icon button next to the Open Game Stack attribution.
