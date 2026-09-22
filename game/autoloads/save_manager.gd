@@ -58,8 +58,11 @@ func flush_save() -> void:
 			})
 			
 	var undo_stack: Array = []
+	var redo_stack: Array = []
 	if action_manager_node:
 		undo_stack = action_manager_node.get_history_state()
+		if action_manager_node.has_method("get_redo_history_state"):
+			redo_stack = action_manager_node.get_redo_history_state()
 		
 	var elapsed: int = 0
 	if time_manager_node:
@@ -83,6 +86,7 @@ func flush_save() -> void:
 		"puzzle_string": current_puzzle_string,
 		"board_state": board_state,
 		"undo_stack": undo_stack,
+		"redo_stack": redo_stack,
 		"elapsed_seconds": elapsed,
 		"auto_candidates": auto_candidates,
 		"input_mode": input_mode

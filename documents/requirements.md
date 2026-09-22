@@ -146,7 +146,7 @@ This document acts as the definitive source of truth for the game's features, lo
     - **Mode & Action Row:**
       - Row layout (`HBoxContainer`) dynamically centers its elements (`alignment = 1`).
       - Left side: Two mode buttons ("Normal" and "Candidate") grouped in a `ToggleContainer` (0 separation) acting as a single cohesive segmented control. Each button has a minimum size of `Vector2(170, 80)` and 28pt font size. They use dynamic `StyleBoxFlat` overrides to invert colors (light background/dark text for active mode) and merge their borders, squaring adjoining corners.
-      - Right side (spaced apart): "Undo" button (labeled '↩️', minimum size `Vector2(80, 80)`, 32pt font) wired to `board.undo_manager.undo_last_action(board)`, automatically disabled when the undo history stack is empty.
+      - Right side (spaced apart): "Undo" button (labeled '↺', minimum size `Vector2(80, 80)`, 32pt font) wired to `board.undo_manager.undo_last_action(board)`, automatically disabled when the undo history stack is empty. A "Redo" button (labeled '↻', minimum size `Vector2(80, 80)`, 32pt font) wired to `board.undo_manager.redo_last_action(board)`, automatically disabled when the redo history stack is empty. Note: The Redo history stack is flushed whenever a new board action is taken.
     - **Row Spacer:** A dedicated spacer control (`custom_minimum_size = Vector2(0, 16)`) positioned between the Mode/Undo row and the Numpad grid to provide ample vertical separation and clear visual hierarchy.
     - **Numpad Row:**
       - 10 buttons arranged in a 5-column grid: Digits `1` through `9`, and an `X` (erase/clear) button.
@@ -165,6 +165,7 @@ This document acts as the definitive source of truth for the game's features, lo
       - `C`: Switch to Candidate mode.
       - `N`: Switch to Normal mode.
       - `U`, `Ctrl+Z`: Trigger Undo.
+      - `R`, `Ctrl+Y`, `Ctrl+Shift+Z`: Trigger Redo.
     - **Automated Verification:** Verified in headless CI via `game/tests/test_input_controls.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), asserting scene and theme resources, MarginContainer margins and 64px button sizing (`test_layout_and_styling`), mode switching, numpad exhaustion styling and cheat prevention, cell-first vs number-first event dispatching, candidate mode input, erase behavior, clue protection, keyboard shortcuts, undo emission, and auto-candidate toggle synchronization.
 - **Dynamic Scaling & Anchoring:** All screens, objects, and nodes must adjust dynamically relative to one another. The UI must fit seamlessly across a wide range of resolutions, aspect ratios, and physical sizes without clipping or overlapping.
 - **Orientation:** The application must be locked to **Portrait mode**.
