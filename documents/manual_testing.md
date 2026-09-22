@@ -185,6 +185,14 @@ This document outlines the strict manual testing procedures required before any 
 - **Expected (Launcher Icons):** The app must prominently display the custom mascot icon (`mascot_icon.png` configured as the standard icon and adaptive foreground) rather than the default Godot engine icon.
 - **Automated Verification:** Verified in headless CI via `game/tests/test_platform_config.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), validating that `export_presets.cfg` includes `*.json` in the include filter, that `mascot_icon.png` is configured as the boot splash and icon, and that all launcher icon assets exist on disk.
 
+## Test 13.1: CI/CD Build Download & Sideloading
+- **Step 1:** Push a new version tag (e.g. `v1.0.0`) to the repository to trigger the GitHub Actions workflows.
+- **Step 2 (Android Artifact):** Navigate to the Actions tab or the created Release in GitHub. Download the exported `Sudoku.aab` or `.apk` artifacts.
+- **Step 3:** Use `bundletool` or adb to install the downloaded artifact onto a physical Android device or emulator.
+- **Expected:** The game installs successfully, boot splash screen is displayed, and puzzle generation functions correctly (validating the include filters were respected by the automated build system).
+- **Step 4 (Web Build):** Navigate to the designated itch.io page for the project after the Web build workflow completes.
+- **Expected:** The HTML5 game loads properly in the browser, displays the UI correctly, and runs smoothly.
+
 
 ## Test 14.0: Error Highlighting (No Strikes)
 - **Step 1:** Input a final answer number into a cell that already exists in that cell's row, column, or 3x3 block.

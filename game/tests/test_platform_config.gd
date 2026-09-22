@@ -16,6 +16,8 @@ func test_android_export_presets() -> void:
 				has_json_filter = true
 	
 	assert_true(has_json_filter, "include_filter should contain '*.json'.")
+	assert_true("name=\"Web\"" in content, "Web export preset should exist.")
+	assert_true("platform=\"Web\"" in content, "Web export preset platform should be Web.")
 	assert_true(FileAccess.file_exists("res://assets/icons/icon.png"), "icon.png should exist.")
 	assert_true(FileAccess.file_exists("res://assets/icons/icon_foreground.png"), "icon_foreground.png should exist.")
 	assert_true(FileAccess.file_exists("res://assets/icons/icon_background.png"), "icon_background.png should exist.")
