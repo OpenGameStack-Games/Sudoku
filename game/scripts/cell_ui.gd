@@ -35,9 +35,9 @@ func set_value(val: int, clue: bool) -> void:
 		$ValueLabel.text = str(val)
 	
 	if is_clue:
-		$ValueLabel.add_theme_font_size_override("font_size", 32)
+		$ValueLabel.add_theme_font_size_override("font_size", 64)
 	else:
-		$ValueLabel.add_theme_font_size_override("font_size", 28)
+		$ValueLabel.add_theme_font_size_override("font_size", 56)
 
 func set_candidates(candidates: Array[int], match_digit: int = 0) -> void:
 	for i in range(1, 10):

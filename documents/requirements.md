@@ -68,8 +68,8 @@ This document acts as the definitive source of truth for the game's features, lo
     - Standardized typography variations: `clue_font` (bold weight 700), `input_font` (regular weight), `note_font` (regular candidate notes), and `note_font_bold` (bold weight 700 for matching candidate notes).
   - **Automated Verification:** Validated via unit tests in `game/tests/test_theme_constants.gd`, asserting theme resource existence, background hex color fidelity, constant distinctness, panel stylebox properties, and font configuration.
 - **Font & Color Distinctions:** 
-  - **Original Clues:** Must use a bold, larger font size (32pt) rendered in pure white (`Color.WHITE`).
-  - **Player Inputs:** Must use a standard, smaller font size (28pt) rendered in dim gray (`#a0a0a0`) in the normal non-highlighted state to clearly distinguish them from original clues while preserving the 1930s monochrome aesthetic.
+  - **Original Clues:** Must use a bold, prominent font size (64pt) rendered in pure white (`Color.WHITE`).
+  - **Player Inputs:** Must use a large font size (56pt) rendered in dim gray (`#a0a0a0`) in the normal non-highlighted state to clearly distinguish them from original clues while preserving the 1930s monochrome aesthetic.
 - **Color Exceptions (Highlights):** Flat, non-bright colors are permitted ONLY for critical game interactions:
   - **Error Highlight:** Conflicting final answers must be highlighted in a flat **Red** (`COLOR_CONFLICT_ERROR`).
   - **Selection (Orange Spectrum):** 
