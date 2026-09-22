@@ -74,8 +74,10 @@ func set_cell_value(index: int, value: int) -> void:
 	if value != 0:
 		var peers: Array[int] = _get_peers(index)
 		for p in peers:
-			if cells[p].user_candidates.has(value):
-				cleared_peer_candidates[p] = [value]
+			var had_user: bool = cells[p].user_candidates.has(value)
+			var had_deleted: bool = cells[p].user_deleted_candidates.has(value)
+			if had_user or not had_deleted:
+				cleared_peer_candidates[p] = [value, had_user, had_deleted]
 				
 	if undo_manager:
 		undo_manager.record_value_action(
@@ -222,11 +224,24 @@ func _undo_value_action(index: int, old_val: int, new_val: int, old_user_candida
 	# Restore peer candidates that were auto-cleared
 	if new_val != 0:
 		for p in cleared_peer_candidates.keys():
-			for digit in cleared_peer_candidates[p]:
-				var peer_cell: SudokuCell = cells[p]
+			var data: Array = cleared_peer_candidates[p]
+			var digit: int = data[0]
+			var had_user: bool = data[1] if data.size() > 1 else true
+			var had_deleted: bool = data[2] if data.size() > 2 else false
+			
+			var peer_cell: SudokuCell = cells[p]
+			if had_user:
 				if not peer_cell.user_candidates.has(digit):
 					peer_cell.user_candidates.append(digit)
 					peer_cell.user_candidates.sort()
+			else:
+				if peer_cell.user_candidates.has(digit):
+					peer_cell.user_candidates.erase(digit)
+					
+			if had_deleted:
+				if not peer_cell.user_deleted_candidates.has(digit):
+					peer_cell.user_deleted_candidates.append(digit)
+			else:
 				if peer_cell.user_deleted_candidates.has(digit):
 					peer_cell.user_deleted_candidates.erase(digit)
 	
@@ -267,12 +282,13 @@ func _redo_value_action(index: int, old_val: int, new_val: int, cleared_peer_can
 		cell.clear_candidates()
 		# Remove the exact peer candidates that were recorded
 		for p in cleared_peer_candidates.keys():
-			for digit in cleared_peer_candidates[p]:
-				var peer_cell: SudokuCell = cells[p]
-				if peer_cell.user_candidates.has(digit):
-					peer_cell.user_candidates.erase(digit)
-				if not peer_cell.user_deleted_candidates.has(digit):
-					peer_cell.user_deleted_candidates.append(digit)
+			var data: Array = cleared_peer_candidates[p]
+			var digit: int = data[0]
+			var peer_cell: SudokuCell = cells[p]
+			if peer_cell.user_candidates.has(digit):
+				peer_cell.user_candidates.erase(digit)
+			if not peer_cell.user_deleted_candidates.has(digit):
+				peer_cell.user_deleted_candidates.append(digit)
 	
 	_evaluate_conflicts()
 	_update_all_candidates()

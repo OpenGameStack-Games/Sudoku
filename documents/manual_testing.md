@@ -126,7 +126,13 @@ This document outlines the strict manual testing procedures required before any 
 - **Expected:** The app handles the empty stack gracefully with no crashes or unexpected state changes, and the button remains disabled.
 - **Step 10 (Redo Stack Clear on New Move):** After undoing several moves, verify that the Redo button is enabled. Place a completely new number or candidate note on the board.
 - **Expected:** The Redo button immediately becomes disabled because the new action flushes the redo history stack.
-- **Automated Verification:** Verified in headless CI via `game/tests/test_undo_manager.gd` and `game/tests/test_input_controls.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), confirming empty stack safety, sequential final answer undo, sequential candidate note undo, compound action peer candidate restoration, conflict/exhaustion recalculation, dynamic undo/redo button disabled/enabled state synchronization, redo stack flushing on new moves, and state serialization.
+- **Step 11 (Auto-Candidate Removal Undo/Redo):**
+  1. Turn on Auto-Candidates.
+  2. Notice the auto-candidates present.
+  3. Place a number that mathematically clears some auto-candidates in the same block/row/column.
+  4. Click Undo and verify the auto-candidates reappear.
+  5. Click Redo and verify the auto-candidates disappear again.
+- **Automated Verification:** Verified in headless CI via `game/tests/test_undo_manager.gd` and `game/tests/test_input_controls.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), confirming empty stack safety, sequential final answer undo, sequential candidate note undo, compound action peer candidate restoration, auto-candidate note restoration and redo removal, conflict/exhaustion recalculation, dynamic undo/redo button disabled/enabled state synchronization, redo stack flushing on new moves, and state serialization.
 
 ## Test 10.0: Puzzle Menus (Reset & New Game)
 - **Step 1:** Enter a game, make several final answer inputs, toggle several candidate notes, and observe the elapsed timer (e.g. at 01:25).
