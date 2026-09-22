@@ -106,13 +106,13 @@ This document outlines the strict manual testing procedures required before any 
 - **Expected:** All candidate '5's in that row automatically disappear.
 - **Automated Verification:** Verified in headless CI via `game/tests/test_board_ui.gd` and `game/tests/test_input_controls.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), asserting cell-first and number-first input, candidate toggling, erase behavior, clue protection, keyboard shortcuts, undo emissions, candidate micro-grid synchronization, and font color differentiation (#a0a0a0 for user inputs vs white for clues).
 
-## Test 9.0: Undo System
-- **Step 1 (Initial Disabled State):** Upon starting a fresh puzzle or resetting an active puzzle, observe the "Undo" button on the controls row.
-- **Expected:** The "Undo" button is disabled (`disabled = true`) because the undo stack is empty.
+## Test 9.0: Undo & Redo System
+- **Step 1 (Initial Disabled State):** Upon starting a fresh puzzle or resetting an active puzzle, observe the "Undo" and "Redo" buttons on the controls row.
+- **Expected:** Both buttons are disabled because the history stacks are empty.
 - **Step 2 (Dynamic Enable on Move):** Place a digit or toggle a candidate note onto the grid.
-- **Expected:** As soon as the action is performed, the "Undo" button immediately becomes enabled (`disabled = false`).
-- **Step 3 (Reverting and Re-disabling):** Tap the "Undo" button to revert the single action.
-- **Expected:** The action is undone, restoring the previous board or note state. Because the undo stack is now empty, the "Undo" button immediately becomes disabled (`disabled = true`) again.
+- **Expected:** As soon as the action is performed, the "Undo" button immediately becomes enabled. The "Redo" button remains disabled.
+- **Step 3 (Reverting and Redo Enable):** Tap the "Undo" button to revert the single action.
+- **Expected:** The action is undone. The "Undo" button immediately becomes disabled. The "Redo" button immediately becomes enabled.
 - **Step 4 (Sequential Input Undo):** Make several inputs (Normal and Candidate mode) on the grid. Tap the "Undo" button repeatedly.
 - **Expected:** The board accurately steps backward through an unlimited history of inputs, including candidate notes.
 - **Step 5 (Auto-Cleared Candidate Restoration):** In an empty row, add candidate '5' to Cell B. In Cell A of the same row, place final answer '5'. Confirm that candidate '5' in Cell B is automatically cleared.
@@ -124,7 +124,9 @@ This document outlines the strict manual testing procedures required before any 
 - **Expected:** The numpad button re-enables and returns to its active visual state.
 - **Step 9 (Empty Stack Safety):** Tap "Undo" repeatedly until no further actions remain in history.
 - **Expected:** The app handles the empty stack gracefully with no crashes or unexpected state changes, and the button remains disabled.
-- **Automated Verification:** Verified in headless CI via `game/tests/test_undo_manager.gd` and `game/tests/test_input_controls.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), confirming empty stack safety, sequential final answer undo, sequential candidate note undo, compound action peer candidate restoration, conflict/exhaustion recalculation, dynamic undo button disabled/enabled state synchronization (`test_undo_signal`), and state serialization.
+- **Step 10 (Redo Stack Clear on New Move):** After undoing several moves, verify that the Redo button is enabled. Place a completely new number or candidate note on the board.
+- **Expected:** The Redo button immediately becomes disabled because the new action flushes the redo history stack.
+- **Automated Verification:** Verified in headless CI via `game/tests/test_undo_manager.gd` and `game/tests/test_input_controls.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), confirming empty stack safety, sequential final answer undo, sequential candidate note undo, compound action peer candidate restoration, conflict/exhaustion recalculation, dynamic undo/redo button disabled/enabled state synchronization, redo stack flushing on new moves, and state serialization.
 
 ## Test 10.0: Puzzle Menus (Reset & New Game)
 - **Step 1:** Enter a game, make several final answer inputs, toggle several candidate notes, and observe the elapsed timer (e.g. at 01:25).

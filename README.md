@@ -43,7 +43,8 @@ The game supports intuitive touch/mouse controls as well as full keyboard naviga
 - **Session & Post-Game Controls:**
   - `<`: Flushes the active game state to disk and returns to the Main Menu.
   - `Pause`: Halts the timer, conceals the grid behind a 1930s themed mascot overlay, and releases the screen wake lock.
-  - `Undo` (represented strictly by a '↩︎' back arrow icon instead of the text "Undo"): Reverts the last move made on the board.
+  - `Undo` (represented strictly by a '↺' counter-clockwise arrow icon instead of the text "Undo"): Reverts the last move made on the board.
+  - `Redo` (represented strictly by a '↻' clockwise arrow icon instead of the text "Redo"): Re-applies the last undone move on the board.
   - `Reset Puzzle`: Restores initial clues, clears player answers and notes, and resets the timer to 00:00.
   - `New Game` / `Play Again`: Fetches a fresh distinct puzzle from `puzzles.json` of the current difficulty tier and restarts the session.
   - `Admire Puzzle`: Temporarily conceals the victory dialog card so the player can view their finished board, with a "Restore Dialog" button horizontally centered above the board to bring it back.
@@ -54,6 +55,7 @@ The game supports intuitive touch/mouse controls as well as full keyboard naviga
   - `C`: Switch to Candidate note mode.
   - `N`: Switch to Normal answer mode.
   - `U` / `Ctrl + Z`: Trigger Undo.
+  - `R` / `Ctrl + Y` / `Ctrl + Shift + Z`: Trigger Redo.
 ### Puzzle Generator (`tools/generate_puzzles.py`)
 An offline Python utility to generate 9x9 Sudoku puzzles with guaranteed unique solutions and 180-degree rotational symmetry:
 ```powershell
