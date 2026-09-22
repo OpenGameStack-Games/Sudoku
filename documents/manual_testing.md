@@ -28,7 +28,7 @@ This document outlines the strict manual testing procedures required before any 
 
 ## Test 5.0: Main Menu & Navigation
 - **Step 1 (Default State):** Boot the game to the Main Menu with no existing saves.
-- **Expected:** The 1930s monochrome mascot character (`mascot_icon.jpg`) is prominently centered in the upper half. The screen contains four clear buttons reading: "Easy", "Medium", "Hard", and "Statistics".
+- **Expected:** The 1930s monochrome mascot character (`mascot_icon.jpg`) is prominently centered in the upper half. The screen contains five clear buttons reading: "Easy", "Medium", "Hard", "Statistics", and "Credits".
 - **Step 2 (Resume State Indication):** If an active save exists for a difficulty tier (e.g., Easy), verify that the corresponding button dynamically updates to read `"Resume Easy"`. Unsaved difficulties remain `"Medium"` and `"Hard"`.
 - **Step 3 (Resume Navigation):** Tap a "Resume [Difficulty]" button.
 - **Expected:** The app transitions to the Gameplay screen (`res://scenes/gameplay_screen.tscn`), restoring the active saved puzzle for that difficulty without incrementing `games_started` in `StatsManager`, and actively unpausing the timer to continue counting from the saved elapsed seconds.
@@ -59,6 +59,21 @@ This document outlines the strict manual testing procedures required before any 
 - **Step 6:** Force close or restart the application, then navigate to the Statistics screen.
 - **Expected:** All statistics remain accurately persisted from `user://stats.json`.
 - **Automated Verification:** Verified in headless CI via `game/tests/test_stats_manager.gd` and `game/tests/test_statistics_screen.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), confirming metric tracking (starts, wins, best times, averages), JSON serialization/deserialization to `user://stats.json`, time formatting across `easy`, `medium`, and `hard` difficulties, and accurate visual binding to the Statistics screen labels.
+
+## Test 5.2: Credits Menu & Studio Attributions
+- **Step 1:** On the Main Menu, tap the "Credits" button.
+- **Expected:** A full-screen `CreditsModal` appears as an overlay on top of the menu. The modal title reads "CREDITS".
+- **Step 2:** Scroll through the modal (if necessary) and observe the attribution blocks.
+- **Expected:** There are three distinct blocks for Open Game Stack, Audrain Entertainment, and GitHub. Each block features the corresponding studio/service logo and descriptive text.
+- **Step 3:** Tap the Web icon button next to the Open Game Stack attribution.
+- **Expected:** The system browser opens and navigates to `https://opengamestack.org/`.
+- **Step 4:** Tap the Web icon button next to the Audrain Entertainment attribution.
+- **Expected:** The system browser opens and navigates to `https://audrain.games/`.
+- **Step 5:** Tap the Web icon button next to the GitHub attribution.
+- **Expected:** The system browser opens and navigates to the OpenGameStack-Games/Sudoku GitHub repository.
+- **Step 6:** Tap the "Got It!" close button at the bottom of the modal.
+- **Expected:** The Credits modal dismisses and returns the user to the Main Menu.
+- **Automated Verification:** Verified in headless CI via `game/tests/test_main_menu.gd` asserting the `CreditsButton`, `CreditsModal`, and `CloseButton` exist and are configured correctly.
 
 ## Test 6.0: Gameplay Screen Layout & Navigation
 - **Step 1:** On the Gameplay screen, observe the Header row.

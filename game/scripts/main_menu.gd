@@ -32,6 +32,34 @@ func _ready() -> void:
 	if stats_btn:
 		stats_btn.pressed.connect(_on_stats_pressed)
 		
+	var credits_btn: Button = get_node_or_null("MarginContainer/VBoxContainer/ButtonsVBox/CreditsButton") as Button
+	if credits_btn:
+		credits_btn.pressed.connect(_on_credits_pressed)
+		
+	var credits_modal: Control = get_node_or_null("CreditsModal") as Control
+	if credits_modal:
+		var close_btn: Button = credits_modal.get_node_or_null("MarginContainer/Panel/VBox/CloseButton") as Button
+		if close_btn:
+			close_btn.pressed.connect(func() -> void: credits_modal.visible = false)
+		
+		var ogs: Node = credits_modal.find_child("OGSBlock", true, false)
+		if ogs:
+			var btn: Button = ogs.find_child("WebIconBtn", true, false) as Button
+			if btn:
+				btn.pressed.connect(func() -> void: OS.shell_open("https://opengamestack.org/"))
+				
+		var audrain: Node = credits_modal.find_child("AudrainBlock", true, false)
+		if audrain:
+			var btn: Button = audrain.find_child("WebIconBtn", true, false) as Button
+			if btn:
+				btn.pressed.connect(func() -> void: OS.shell_open("https://audrain.games/"))
+				
+		var github: Node = credits_modal.find_child("GitHubBlock", true, false)
+		if github:
+			var btn: Button = github.find_child("WebIconBtn", true, false) as Button
+			if btn:
+				btn.pressed.connect(func() -> void: OS.shell_open("https://github.com/OpenGameStack-Games/Sudoku"))
+		
 	_refresh_buttons()
 
 func _notification(what: int) -> void:
@@ -87,6 +115,11 @@ func _on_stats_pressed() -> void:
 	# Navigate to statistics screen if it exists.
 	if FileAccess.file_exists("res://scenes/statistics_screen.tscn") and is_inside_tree():
 		get_tree().change_scene_to_file("res://scenes/statistics_screen.tscn")
+
+func _on_credits_pressed() -> void:
+	var credits_modal: Control = get_node_or_null("CreditsModal") as Control
+	if credits_modal:
+		credits_modal.visible = true
 
 func _get_random_puzzle(diff: String) -> String:
 	if not FileAccess.file_exists("res://data/puzzles.json"):
