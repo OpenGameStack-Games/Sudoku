@@ -29,4 +29,7 @@ func test_project_settings() -> void:
 	assert_true("window/stretch/mode=\"canvas_items\"" in content, "Stretch mode should be canvas_items.")
 	assert_true("window/stretch/aspect=\"expand\"" in content, "Stretch aspect should be expand.")
 	assert_true("emulate_touch_from_mouse=true" in content, "Emulate touch from mouse should be enabled.")
+	assert_true("config/icon=\"res://assets/icons/mascot_icon.png\"" in content, "Project icon should be set to mascot_icon.png.")
+	assert_true("boot_splash/image=\"res://assets/icons/mascot_icon.png\"" in content, "Splash screen should be set to mascot_icon.png.")
+	assert_true(FileAccess.file_exists("res://assets/icons/mascot_icon.png"), "mascot_icon.png should exist.")
 
