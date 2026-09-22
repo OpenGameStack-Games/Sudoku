@@ -210,7 +210,7 @@ func test_button_themes_applied() -> void:
 	assert_eq(resume_style.border_width_right, 2, "Resume button border width right should be 2")
 	assert_eq(resume_style.border_width_bottom, 2, "Resume button border width bottom should be 2")
 	
-	assert_eq(screen.pause_button.text, "⏸︎", "Pause button text should be ⏸︎")
+	assert_eq(screen.pause_button.get_node("Label").text, "⏸︎", "Pause button text should be ⏸︎")
 	assert_eq(screen.pause_overlay.resume_button.text, "▶︎", "Resume button text should be ▶︎")
 	
 	_teardown_nodes()
@@ -220,7 +220,12 @@ func test_menu_button_scale_and_font_size() -> void:
 	
 	assert_eq(screen.menu_button.custom_minimum_size.x, 80, "MenuButton custom_minimum_size width should be 80")
 	assert_eq(screen.menu_button.custom_minimum_size.y, 80, "MenuButton custom_minimum_size height should be 80")
-	assert_eq(screen.menu_button.get_theme_font_size("font_size"), 64, "MenuButton font size should be 64")
+	
+	var label = screen.menu_button.get_node("Label")
+	assert_true(label != null, "MenuButton should have a Label child")
+	assert_eq(label.get_theme_font_size("font_size"), 64, "MenuButton Label font size should be 64")
+	assert_eq(label.horizontal_alignment, HORIZONTAL_ALIGNMENT_CENTER, "MenuButton Label should be centered horizontally")
+	assert_eq(label.vertical_alignment, VERTICAL_ALIGNMENT_CENTER, "MenuButton Label should be centered vertically")
 	
 	var popup: PopupMenu = screen.menu_button.get_popup()
 	assert_true(popup != null, "PopupMenu should exist")
