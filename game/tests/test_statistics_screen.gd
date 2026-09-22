@@ -64,30 +64,30 @@ func test_statistics_screen_displays_mock_data() -> void:
 	
 	scene._ready()
 	
-	var easy_started = scene.get_node("MarginContainer/VBoxContainer/ScrollContainer/CardsContainer/EasyCard/VBox/GridContainer/StartedValue")
-	var easy_won = scene.get_node("MarginContainer/VBoxContainer/ScrollContainer/CardsContainer/EasyCard/VBox/GridContainer/WonValue")
-	var easy_best = scene.get_node("MarginContainer/VBoxContainer/ScrollContainer/CardsContainer/EasyCard/VBox/GridContainer/BestTimeValue")
-	var easy_avg = scene.get_node("MarginContainer/VBoxContainer/ScrollContainer/CardsContainer/EasyCard/VBox/GridContainer/AverageTimeValue")
+	var easy_started = scene.get_node("MarginContainer/VBoxContainer/CardsContainer/EasyCard/VBox/GridContainer/StartedValue")
+	var easy_won = scene.get_node("MarginContainer/VBoxContainer/CardsContainer/EasyCard/VBox/GridContainer/WonValue")
+	var easy_best = scene.get_node("MarginContainer/VBoxContainer/CardsContainer/EasyCard/VBox/GridContainer/BestTimeValue")
+	var easy_avg = scene.get_node("MarginContainer/VBoxContainer/CardsContainer/EasyCard/VBox/GridContainer/AverageTimeValue")
 	
 	assert_eq(easy_started.text, "5", "Easy games started should match")
 	assert_eq(easy_won.text, "3", "Easy games won should match")
 	assert_eq(easy_best.text, "02:05", "Easy best time should be formatted")
 	assert_eq(easy_avg.text, "02:30", "Easy average time should be formatted")
 	
-	var medium_started = scene.get_node("MarginContainer/VBoxContainer/ScrollContainer/CardsContainer/MediumCard/VBox/GridContainer/StartedValue")
-	var medium_won = scene.get_node("MarginContainer/VBoxContainer/ScrollContainer/CardsContainer/MediumCard/VBox/GridContainer/WonValue")
-	var medium_best = scene.get_node("MarginContainer/VBoxContainer/ScrollContainer/CardsContainer/MediumCard/VBox/GridContainer/BestTimeValue")
-	var medium_avg = scene.get_node("MarginContainer/VBoxContainer/ScrollContainer/CardsContainer/MediumCard/VBox/GridContainer/AverageTimeValue")
+	var medium_started = scene.get_node("MarginContainer/VBoxContainer/CardsContainer/MediumCard/VBox/GridContainer/StartedValue")
+	var medium_won = scene.get_node("MarginContainer/VBoxContainer/CardsContainer/MediumCard/VBox/GridContainer/WonValue")
+	var medium_best = scene.get_node("MarginContainer/VBoxContainer/CardsContainer/MediumCard/VBox/GridContainer/BestTimeValue")
+	var medium_avg = scene.get_node("MarginContainer/VBoxContainer/CardsContainer/MediumCard/VBox/GridContainer/AverageTimeValue")
 	
 	assert_eq(medium_started.text, "10", "Medium games started should match")
 	assert_eq(medium_won.text, "0", "Medium games won should match")
 	assert_eq(medium_best.text, "--:--", "Medium best time should display empty state")
 	assert_eq(medium_avg.text, "--:--", "Medium average time should display empty state")
 	
-	var hard_started = scene.get_node("MarginContainer/VBoxContainer/ScrollContainer/CardsContainer/HardCard/VBox/GridContainer/StartedValue")
-	var hard_won = scene.get_node("MarginContainer/VBoxContainer/ScrollContainer/CardsContainer/HardCard/VBox/GridContainer/WonValue")
-	var hard_best = scene.get_node("MarginContainer/VBoxContainer/ScrollContainer/CardsContainer/HardCard/VBox/GridContainer/BestTimeValue")
-	var hard_avg = scene.get_node("MarginContainer/VBoxContainer/ScrollContainer/CardsContainer/HardCard/VBox/GridContainer/AverageTimeValue")
+	var hard_started = scene.get_node("MarginContainer/VBoxContainer/CardsContainer/HardCard/VBox/GridContainer/StartedValue")
+	var hard_won = scene.get_node("MarginContainer/VBoxContainer/CardsContainer/HardCard/VBox/GridContainer/WonValue")
+	var hard_best = scene.get_node("MarginContainer/VBoxContainer/CardsContainer/HardCard/VBox/GridContainer/BestTimeValue")
+	var hard_avg = scene.get_node("MarginContainer/VBoxContainer/CardsContainer/HardCard/VBox/GridContainer/AverageTimeValue")
 	
 	assert_eq(hard_started.text, "0", "Hard games started should default to 0")
 	assert_eq(hard_won.text, "0", "Hard games won should default to 0")
@@ -114,29 +114,28 @@ func test_statistics_screen_styling_applied() -> void:
 	var title_lbl: Label = scene.get_node("MarginContainer/VBoxContainer/Header/Title") as Label
 	assert_eq(title_lbl.get_theme_font_size("font_size"), 64, "Title font size should be 64")
 	
-	var easy_card: PanelContainer = scene.get_node("MarginContainer/VBoxContainer/ScrollContainer/CardsContainer/EasyCard") as PanelContainer
+	var easy_card: PanelContainer = scene.get_node("MarginContainer/VBoxContainer/CardsContainer/EasyCard") as PanelContainer
 	var style: StyleBoxFlat = easy_card.get_theme_stylebox("panel") as StyleBoxFlat
 	assert_eq(style.content_margin_left, 40.0, "Card left margin should be 40.0")
 	assert_eq(style.content_margin_top, 40.0, "Card top margin should be 40.0")
 	
-	var diff_lbl: Label = scene.get_node("MarginContainer/VBoxContainer/ScrollContainer/CardsContainer/EasyCard/VBox/DifficultyLabel") as Label
+	var diff_lbl: Label = scene.get_node("MarginContainer/VBoxContainer/CardsContainer/EasyCard/VBox/DifficultyLabel") as Label
 	assert_eq(diff_lbl.get_theme_font_size("font_size"), 48, "DifficultyLabel font size should be 48")
 	
-	var started_val: Label = scene.get_node("MarginContainer/VBoxContainer/ScrollContainer/CardsContainer/EasyCard/VBox/GridContainer/StartedValue") as Label
+	var started_val: Label = scene.get_node("MarginContainer/VBoxContainer/CardsContainer/EasyCard/VBox/GridContainer/StartedValue") as Label
 	assert_eq(started_val.get_theme_font_size("font_size"), 32, "Grid Labels should have font size 32")
 	
 	_teardown_scene()
 
-func test_scroll_container_properties() -> void:
+func test_no_scroll_container_properties() -> void:
 	_setup_scene()
 	scene._ready()
 	
 	var scroll_container = scene.get_node_or_null("MarginContainer/VBoxContainer/ScrollContainer")
-	assert_true(scroll_container != null, "ScrollContainer should exist")
-	assert_true(scroll_container is ScrollContainer, "ScrollContainer should be of type ScrollContainer")
-	
-	if scroll_container is ScrollContainer:
-		assert_eq(scroll_container.horizontal_scroll_mode, ScrollContainer.SCROLL_MODE_DISABLED, "Horizontal scrolling should be disabled")
-		assert_eq(scroll_container.vertical_scroll_mode, ScrollContainer.SCROLL_MODE_AUTO, "Vertical scrolling should be enabled")
+	assert_true(scroll_container == null, "ScrollContainer should no longer exist to prevent scrollbars")
 		
+	var cards_container = scene.get_node_or_null("MarginContainer/VBoxContainer/CardsContainer")
+	assert_true(cards_container != null, "CardsContainer should exist directly inside VBoxContainer")
+	assert_eq(cards_container.size_flags_horizontal, Control.SIZE_EXPAND_FILL, "Should expand horizontally")
+	
 	_teardown_scene()
