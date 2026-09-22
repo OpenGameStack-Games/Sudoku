@@ -235,3 +235,24 @@ func test_main_scene_entry_point() -> void:
 	assert_true(menu_child != null, "main.tscn should instance MainMenu as a child node")
 	main_node.free()
 
+func test_credits_menu_layout() -> void:
+	var menu_scene: PackedScene = load("res://scenes/main_menu.tscn") as PackedScene
+	var menu: Control = menu_scene.instantiate() as Control
+	
+	var credits_btn: Button = menu.get_node_or_null("MarginContainer/VBoxContainer/ButtonsVBox/CreditsButton") as Button
+	assert_true(credits_btn != null, "CreditsButton should exist in the VBox")
+	assert_eq(credits_btn.text, "Credits", "CreditsButton text should be 'Credits'")
+	
+	var credits_modal: Control = menu.get_node_or_null("CreditsModal") as Control
+	assert_true(credits_modal != null, "CreditsModal should exist")
+	assert_false(credits_modal.visible, "CreditsModal should be hidden by default")
+	
+	var title_lbl: Label = credits_modal.get_node_or_null("MarginContainer/Panel/VBox/ModalTitle") as Label
+	assert_true(title_lbl != null, "CreditsModal title label should exist")
+	assert_eq(title_lbl.text, "CREDITS", "CreditsModal title should be 'CREDITS'")
+	
+	var close_btn: Button = credits_modal.get_node_or_null("MarginContainer/Panel/VBox/CloseButton") as Button
+	assert_true(close_btn != null, "CreditsModal CloseButton should exist")
+	assert_eq(close_btn.text, "Got It!", "CloseButton text should be 'Got It!'")
+	
+	menu.free()

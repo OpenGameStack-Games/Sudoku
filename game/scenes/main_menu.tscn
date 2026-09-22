@@ -1,7 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://820f979a05"]
+[gd_scene load_steps=7 format=3 uid="uid://820f979a05"]
 
 [ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_script"]
 [ext_resource type="Texture2D" path="res://assets/icons/mascot_icon.jpg" id="2_mascot"]
+[ext_resource type="Texture2D" path="res://assets/icons/OpenGameStackMonoChrome.png" id="3_ogs"]
+[ext_resource type="Texture2D" path="res://assets/icons/AudrainEntertainment.png" id="4_aud"]
+[ext_resource type="Texture2D" path="res://assets/icons/github_icon.png" id="5_gh"]
+[ext_resource type="Texture2D" path="res://assets/icons/web_icon.png" id="6_web"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -73,3 +77,150 @@ custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
 theme_override_font_sizes/font_size = 28
 text = "Statistics"
+
+[node name="CreditsButton" type="Button" parent="MarginContainer/VBoxContainer/ButtonsVBox"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "Credits"
+
+
+[node name="CreditsModal" type="ColorRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.8)
+
+[node name="MarginContainer" type="MarginContainer" parent="CreditsModal"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 64
+theme_override_constants/margin_top = 96
+theme_override_constants/margin_right = 64
+theme_override_constants/margin_bottom = 96
+
+[node name="Panel" type="PanelContainer" parent="CreditsModal/MarginContainer"]
+layout_mode = 2
+
+[node name="VBox" type="VBoxContainer" parent="CreditsModal/MarginContainer/Panel"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="ModalTitle" type="Label" parent="CreditsModal/MarginContainer/Panel/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "CREDITS"
+horizontal_alignment = 1
+
+[node name="Scroll" type="ScrollContainer" parent="CreditsModal/MarginContainer/Panel/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBox" type="VBoxContainer" parent="CreditsModal/MarginContainer/Panel/VBox/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 48
+
+[node name="OGSBlock" type="HBoxContainer" parent="CreditsModal/MarginContainer/Panel/VBox/Scroll/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Logo" type="TextureRect" parent="CreditsModal/MarginContainer/Panel/VBox/Scroll/VBox/OGSBlock"]
+custom_minimum_size = Vector2(144, 144)
+layout_mode = 2
+texture = ExtResource("3_ogs")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CreditsModal/MarginContainer/Panel/VBox/Scroll/VBox/OGSBlock"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Label" type="Label" parent="CreditsModal/MarginContainer/Panel/VBox/Scroll/VBox/OGSBlock/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Developed by Open Game Stack"
+autowrap_mode = 3
+
+[node name="WebIconBtn" type="Button" parent="CreditsModal/MarginContainer/Panel/VBox/Scroll/VBox/OGSBlock/VBoxContainer"]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+size_flags_horizontal = 0
+icon = ExtResource("6_web")
+icon_alignment = 1
+expand_icon = true
+
+[node name="AudrainBlock" type="HBoxContainer" parent="CreditsModal/MarginContainer/Panel/VBox/Scroll/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Logo" type="TextureRect" parent="CreditsModal/MarginContainer/Panel/VBox/Scroll/VBox/AudrainBlock"]
+custom_minimum_size = Vector2(144, 144)
+layout_mode = 2
+texture = ExtResource("4_aud")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CreditsModal/MarginContainer/Panel/VBox/Scroll/VBox/AudrainBlock"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Label" type="Label" parent="CreditsModal/MarginContainer/Panel/VBox/Scroll/VBox/AudrainBlock/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Published by Audrain Entertainment"
+autowrap_mode = 3
+
+[node name="WebIconBtn" type="Button" parent="CreditsModal/MarginContainer/Panel/VBox/Scroll/VBox/AudrainBlock/VBoxContainer"]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+size_flags_horizontal = 0
+icon = ExtResource("6_web")
+icon_alignment = 1
+expand_icon = true
+
+[node name="GitHubBlock" type="HBoxContainer" parent="CreditsModal/MarginContainer/Panel/VBox/Scroll/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Logo" type="TextureRect" parent="CreditsModal/MarginContainer/Panel/VBox/Scroll/VBox/GitHubBlock"]
+custom_minimum_size = Vector2(144, 144)
+layout_mode = 2
+texture = ExtResource("5_gh")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CreditsModal/MarginContainer/Panel/VBox/Scroll/VBox/GitHubBlock"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Label" type="Label" parent="CreditsModal/MarginContainer/Panel/VBox/Scroll/VBox/GitHubBlock/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Sudoku is an open-source game hosted on GitHub"
+autowrap_mode = 3
+
+[node name="WebIconBtn" type="Button" parent="CreditsModal/MarginContainer/Panel/VBox/Scroll/VBox/GitHubBlock/VBoxContainer"]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+size_flags_horizontal = 0
+icon = ExtResource("6_web")
+icon_alignment = 1
+expand_icon = true
+
+[node name="CloseButton" type="Button" parent="CreditsModal/MarginContainer/Panel/VBox"]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "Got It!"
