@@ -94,8 +94,8 @@ This document outlines the strict manual testing procedures required before any 
 ## Test 8.0: Grid Input (Bi-Directional & Keyboard Shortcuts)
 - **Step 1 (Cell-First Input & Visual Distinction):** Tap an empty cell, then tap a number 1-9 on the numpad.
 - **Expected:** The number is entered into the cell. Verify that the entered digit is rendered in a dimmer gray (`#a0a0a0`) and smaller font size (28pt) compared to the initial clue digits which remain bold, larger (32pt), and pure white (`Color.WHITE`), clearly differentiating player inputs while maintaining the 1930s monochrome aesthetic.
-- **Step 2 (Number-First Input):** Tap a number on the numpad (it highlights in flat orange `Color("ffa500")`), then tap several empty cells.
-- **Expected:** The number is entered into every cell tapped. Tapping the numpad button again deselects it.
+- **Step 2 (Number-First Input):** Tap a number on the numpad (it highlights in flat orange `Color("ffa500")`). Note the board state before placing it anywhere.
+- **Expected:** The corresponding number highlights on all existing placed cells, and any matching candidate notes dynamically bold and enlarge. Tap several empty cells to enter the number into them. Tapping the numpad button again deselects it and clears the board highlights.
 - **Step 3 (Mode Toggles):** Tap the "Candidate" button (or press `C` on a keyboard). Observe the segmented toggle control. Tap an empty cell and input digit '3'.
 - **Expected:** The "Candidate" button visually inverts (light background, dark text) to indicate it is active, and the "Normal" button reverts to inactive (dark background, light text). '3' is placed into the cell's candidate micro-grid. Tap "Normal" (or press `N`) to switch back to normal answer input mode and verify color inversion flips back.
 - **Step 4 (Erase Button):** Select a cell containing a number or candidate notes, then tap the 'X' numpad button (or press `X`, `0`, `Backspace`, or `Delete` on keyboard).
@@ -248,7 +248,7 @@ This document outlines the strict manual testing procedures required before any 
 - **Step 3 (Cheat Prevention):** Intentionally place 9 instances of the number '5' on the board in completely wrong, conflicting cells.
 - **Expected:** The number '5' button on the numpad MUST still gray out (ignoring whether the placements are actually correct).
 - **Step 4 (Number-First Deselection):** Select digit '5' in number-first mode. Place the 9th instance of '5'.
-- **Expected:** The '5' button grays out and is automatically deselected (`selected_digit` reset to -1).
+- **Expected:** The '5' button grays out and is automatically deselected (`selected_digit` reset to -1). The board highlights for 5 should also clear.
 - **Automated Verification:** Verified in headless CI via `game/tests/test_input_controls.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), verifying button disablement, dimmed modulation, restoration on count drop, cheat prevention, and auto-deselection.
 
 ## Test 21.0: Input Controls Layout & Sizing
