@@ -310,3 +310,10 @@ This document outlines the strict manual testing procedures required before any 
 - **Step 2:** Move the mouse cursor to hover over various interactable UI buttons (e.g., Pause, Resume, Normal/Candidate toggles, Numpad digits, Easy/Medium/Hard menu buttons).
 - **Expected:** The background color of the button shifts slightly to indicate the hover state, while the 2px solid white border explicitly remains visible and does not vanish or disappear during the hover.
 
+
+## Test 26.0: Cell Number Prominence
+- **Step 1:** Launch the game and enter an active puzzle on the Gameplay screen.
+- **Step 2:** Observe the font size of the initial clue numbers and any placed answers.
+- **Expected:** Clue numbers and player answers appear very prominent (font sizes 64 and 56 respectively) within the cell bounds, creating clear visual hierarchy over the much smaller candidate notes.
+- **Step 3:** Enter several candidate notes in the same cell as a large main number (this would only happen if forced, but observe candidate size).
+- **Expected:** The candidate notes do not visually overwhelm the main numbers, due to the main numbers' 2x scale.

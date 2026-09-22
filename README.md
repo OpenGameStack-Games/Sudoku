@@ -73,3 +73,6 @@ This project uses a split license:
 - **Source Code:** Licensed under the [GNU General Public License v3.0 (GPLv3)](LICENSE).
 - **Game Assets:** Unless otherwise specified, art, audio, and models in `game/assets/` are licensed under [Creative Commons Attribution-ShareAlike 4.0 (CC BY-SA 4.0)](LICENSE-ASSETS).
 
+
+## Documentation Note
+Note that any user-facing screenshots of the board should be updated to reflect the new bolder main numbers (scaled up to 2x size for visual prominence).
