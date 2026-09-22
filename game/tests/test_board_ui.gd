@@ -15,6 +15,19 @@ func test_cell_instantiation() -> void:
 		assert_eq(label.text, str(i), "Label text should match index")
 	cell.queue_free()
 
+func test_cell_value_label_layout() -> void:
+	var cell_scene = load("res://scenes/cell.tscn")
+	var cell = cell_scene.instantiate() as CellUI
+	var value_label = cell.get_node("ValueLabel") as Label
+	assert_eq(value_label.layout_mode, 1, "ValueLabel layout_mode should be 1 (Anchors)")
+	assert_eq(value_label.horizontal_alignment, HORIZONTAL_ALIGNMENT_CENTER, "ValueLabel horizontal_alignment should be center")
+	assert_eq(value_label.vertical_alignment, VERTICAL_ALIGNMENT_CENTER, "ValueLabel vertical_alignment should be center")
+	assert_eq(value_label.anchor_right, 1.0, "ValueLabel anchor_right should be 1.0")
+	assert_eq(value_label.anchor_bottom, 1.0, "ValueLabel anchor_bottom should be 1.0")
+	assert_eq(value_label.grow_horizontal, Control.GROW_DIRECTION_BOTH, "ValueLabel grow_horizontal should be both (2)")
+	assert_eq(value_label.grow_vertical, Control.GROW_DIRECTION_BOTH, "ValueLabel grow_vertical should be both (2)")
+	cell.queue_free()
+
 func test_cell_states() -> void:
 	var cell_scene = load("res://scenes/cell.tscn")
 	var cell = cell_scene.instantiate() as CellUI
