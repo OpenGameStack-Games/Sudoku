@@ -70,6 +70,7 @@ This document acts as the definitive source of truth for the game's features, lo
 - **Font & Color Distinctions:** 
   - **Original Clues:** Must use a bold, prominent font size (64pt) rendered in pure white (`Color.WHITE`).
   - **Player Inputs:** Must use a large font size (56pt) rendered in dim gray (`#a0a0a0`) in the normal non-highlighted state to clearly distinguish them from original clues while preserving the 1930s monochrome aesthetic.
+  - **Centering:** Cell values must be perfectly centered vertically and horizontally, avoiding overlap with macro/micro grid lines.
 - **Color Exceptions (Highlights):** Flat, non-bright colors are permitted ONLY for critical game interactions:
   - **Error Highlight:** Conflicting final answers must be highlighted in a flat **Red** (`COLOR_CONFLICT_ERROR`).
   - **Selection (Orange Spectrum):** 
