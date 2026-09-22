@@ -287,8 +287,8 @@ This document outlines the strict manual testing procedures required before any 
 - **Step 1:** Launch the game and enter an active puzzle on the Gameplay screen.
 - **Step 2 (Container Margins & Alignment):** Observe the left, right, and bottom margins of the `InputControls` area below the 9x9 board.
 - **Expected:** The controls section exhibits explicit 56px padding on the left and right (`MarginContainer`) to precisely align with the 9x9 board boundaries, and 48px bottom padding.
-- **Step 3 (Vertical Spacing & Centering):** Observe the Mode/Undo row ("Normal", "Candidate", "Undo").
-- **Expected:** The row is visually centered. "Normal" and "Candidate" buttons are unified into a single segmented control with 0 separation, and the "Undo" button is spaced to their right. All buttons possess enlarged touch target dimensions. A clear vertical spacer (16px) provides distinct separation between the mode controls and the digit keypad.
+- **Step 3 (Vertical Spacing & Centering):** Observe the Mode/Undo row ("Normal", "Candidate", "Undo", "Redo").
+- **Expected:** The row is visually centered. "Normal" and "Candidate" buttons are unified into a single segmented control with 0 separation, and the "Undo" and "Redo" buttons are spaced to their right. All buttons possess enlarged touch target dimensions. Visually verify that the "Undo" button icon (↺) points explicitly outward to the left, and the "Redo" button icon (↻) points explicitly outward to the right. A clear vertical spacer (16px) provides distinct separation between the mode controls and the digit keypad.
 - **Step 4 (Numpad Button Sizing & Font):** Observe the 10 numpad buttons (1-9 and X).
 - **Expected:** Buttons maintain an explicit minimum height of 64px and feature a larger 36px font size for improved legibility on mobile viewports.
 - **Step 5 (Auto Candidate Centering & Styling):** Inspect the "Auto Candidate Mode" toggle below the numpad, especially on different aspect ratios.
