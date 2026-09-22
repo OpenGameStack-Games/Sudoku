@@ -48,6 +48,19 @@ func test_cell_states() -> void:
 	
 	cell.queue_free()
 
+func test_cell_font_size() -> void:
+	var cell_scene = load("res://scenes/cell.tscn")
+	var cell = cell_scene.instantiate() as CellUI
+	cell._ready()
+	
+	cell.set_value(5, true)
+	assert_eq(cell.get_node("ValueLabel").get_theme_font_size("font_size"), 64, "Clue numbers should have 2x font size (64)")
+	
+	cell.set_value(5, false)
+	assert_eq(cell.get_node("ValueLabel").get_theme_font_size("font_size"), 56, "Non-clue numbers should have 2x font size (56)")
+	
+	cell.queue_free()
+
 func test_board_integration() -> void:
 	assert_true(FileAccess.file_exists("res://scenes/board.tscn"), "board.tscn file should exist on disk")
 	var board_scene = load("res://scenes/board.tscn")
