@@ -304,11 +304,11 @@ This document outlines the strict manual testing procedures required before any 
 - **Automated Verification:** Verified in headless CI via `game/tests/test_board_ui.gd` (`test_candidates()`), verifying that all 9 candidate labels maintain permanent visibility (`visible = true`) in the `CandidatesGrid` layout container and dynamically toggle their `text` property between the digit and `""`.
 
 
-## Test 24.0: Statistics Screen Native Scrolling
+## Test 24.0: Statistics Screen Dynamic Layout Scaling
 - **Step 1:** Navigate to the Statistics screen from the Main Menu.
-- **Step 2:** Resize the game window vertically, or test on a mobile device in portrait mode.
-- **Expected:** All three difficulty cards (Easy, Medium, Hard) should be rendered natively inside a ScrollContainer. If the content exceeds the vertical bounds of the screen, the user must be able to scroll up and down smoothly to view all the statistics without any UI elements clipping off-screen or squishing text to illegible sizes.
-- **Automated Verification:** Verified in headless CI via `game/tests/test_statistics_screen.gd` (`test_scroll_container_properties()`), ensuring that the ScrollContainer is instantiated correctly and has horizontal scrolling disabled and vertical scrolling enabled.
+- **Step 2:** Resize the game window vertically and horizontally (e.g., simulating large 1080p/1440p screens and very small windowed or mobile vertical aspect ratios).
+- **Expected:** The entire Statistics screen scales uniformly to fit the available space without requiring a scrollbar. All text (headers, difficulty titles, and numbers) must scale down seamlessly to prevent clipping, and the Back button (`<`) must remain visible and clickable across all extreme screen dimensions.
+- **Automated Verification:** Verified in headless CI via `game/tests/test_statistics_screen.gd` (`test_no_scroll_container_properties()`), ensuring that the ScrollContainer has been completely removed and the CardsContainer is set to expand horizontally and vertically to fill the layout.
 
 ## Test 23.0: Isolate Input Controls Between Difficulties
 
