@@ -78,3 +78,6 @@ This project uses a split license:
 
 ## Documentation Note
 Note that any user-facing screenshots of the board should be updated to reflect the new bolder main numbers (scaled up to 2x size for visual prominence).
+
+## Brand Identity
+The brand identity of the game heavily relies on the 1930s rubber-hose monochrome mascot (`mascot_icon.png`). This character serves as the primary application icon on the Android launcher, the boot splash screen, the paused state overlay, and the main menu. All future UI and promotional materials should align with this aesthetic.
