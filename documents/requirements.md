@@ -24,7 +24,7 @@ This document acts as the definitive source of truth for the game's features, lo
   - **"New Game":** Abandons the current puzzle and instantly generates a new puzzle of the same difficulty.
 - **Input Modes (Bi-directional):** 
   - **Cell-First:** The player taps a cell, then taps a number.
-  - **Number-First:** The player taps a number on the numpad, then taps multiple cells to quickly fill them.
+  - **Number-First:** The player taps a number on the numpad, then taps multiple cells to quickly fill them. Selecting a digit on the numpad highlights matching placed digits and bolds matching candidate notes across the board.
   - **Normal Mode:** Inputs the final answer into the selected cell.
   - **Candidate Mode:** Inputs small note/candidate numbers into a cell.
   - **Auto Candidate Mode:** An optional toggle. When ON, it calculates and displays valid candidates. It must respect user edits (if a user manually deletes an auto-candidate, it stays deleted). When OFF, auto-generated candidates are hidden.
@@ -158,7 +158,7 @@ This document acts as the definitive source of truth for the game's features, lo
       - **Flat Styling:** Configured with `StyleBoxEmpty` overrides across normal, pressed, hover, hover_pressed, and focus states to eliminate heavy button borders and present a clean, text-only checkbox aesthetic.
     - **Bi-directional Workflows:**
       - **Cell-First:** Player selects a cell on the board, then presses a numpad digit or erase button. Clue cells are protected from modification.
-      - **Number-First:** Player taps a numpad button to highlight/select it (`Color("ffa500")` Flat Orange), then taps multiple cells across the board to rapidly fill or erase them until deselected.
+      - **Number-First:** Player taps a numpad button to highlight/select it (`Color("ffa500")` Flat Orange), then taps multiple cells across the board to rapidly fill or erase them until deselected. This also highlights matching placed digits on the board and dynamically bolds matching candidate notes.
     - **Keyboard Input Shortcuts (`_unhandled_input`):**
       - Digits `1`-`9` / Keypad `1`-`9`: Trigger numpad digit input.
       - `X`, `0`, `KP_0`, `Backspace`, `Delete`: Trigger erase action.

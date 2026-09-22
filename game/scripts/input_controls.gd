@@ -81,6 +81,8 @@ func _update_numpad_exhaustion() -> void:
 			btn.disabled = true
 			if selected_digit == i:
 				selected_digit = -1
+				if board_ui:
+					board_ui.set_numpad_digit(-1)
 		else:
 			btn.disabled = false
 			if selected_digit == i:
@@ -162,6 +164,9 @@ func _on_numpad_pressed(digit: int) -> void:
 		selected_digit = -1
 	else:
 		selected_digit = digit
+		
+	if board_ui:
+		board_ui.set_numpad_digit(selected_digit)
 		
 	_update_numpad_selection()
 
