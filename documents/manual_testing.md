@@ -161,13 +161,14 @@ This document outlines the strict manual testing procedures required before any 
 - **Expected:** The layout of the clues MUST be rotationally symmetrical (180 degrees).
 - **Automated Verification:** Verified in headless CI via `game/tests/test_puzzle_loader.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), which validates file existence, JSON validity, array sizes (>= 10), string lengths (81 characters), valid digits ('0'-'9'), and 180-degree rotational symmetry for all clues across `easy`, `medium`, and `hard`.
 
-## Test 13.0: Android Build Export & Launcher Icons
+## Test 13.0: Android Build Export, Splash Screen & Launcher Icons
 - **Step 1:** Build the Android `.apk`/`.aab` or install/run the game natively on an Android device via Godot export.
-- **Step 2:** Boot the game and start any new puzzle.
+- **Step 2:** Boot the game and immediately observe the initial launch sequence.
+- **Expected (Splash Screen):** The game must present a boot splash screen featuring the 1930s monochrome mascot correctly scaled and centered against a dark background before transitioning to the Main Menu.
 - **Expected (JSON Packaging):** The puzzle loads perfectly. If the screen is blank or the app crashes here, the `*.json` file was likely stripped during the build process and the `export_presets.cfg` include filter (`include_filter="*.txt, *.json"`) must be verified.
 - **Step 3:** Inspect the app icon on the Android launcher, home screen, and app drawer.
-- **Expected (Launcher Icons):** The app displays the custom mascot icon (`icon.png` / `icon_foreground.png` / `icon_background.png`) rather than the default Godot engine icon.
-- **Automated Verification:** Verified in headless CI via `game/tests/test_platform_config.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), validating that `export_presets.cfg` includes `*.json` in the include filter and that all launcher icon assets exist on disk.
+- **Expected (Launcher Icons):** The app must prominently display the custom mascot icon (`mascot_icon.png` configured as the standard icon and adaptive foreground) rather than the default Godot engine icon.
+- **Automated Verification:** Verified in headless CI via `game/tests/test_platform_config.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), validating that `export_presets.cfg` includes `*.json` in the include filter, that `mascot_icon.png` is configured as the boot splash and icon, and that all launcher icon assets exist on disk.
 
 
 ## Test 14.0: Error Highlighting (No Strikes)
