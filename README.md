@@ -21,6 +21,13 @@ This template is configured to use [Git Large File Storage (LFS)](https://git-lf
 To ensure your assets are tracked correctly:
 1. Ensure Git LFS is installed on your machine (`git lfs install`).
 2. The provided `.gitattributes` file will automatically handle LFS tracking for standard game asset extensions.
+
+## Automated Builds & CI/CD Pipeline
+This project is configured with GitHub Actions to automatically export and deploy the game:
+- **Android Builds:** Pushing a new version tag (e.g., `v1.0.0`) automatically generates an Android App Bundle (`.aab`) signed with the release keystore, and uploads it as a GitHub Release artifact.
+- **Web Builds:** Pushing a new version tag automatically exports the HTML5 build and deploys it directly to our itch.io page via butler.
+You can find the exported Android artifacts under the "Actions" tab or the "Releases" page in GitHub, and the Web build is available on our itch.io page.
+
 ## Core Architecture
 - **StatsManager (`game/autoloads/stats_manager.gd`):** Global autoload managing player statistics (games started, games won, best times, and average times) across Easy, Medium, and Hard difficulties, persisted locally in `user://stats.json`.
 - **TimeManager (`game/autoloads/time_manager.gd`):** Global autoload managing the gameplay timer, application focus lifecycle, and screen wake lock (`DisplayServer.screen_set_keep_on`). Respects device battery life by automatically pausing elapsed time and releasing the screen wake lock whenever the game is paused, backgrounded, or out of focus.

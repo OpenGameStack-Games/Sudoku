@@ -186,7 +186,10 @@ This document acts as the definitive source of truth for the game's features, lo
   - **Time Formatting:** Provides `format_time(seconds: int) -> String` producing `"MM:SS"` (or `"--:--"` when no time is recorded).
 
 ## 4. Platform Specifics
-- **Platform:** Android.
+- **Platforms:** Android and Web.
+- **CI/CD Pipeline:** The project utilizes GitHub Actions for automated building and deployment.
+  - **Android Export:** Automatically builds Android App Bundles (`.aab`) and native debug symbols on version tags, uploading them as release artifacts.
+  - **Web Export:** Automatically exports the HTML5 build and deploys it directly to itch.io via butler on version tags.
 - **Screen Wake Lock:** The game must keep the device screen awake as long as the gameplay screen is active (do not allow the phone to go to sleep while playing).
   - **Dynamic Power Management:** Handled globally by `TimeManager` via `DisplayServer.screen_set_keep_on(true)` during active, focused, unpaused gameplay.
   - **Battery Conservation:** Wake lock is immediately restored to `false` when paused, when the application loses focus or is backgrounded, or when navigating away from the active gameplay screen (main menu or victory screen).
