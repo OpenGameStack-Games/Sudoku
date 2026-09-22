@@ -121,3 +121,36 @@ func test_history_serialization() -> void:
 	assert_true(restored_um.has_undo())
 	assert_eq(restored_um.get_history_state().size(), 2)
 
+func test_redo_action() -> void:
+	var board = SudokuBoard.new()
+	var um = UndoManager.new()
+	board.undo_manager = um
+	board.load_puzzle("000000000000000000000000000000000000000000000000000000000000000000000000000000000")
+	
+	board.set_cell_value(0, 5)
+	assert_eq(board.cells[0].value, 5)
+	assert_false(um.has_redo())
+	
+	um.undo_last_action(board)
+	assert_eq(board.cells[0].value, 0)
+	assert_true(um.has_redo())
+	
+	um.redo_last_action(board)
+	assert_eq(board.cells[0].value, 5)
+	assert_false(um.has_redo())
+	assert_true(um.has_undo())
+
+func test_redo_stack_cleared_on_new_move() -> void:
+	var board = SudokuBoard.new()
+	var um = UndoManager.new()
+	board.undo_manager = um
+	board.load_puzzle("000000000000000000000000000000000000000000000000000000000000000000000000000000000")
+	
+	board.set_cell_value(0, 5)
+	um.undo_last_action(board)
+	assert_true(um.has_redo())
+	
+	# New move should clear the redo stack
+	board.set_cell_value(1, 3)
+	assert_false(um.has_redo())
+

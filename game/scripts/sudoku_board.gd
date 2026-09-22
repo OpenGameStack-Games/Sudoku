@@ -258,3 +258,47 @@ func _undo_toggle_action(index: int, digit: int, was_added: bool) -> void:
 			
 	cell.update_active_candidates(auto_candidates_enabled, _get_math_valid_candidates(index))
 	board_updated.emit()
+
+func _redo_value_action(index: int, old_val: int, new_val: int, cleared_peer_candidates: Dictionary) -> void:
+	var cell: SudokuCell = cells[index]
+	cell.value = new_val
+	
+	if new_val != 0:
+		cell.clear_candidates()
+		# Remove the exact peer candidates that were recorded
+		for p in cleared_peer_candidates.keys():
+			for digit in cleared_peer_candidates[p]:
+				var peer_cell: SudokuCell = cells[p]
+				if peer_cell.user_candidates.has(digit):
+					peer_cell.user_candidates.erase(digit)
+				if not peer_cell.user_deleted_candidates.has(digit):
+					peer_cell.user_deleted_candidates.append(digit)
+	
+	_evaluate_conflicts()
+	_update_all_candidates()
+	
+	if old_val != 0:
+		_check_exhaustion(old_val)
+	if new_val != 0:
+		_check_exhaustion(new_val)
+		
+	_check_win_condition()
+	board_updated.emit()
+
+func _redo_toggle_action(index: int, digit: int, was_added: bool) -> void:
+	var cell: SudokuCell = cells[index]
+	
+	if was_added:
+		if not cell.user_candidates.has(digit):
+			cell.user_candidates.append(digit)
+			cell.user_candidates.sort()
+		if cell.user_deleted_candidates.has(digit):
+			cell.user_deleted_candidates.erase(digit)
+	else:
+		if cell.user_candidates.has(digit):
+			cell.user_candidates.erase(digit)
+		if not cell.user_deleted_candidates.has(digit):
+			cell.user_deleted_candidates.append(digit)
+			
+	cell.update_active_candidates(auto_candidates_enabled, _get_math_valid_candidates(index))
+	board_updated.emit()

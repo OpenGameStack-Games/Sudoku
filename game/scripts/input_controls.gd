@@ -4,6 +4,7 @@ extends MarginContainer
 signal mode_changed(is_candidate_mode: bool)
 signal auto_candidate_toggled(enabled: bool)
 signal undo_requested
+signal redo_requested
 
 var board: SudokuBoard = null
 var board_ui: BoardUI = null
@@ -14,6 +15,7 @@ var is_candidate_mode: bool = false
 @onready var mode_normal_btn: Button = $VBoxContainer/ModeRow/ToggleContainer/NormalBtn
 @onready var mode_candidate_btn: Button = $VBoxContainer/ModeRow/ToggleContainer/CandidateBtn
 @onready var undo_btn: Button = $VBoxContainer/ModeRow/UndoBtn
+@onready var redo_btn: Button = $VBoxContainer/ModeRow/RedoBtn
 
 @onready var auto_candidate_btn: CheckButton = $VBoxContainer/AutoRow/AutoCandidateBtn
 
@@ -32,6 +34,7 @@ func _ready() -> void:
 	mode_normal_btn.pressed.connect(_on_mode_normal_pressed)
 	mode_candidate_btn.pressed.connect(_on_mode_candidate_pressed)
 	undo_btn.pressed.connect(_on_undo_pressed)
+	redo_btn.pressed.connect(_on_redo_pressed)
 	auto_candidate_btn.toggled.connect(_on_auto_candidate_toggled)
 	
 	_update_mode_buttons()
@@ -58,8 +61,10 @@ func _on_board_updated() -> void:
 func _on_history_changed() -> void:
 	if not board or not board.undo_manager:
 		undo_btn.disabled = true
+		redo_btn.disabled = true
 		return
 	undo_btn.disabled = not board.undo_manager.has_undo()
+	redo_btn.disabled = not board.undo_manager.has_redo()
 
 func _update_numpad_exhaustion() -> void:
 	if not board:
@@ -203,6 +208,11 @@ func _on_undo_pressed() -> void:
 		board.undo_manager.undo_last_action(board)
 	undo_requested.emit()
 
+func _on_redo_pressed() -> void:
+	if board and board.undo_manager:
+		board.undo_manager.redo_last_action(board)
+	redo_requested.emit()
+
 func _on_auto_candidate_toggled(toggled_on: bool) -> void:
 	if board:
 		board.set_auto_candidates(toggled_on)
@@ -226,7 +236,10 @@ func _unhandled_input(event: InputEvent) -> void:
 		elif event.keycode == KEY_N:
 			_on_mode_normal_pressed()
 			handled = true
-		elif event.keycode == KEY_U or (event.keycode == KEY_Z and event.is_command_or_control_pressed()):
+		elif (event.keycode == KEY_Z and event.is_command_or_control_pressed() and event.shift_pressed) or (event.keycode == KEY_Y and event.is_command_or_control_pressed()) or event.keycode == KEY_R:
+			_on_redo_pressed()
+			handled = true
+		elif event.keycode == KEY_U or (event.keycode == KEY_Z and event.is_command_or_control_pressed() and not event.shift_pressed):
 			_on_undo_pressed()
 			handled = true
 			
