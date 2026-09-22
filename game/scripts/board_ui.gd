@@ -9,6 +9,7 @@ var board: SudokuBoard = null
 
 var selected_row: int = -1
 var selected_col: int = -1
+var numpad_digit: int = -1
 
 func _ready() -> void:
 	_gather_cells()
@@ -54,6 +55,8 @@ func _on_board_updated() -> void:
 		var sel_cell = board.cells[sel_idx]
 		if sel_cell.value != 0:
 			match_digit = sel_cell.value
+	elif numpad_digit > 0:
+		match_digit = numpad_digit
 			
 	for i in range(81):
 		var b_cell = board.cells[i]
@@ -65,6 +68,10 @@ func _on_board_updated() -> void:
 
 func _on_conflict_changed() -> void:
 	_update_highlights()
+
+func set_numpad_digit(digit: int) -> void:
+	numpad_digit = digit
+	_on_board_updated()
 
 func deselect_cell() -> void:
 	if selected_row != -1 or selected_col != -1:
@@ -94,6 +101,8 @@ func _update_highlights() -> void:
 		var sel_cell = board.cells[sel_idx]
 		if sel_cell.value != 0:
 			match_digit = sel_cell.value
+	elif numpad_digit > 0:
+		match_digit = numpad_digit
 			
 	for r in range(9):
 		for c in range(9):

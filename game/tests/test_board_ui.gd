@@ -189,3 +189,34 @@ func test_grid_lines_consistency() -> void:
 	assert_eq(bg.color, Color.WHITE, "Background must be pure white to create white grid lines")
 
 	board_ui.queue_free()
+
+func test_numpad_digit_highlight() -> void:
+	var board_scene = load("res://scenes/board.tscn")
+	var board_ui = board_scene.instantiate() as BoardUI
+	board_ui._ready()
+	
+	var logic_board = SudokuBoard.new()
+	logic_board.load_puzzle("0".repeat(81))
+	board_ui.bind_to_board(logic_board)
+	
+	logic_board.set_cell_value(10, 5)
+	logic_board.toggle_candidate(11, 5)
+	board_ui.deselect_cell()
+	
+	board_ui.set_numpad_digit(5)
+	assert_eq(board_ui.cells[10].color, CellUI.COLOR_MATCH, "Cell with 5 should highlight when numpad 5 is selected")
+	
+	var cand_label = board_ui.cells[11].get_node("CandidatesCenter/CandidatesGrid/Slot5/Candidate5") as Label
+	assert_eq(cand_label.get_theme_font_size("font_size"), 24, "Matched candidate should be enlarged")
+	if cand_label.has_theme_font("note_font_bold", "Label"):
+		assert_true(cand_label.has_theme_font_override("font"), "Matched candidate should have font override")
+		
+	board_ui.set_numpad_digit(-1)
+	assert_eq(board_ui.cells[10].color, CellUI.COLOR_NORMAL, "Cell 10 should return to normal when numpad digit cleared")
+	assert_false(cand_label.has_theme_font_override("font"), "Candidate font override should be cleared")
+	
+	board_ui.set_numpad_digit(5)
+	board_ui._on_cell_selected(0, 0)
+	assert_eq(board_ui.cells[10].color, CellUI.COLOR_PEER, "Selected empty cell should override numpad digit highlight")
+	
+	board_ui.queue_free()

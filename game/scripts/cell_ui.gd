@@ -47,9 +47,12 @@ func set_candidates(candidates: Array[int], match_digit: int = 0) -> void:
 			if i == match_digit:
 				cand_label.add_theme_font_size_override("font_size", 24) # Enlarged
 				cand_label.modulate = Color(1, 0.8, 0.2)
+				if cand_label.has_theme_font("note_font_bold", "Label"):
+					cand_label.add_theme_font_override("font", cand_label.get_theme_font("note_font_bold", "Label"))
 			else:
 				cand_label.add_theme_font_size_override("font_size", 16)
 				cand_label.modulate = Color.WHITE
+				cand_label.remove_theme_font_override("font")
 		else:
 			cand_label.text = ""
 
