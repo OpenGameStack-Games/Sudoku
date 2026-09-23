@@ -21,17 +21,23 @@ func _ready() -> void:
 		if not action_manager_node:
 			action_manager_node = tree.root.get_node_or_null("ActionManager")
 			
+	var very_easy_btn: Button = get_node_or_null("MarginContainer/VBoxContainer/ButtonsVBox/VeryEasyButton") as Button
 	var easy_btn: Button = get_node_or_null("MarginContainer/VBoxContainer/ButtonsVBox/EasyButton") as Button
 	var medium_btn: Button = get_node_or_null("MarginContainer/VBoxContainer/ButtonsVBox/MediumButton") as Button
 	var hard_btn: Button = get_node_or_null("MarginContainer/VBoxContainer/ButtonsVBox/HardButton") as Button
+	var very_hard_btn: Button = get_node_or_null("MarginContainer/VBoxContainer/ButtonsVBox/VeryHardButton") as Button
 	var stats_btn: Button = get_node_or_null("MarginContainer/VBoxContainer/ButtonsVBox/StatsButton") as Button
 	
+	if very_easy_btn:
+		very_easy_btn.pressed.connect(_on_difficulty_pressed.bind("very_easy"))
 	if easy_btn:
 		easy_btn.pressed.connect(_on_difficulty_pressed.bind("easy"))
 	if medium_btn:
 		medium_btn.pressed.connect(_on_difficulty_pressed.bind("medium"))
 	if hard_btn:
 		hard_btn.pressed.connect(_on_difficulty_pressed.bind("hard"))
+	if very_hard_btn:
+		very_hard_btn.pressed.connect(_on_difficulty_pressed.bind("very_hard"))
 	if stats_btn:
 		stats_btn.pressed.connect(_on_stats_pressed)
 		
@@ -72,16 +78,22 @@ func _notification(what: int) -> void:
 		_refresh_buttons()
 
 func _refresh_buttons() -> void:
+	var very_easy_btn: Button = get_node_or_null("MarginContainer/VBoxContainer/ButtonsVBox/VeryEasyButton") as Button
 	var easy_btn: Button = get_node_or_null("MarginContainer/VBoxContainer/ButtonsVBox/EasyButton") as Button
 	var medium_btn: Button = get_node_or_null("MarginContainer/VBoxContainer/ButtonsVBox/MediumButton") as Button
 	var hard_btn: Button = get_node_or_null("MarginContainer/VBoxContainer/ButtonsVBox/HardButton") as Button
+	var very_hard_btn: Button = get_node_or_null("MarginContainer/VBoxContainer/ButtonsVBox/VeryHardButton") as Button
 	
+	if very_easy_btn:
+		_update_difficulty_button(very_easy_btn, "very_easy", "Very Easy")
 	if easy_btn:
 		_update_difficulty_button(easy_btn, "easy", "Easy")
 	if medium_btn:
 		_update_difficulty_button(medium_btn, "medium", "Medium")
 	if hard_btn:
 		_update_difficulty_button(hard_btn, "hard", "Hard")
+	if very_hard_btn:
+		_update_difficulty_button(very_hard_btn, "very_hard", "Very Hard")
 
 func _update_difficulty_button(btn: Button, diff: String, base_text: String) -> void:
 	if save_manager_node and save_manager_node.has_save(diff):

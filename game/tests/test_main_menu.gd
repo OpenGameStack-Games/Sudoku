@@ -28,14 +28,18 @@ func has_save(diff: String) -> bool: return false
 	assert_true(mascot_rect != null, "MascotRect node should exist")
 	assert_true(mascot_rect.texture != null, "MascotRect should have a texture assigned")
 	
+	var very_easy_btn: Button = menu.get_node("MarginContainer/VBoxContainer/ButtonsVBox/VeryEasyButton") as Button
 	var easy_btn: Button = menu.get_node("MarginContainer/VBoxContainer/ButtonsVBox/EasyButton") as Button
 	var medium_btn: Button = menu.get_node("MarginContainer/VBoxContainer/ButtonsVBox/MediumButton") as Button
 	var hard_btn: Button = menu.get_node("MarginContainer/VBoxContainer/ButtonsVBox/HardButton") as Button
+	var very_hard_btn: Button = menu.get_node("MarginContainer/VBoxContainer/ButtonsVBox/VeryHardButton") as Button
 	var stats_btn: Button = menu.get_node("MarginContainer/VBoxContainer/ButtonsVBox/StatsButton") as Button
 	
+	assert_eq(very_easy_btn.text, "Very Easy", "Button text should be 'Very Easy' when no save exists")
 	assert_eq(easy_btn.text, "Easy", "Button text should be 'Easy' when no save exists")
 	assert_eq(medium_btn.text, "Medium", "Button text should be 'Medium' when no save exists")
 	assert_eq(hard_btn.text, "Hard", "Button text should be 'Hard' when no save exists")
+	assert_eq(very_hard_btn.text, "Very Hard", "Button text should be 'Very Hard' when no save exists")
 	assert_eq(stats_btn.text, "Statistics", "Stats button should read 'Statistics'")
 	
 	save_mgr.free()
@@ -58,13 +62,17 @@ func has_save(diff: String) -> bool: return diff == "easy" or diff == "hard"
 	
 	menu._ready()
 	
+	var very_easy_btn: Button = menu.get_node("MarginContainer/VBoxContainer/ButtonsVBox/VeryEasyButton") as Button
 	var easy_btn: Button = menu.get_node("MarginContainer/VBoxContainer/ButtonsVBox/EasyButton") as Button
 	var medium_btn: Button = menu.get_node("MarginContainer/VBoxContainer/ButtonsVBox/MediumButton") as Button
 	var hard_btn: Button = menu.get_node("MarginContainer/VBoxContainer/ButtonsVBox/HardButton") as Button
+	var very_hard_btn: Button = menu.get_node("MarginContainer/VBoxContainer/ButtonsVBox/VeryHardButton") as Button
 	
+	assert_eq(very_easy_btn.text, "Very Easy", "Button text should be 'Very Easy' when no very easy save exists")
 	assert_eq(easy_btn.text, "Resume Easy", "Button text should be 'Resume Easy' when easy save exists")
 	assert_eq(medium_btn.text, "Medium", "Button text should remain 'Medium' when no medium save exists")
 	assert_eq(hard_btn.text, "Resume Hard", "Button text should be 'Resume Hard' when hard save exists")
+	assert_eq(very_hard_btn.text, "Very Hard", "Button text should be 'Very Hard' when no very hard save exists")
 	
 	save_mgr.free()
 	menu.free()
