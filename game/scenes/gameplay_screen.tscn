@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://cxinputctrl" path="res://scenes/input_controls.tscn" id="3_inp"]
 [ext_resource type="PackedScene" path="res://scenes/pause_overlay.tscn" id="4_pau"]
 [ext_resource type="PackedScene" path="res://scenes/victory_overlay.tscn" id="5_vic"]
-[ext_resource type="Theme" path="res://resources/theme_1930s.tres" id="6_theme"]
+[ext_resource type="Theme" uid="uid://de336rn8lps8e" path="res://resources/theme_1930s.tres" id="6_theme"]
 
 [node name="GameplayScreen" type="Control" unique_id=1946874653]
 layout_mode = 3
@@ -89,8 +89,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-scale = Vector2(1, 0.88)
-theme_override_font_sizes/font_size = 48
+scale = Vector2(1, 0.92)
+theme_override_font_sizes/font_size = 29
 text = "||"
 horizontal_alignment = 1
 vertical_alignment = 1
