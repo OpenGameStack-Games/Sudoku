@@ -154,3 +154,36 @@ func test_redo_stack_cleared_on_new_move() -> void:
 	board.set_cell_value(1, 3)
 	assert_false(um.has_redo())
 
+
+func test_resumed_json_history_type_safety() -> void:
+	var board = SudokuBoard.new()
+	var um = UndoManager.new()
+	board.undo_manager = um
+	board.load_puzzle("000000000000000000000000000000000000000000000000000000000000000000000000000000000")
+	
+	# Simulate raw untyped state from JSON parse
+	var untyped_user: Array = [1, 2]
+	var untyped_deleted: Array = [3]
+	var untyped_cleared: Dictionary = {"1": [5]}
+	
+	var json_state: Array = [{
+		"type": "value",
+		"index": 0,
+		"old_value": 0,
+		"new_value": 5,
+		"old_user_candidates": untyped_user,
+		"old_user_deleted_candidates": untyped_deleted,
+		"cleared_peer_candidates": untyped_cleared
+	}]
+	
+	um.load_history_state(json_state)
+	board.cells[0].value = 5 # Match state before undo
+	
+	# Undo should not crash due to type mismatches
+	um.undo_last_action(board)
+	
+	assert_eq(board.cells[0].value, 0)
+	
+	# Redo should also not crash
+	um.redo_last_action(board)
+	assert_eq(board.cells[0].value, 5)
