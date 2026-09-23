@@ -319,3 +319,42 @@ func test_play_again() -> void:
 	assert_true(save_manager_node.flush_called, "SaveManager should be flushed on new game")
 	
 	_teardown_nodes()
+
+func test_save_loading_when_timer_active() -> void:
+	time_manager_node = MockTimeManager.new()
+	time_manager_node._active = true # Mock active TimeManager (e.g. from main menu transition)
+	
+	save_manager_node = MockSaveManager.new()
+	save_manager_node.current_difficulty = "medium"
+	
+	var save_script: GDScript = GDScript.new()
+	save_script.source_code = """
+extends Node
+var current_difficulty: String = "medium"
+func has_save(diff: String) -> bool: return true
+func load_game(diff: String) -> Dictionary:
+	return { "elapsed_seconds": 42, "auto_candidates": true, "input_mode": true }
+"""
+	save_script.reload()
+	save_manager_node.set_script(save_script)
+	
+	game_manager_node = MockGameManager.new()
+	game_manager_node._ready()
+	
+	action_manager_node = MockActionManager.new()
+	
+	var scene: PackedScene = load("res://scenes/gameplay_screen.tscn") as PackedScene
+	screen = scene.instantiate() as GameplayScreen
+	
+	screen.time_manager_node = time_manager_node
+	screen.save_manager_node = save_manager_node
+	screen.game_manager_node = game_manager_node
+	screen.action_manager_node = action_manager_node
+	
+	screen._ready()
+	
+	assert_true(game_manager_node.board.auto_candidates_enabled, "Board auto-candidates should be enabled after loading save, even if TimeManager is active")
+	assert_true(screen.input_controls.auto_candidate_btn.button_pressed, "Auto-candidate toggle button should be visually pressed")
+	assert_true(screen.input_controls.is_candidate_mode, "Input mode should be set to Candidate from save")
+	
+	_teardown_nodes()
