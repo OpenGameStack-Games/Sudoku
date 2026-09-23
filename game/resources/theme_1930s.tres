@@ -1,4 +1,4 @@
-[gd_resource type="Theme" format=3]
+[gd_resource type="Theme" format=3 uid="uid://de336rn8lps8e"]
 
 [sub_resource type="SystemFont" id="SystemFont_button"]
 font_names = PackedStringArray("Segoe UI Symbol", "Apple Symbols", "Noto Sans Symbols", "sans-serif")

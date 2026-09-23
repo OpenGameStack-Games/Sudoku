@@ -1,13 +1,13 @@
-[gd_scene load_steps=5 format=3 uid="uid://gameplay_screen"]
+[gd_scene format=3 uid="uid://f08o1n1iu3ax"]
 
-[ext_resource type="Script" path="res://scripts/gameplay_screen.gd" id="1_gps"]
-[ext_resource type="PackedScene" path="res://scenes/board.tscn" id="2_brd"]
-[ext_resource type="PackedScene" path="res://scenes/input_controls.tscn" id="3_inp"]
+[ext_resource type="Script" uid="uid://ch2lb63o1y8rk" path="res://scripts/gameplay_screen.gd" id="1_gps"]
+[ext_resource type="PackedScene" uid="uid://cyboard" path="res://scenes/board.tscn" id="2_brd"]
+[ext_resource type="PackedScene" uid="uid://cxinputctrl" path="res://scenes/input_controls.tscn" id="3_inp"]
 [ext_resource type="PackedScene" path="res://scenes/pause_overlay.tscn" id="4_pau"]
 [ext_resource type="PackedScene" path="res://scenes/victory_overlay.tscn" id="5_vic"]
 [ext_resource type="Theme" path="res://resources/theme_1930s.tres" id="6_theme"]
 
-[node name="GameplayScreen" type="Control"]
+[node name="GameplayScreen" type="Control" unique_id=1946874653]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -16,16 +16,16 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_gps")
 
-[node name="Background" type="ColorRect" parent="."]
+[node name="Background" type="ColorRect" parent="." unique_id=420823569]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.07, 0.07, 0.07, 1.0)
+color = Color(0.07, 0.07, 0.07, 1)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1004087445]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -34,24 +34,24 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 16
 
-[node name="Header" type="MarginContainer" parent="VBoxContainer"]
+[node name="Header" type="MarginContainer" parent="VBoxContainer" unique_id=58320726]
 layout_mode = 2
 theme_override_constants/margin_left = 16
 theme_override_constants/margin_top = 48
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Header"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Header" unique_id=637826501]
 layout_mode = 2
 theme_override_constants/separation = 32
 alignment = 1
 
-[node name="BackButton" type="Button" parent="VBoxContainer/Header/HBoxContainer"]
+[node name="BackButton" type="Button" parent="VBoxContainer/Header/HBoxContainer" unique_id=595880986]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
 theme = ExtResource("6_theme")
 
-[node name="Label" type="Label" parent="VBoxContainer/Header/HBoxContainer/BackButton"]
+[node name="Label" type="Label" parent="VBoxContainer/Header/HBoxContainer/BackButton" unique_id=536615339]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -59,44 +59,43 @@ anchor_bottom = 1.0
 offset_top = -4.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 2
 theme_override_font_sizes/font_size = 48
 text = "<"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="DifficultyLabel" type="Label" parent="VBoxContainer/Header/HBoxContainer"]
+[node name="DifficultyLabel" type="Label" parent="VBoxContainer/Header/HBoxContainer" unique_id=301426720]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Medium"
 horizontal_alignment = 1
 
-[node name="TimerLabel" type="Label" parent="VBoxContainer/Header/HBoxContainer"]
+[node name="TimerLabel" type="Label" parent="VBoxContainer/Header/HBoxContainer" unique_id=777437269]
 custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "00:00"
 horizontal_alignment = 1
 
-[node name="PauseButton" type="Button" parent="VBoxContainer/Header/HBoxContainer"]
+[node name="PauseButton" type="Button" parent="VBoxContainer/Header/HBoxContainer" unique_id=730633020]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
 theme = ExtResource("6_theme")
 
-[node name="Label" type="Label" parent="VBoxContainer/Header/HBoxContainer/PauseButton"]
+[node name="Label" type="Label" parent="VBoxContainer/Header/HBoxContainer/PauseButton" unique_id=404687726]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 2
+scale = Vector2(1, 0.88)
 theme_override_font_sizes/font_size = 48
 text = "||"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="MenuButton" type="MenuButton" parent="VBoxContainer/Header/HBoxContainer"]
+[node name="MenuButton" type="MenuButton" parent="VBoxContainer/Header/HBoxContainer" unique_id=1586831518]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
 theme = ExtResource("6_theme")
@@ -107,7 +106,7 @@ popup/item_0/id = 0
 popup/item_1/text = "New Game"
 popup/item_1/id = 1
 
-[node name="Label" type="Label" parent="VBoxContainer/Header/HBoxContainer/MenuButton"]
+[node name="Label" type="Label" parent="VBoxContainer/Header/HBoxContainer/MenuButton" unique_id=266274094]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -116,26 +115,25 @@ offset_top = -24.0
 offset_bottom = -24.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 2
 theme_override_font_sizes/font_size = 64
 text = "..."
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="BoardContainer" type="CenterContainer" parent="VBoxContainer"]
+[node name="BoardContainer" type="CenterContainer" parent="VBoxContainer" unique_id=217861558]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Board" parent="VBoxContainer/BoardContainer" instance=ExtResource("2_brd")]
+[node name="Board" parent="VBoxContainer/BoardContainer" unique_id=89350484 instance=ExtResource("2_brd")]
 layout_mode = 2
 
-[node name="InputControls" parent="VBoxContainer" instance=ExtResource("3_inp")]
+[node name="InputControls" parent="VBoxContainer" unique_id=1630474206 instance=ExtResource("3_inp")]
 layout_mode = 2
 
-[node name="PauseOverlay" parent="." instance=ExtResource("4_pau")]
+[node name="PauseOverlay" parent="." unique_id=42967894 instance=ExtResource("4_pau")]
 visible = false
 layout_mode = 1
 
-[node name="VictoryOverlay" parent="." instance=ExtResource("5_vic")]
+[node name="VictoryOverlay" parent="." unique_id=1164902703 instance=ExtResource("5_vic")]
 visible = false
 layout_mode = 1
