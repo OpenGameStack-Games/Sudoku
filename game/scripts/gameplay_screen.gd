@@ -89,31 +89,32 @@ func _ready() -> void:
 			time_manager_node.time_updated.connect(_on_time_updated)
 		if timer_label:
 			timer_label.text = time_manager_node.get_formatted_time()
-		if not time_manager_node.get("_active"):
-			var initial_seconds: int = 0
-			if save_manager_node and save_manager_node.has_method("load_game"):
-				var diff: String = save_manager_node.current_difficulty
-				if diff != "" and save_manager_node.has_save(diff):
-					var save_data: Dictionary = save_manager_node.load_game(diff)
-					initial_seconds = int(save_data.get("elapsed_seconds", 0))
+			
+	var initial_seconds: int = 0
+	if save_manager_node and save_manager_node.has_method("load_game"):
+		var diff: String = save_manager_node.current_difficulty
+		if diff != "" and save_manager_node.has_save(diff):
+			var save_data: Dictionary = save_manager_node.load_game(diff)
+			initial_seconds = int(save_data.get("elapsed_seconds", 0))
+			
+			if save_data.has("auto_candidates") and game_manager_node and game_manager_node.board:
+				game_manager_node.board.set_auto_candidates(bool(save_data["auto_candidates"]))
+				if input_controls:
+					input_controls.auto_candidate_btn.button_pressed = bool(save_data["auto_candidates"])
+			
+			if save_data.has("input_mode") and input_controls:
+				if bool(save_data["input_mode"]):
+					input_controls._on_mode_candidate_pressed()
+				else:
+					input_controls._on_mode_normal_pressed()
 					
-					if save_data.has("auto_candidates") and game_manager_node and game_manager_node.board:
-						game_manager_node.board.set_auto_candidates(bool(save_data["auto_candidates"]))
-						if input_controls:
-							input_controls.auto_candidate_btn.button_pressed = bool(save_data["auto_candidates"])
-					
-					if save_data.has("input_mode") and input_controls:
-						if bool(save_data["input_mode"]):
-							input_controls._on_mode_candidate_pressed()
-						else:
-							input_controls._on_mode_normal_pressed()
-							
-					if action_manager_node:
-						var undo_stack: Array = save_data.get("undo_stack", []) as Array
-						var redo_stack: Array = save_data.get("redo_stack", []) as Array
-						action_manager_node.load_history_state(undo_stack, redo_stack)
-						
-			time_manager_node.start(initial_seconds)
+			if action_manager_node:
+				var undo_stack: Array = save_data.get("undo_stack", []) as Array
+				var redo_stack: Array = save_data.get("redo_stack", []) as Array
+				action_manager_node.load_history_state(undo_stack, redo_stack)
+				
+	if time_manager_node and not time_manager_node.get("_active"):
+		time_manager_node.start(initial_seconds)
 		
 	if save_manager_node and difficulty_label:
 		var diff: String = save_manager_node.current_difficulty
