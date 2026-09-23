@@ -149,6 +149,13 @@ This document outlines the strict manual testing procedures required before any 
   5. Click Redo and verify the auto-candidates disappear again.
 - **Automated Verification:** Verified in headless CI via `game/tests/test_undo_manager.gd` and `game/tests/test_input_controls.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), confirming empty stack safety, sequential final answer undo, sequential candidate note undo, compound action peer candidate restoration, auto-candidate note restoration and redo removal, conflict/exhaustion recalculation, dynamic undo/redo button disabled/enabled state synchronization, redo stack flushing on new moves, and state serialization.
 
+## Test 9.1: Undo State Session Isolation
+- **Step 1:** Start an Easy game, make a move on the board, then tap `<` to navigate to the Main Menu.
+- **Step 2:** Start a Hard game. Observe the "Undo" button.
+- **Expected:** The "Undo" button is completely disabled, confirming the undo stack was cleared for the new session.
+- **Step 3:** Tap `<` to navigate to the Main Menu, then tap "Resume Easy".
+- **Expected:** The Easy game restores and the "Undo" button is enabled. Tap "Undo" and verify your previous move from Step 1 is undone, confirming history states are correctly restored from the save file.
+
 ## Test 10.0: Puzzle Menus (Reset & New Game)
 - **Step 1:** Enter a game, make several final answer inputs, toggle several candidate notes, and observe the elapsed timer (e.g. at 01:25).
 - **Step 2:** Tap the triple-dot menu ("...") on the top-right header and select "Reset Puzzle".
