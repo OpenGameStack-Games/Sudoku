@@ -176,6 +176,14 @@ This document outlines the strict manual testing procedures required before any 
 - **Expected:** All auto-generated candidates disappear from the board.
 - **Automated Verification:** Verified in headless CI via `game/tests/test_sudoku_board.gd` and `game/tests/test_input_controls.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), verifying auto-candidate toggle signals, valid candidate generation, user deletion preservation, flat stylebox overrides, and dynamic UI synchronization.
 
+## Test 11.1: UI Save State Restoration on Resume
+- **Step 1:** Start a new game and toggle both "Candidate" mode and "Auto Candidate Mode" to ON.
+- **Step 2:** Ensure the toggles reflect their active visual states.
+- **Step 3:** Tap the `<` (Back) button to navigate to the Main Menu.
+- **Step 4:** Tap the corresponding "Resume [Difficulty]" button to return to the active puzzle.
+- **Expected:** The game successfully loads, and both the "Candidate" mode button and the "Auto Candidate Mode" toggle retain their active visual states and active behavior without reverting to the default "Normal" mode/OFF state.
+- **Automated Verification:** Verified in headless CI via `game/tests/test_gameplay_screen.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), which explicitely tests save loading of `auto_candidates` and `input_mode` when transitioning with an active `TimeManager`.
+
 ## Test 12.0: Puzzle Database Load & Symmetry
 - **Step 1:** Tap "Easy", "Medium", and "Hard" sequentially from the main menu, exiting back to the menu between each.
 - **Expected:** The game successfully loads a puzzle string from `puzzles.json` for each difficulty without hanging or crashing. The initial clues populated on the board must exactly match the non-zero digits of the loaded string.
