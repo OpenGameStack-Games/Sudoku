@@ -84,18 +84,34 @@ func get_redo_history_state() -> Array:
 	return _redo_history.duplicate(true)
 
 func load_history_state(state: Array, redo_state: Array = []) -> void:
-	var typed_state: Array[Dictionary] = []
-	for item in state:
-		if typeof(item) == TYPE_DICTIONARY:
-			typed_state.append(item as Dictionary)
-	_history = typed_state
-	
-	var typed_redo: Array[Dictionary] = []
-	for item in redo_state:
-		if typeof(item) == TYPE_DICTIONARY:
-			typed_redo.append(item as Dictionary)
-	_redo_history = typed_redo
-	
+	_history = _cast_history_array(state)
+	_redo_history = _cast_history_array(redo_state)
 	history_changed.emit()
 
-
+func _cast_history_array(arr: Array) -> Array[Dictionary]:
+	var typed_arr: Array[Dictionary] = []
+	for item in arr:
+		if typeof(item) == TYPE_DICTIONARY:
+			var dict := item as Dictionary
+			if dict.get("type") == "value":
+				var untyped_user: Array = dict.get("old_user_candidates", [])
+				var typed_user: Array[int] = []
+				typed_user.assign(untyped_user)
+				dict["old_user_candidates"] = typed_user
+				
+				var untyped_deleted: Array = dict.get("old_user_deleted_candidates", [])
+				var typed_deleted: Array[int] = []
+				typed_deleted.assign(untyped_deleted)
+				dict["old_user_deleted_candidates"] = typed_deleted
+				
+				var untyped_cleared: Dictionary = dict.get("cleared_peer_candidates", {})
+				var typed_cleared: Dictionary = {}
+				for key in untyped_cleared:
+					var int_key: int = str(key).to_int()
+					var untyped_val: Array = untyped_cleared[key]
+					var typed_val: Array[int] = []
+					typed_val.assign(untyped_val)
+					typed_cleared[int_key] = typed_val
+				dict["cleared_peer_candidates"] = typed_cleared
+			typed_arr.append(dict)
+	return typed_arr
