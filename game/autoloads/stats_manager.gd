@@ -14,9 +14,11 @@ func _ready() -> void:
 
 func _init_default_stats() -> void:
 	_stats = {
+		"very_easy": _create_empty_stat(),
 		"easy": _create_empty_stat(),
 		"medium": _create_empty_stat(),
-		"hard": _create_empty_stat()
+		"hard": _create_empty_stat(),
+		"very_hard": _create_empty_stat()
 	}
 
 func _create_empty_stat() -> Dictionary:
