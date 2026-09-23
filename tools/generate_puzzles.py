@@ -136,18 +136,28 @@ def board_to_string(board):
 def generate_puzzles(count, target_clues):
     puzzles = []
     while len(puzzles) < count:
-        board = generate_full_board()
-        if target_clues >= 30:
-            board = remove_cells_with_symmetry(board, target_clues)
-        else:
-            board = remove_cells_asymmetrical(board, target_clues)
+        best_board = None
+        best_remaining = 81
+        
+        for attempt in range(20):
+            board = generate_full_board()
+            if target_clues >= 30:
+                board = remove_cells_with_symmetry(board, target_clues)
+            else:
+                board = remove_cells_asymmetrical(board, target_clues)
+                
+            remaining = sum(1 for r in range(9) for c in range(9) if board[r][c] != 0)
+            if remaining <= best_remaining:
+                best_remaining = remaining
+                best_board = board
+                
+            if remaining <= target_clues:
+                break
+                
+        if best_remaining > target_clues:
+            print(f"Could not reach {target_clues} clues after 20 attempts. Accepting {best_remaining} clues.")
             
-        remaining = sum(1 for r in range(9) for c in range(9) if board[r][c] != 0)
-        if remaining > target_clues:
-            print(f"Discarding board with {remaining} clues (target {target_clues})")
-            continue
-            
-        puzzles.append(board_to_string(board))
+        puzzles.append(board_to_string(best_board))
         print(f"Generated puzzle {len(puzzles)}/{count}")
     return puzzles
 

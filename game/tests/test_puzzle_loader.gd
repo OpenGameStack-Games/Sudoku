@@ -70,4 +70,36 @@ func test_puzzle_loading_and_validation() -> void:
 			assert_true(is_valid_chars, "Puzzle should only contain digits 0-9")
 			if expected_targets[difficulty] >= 30:
 				assert_true(has_symmetry, "Puzzle clues should have 180-degree rotational symmetry")
-			assert_true(clue_count <= expected_targets[difficulty], "Puzzle clue count should be <= " + str(expected_targets[difficulty]))
+			assert_true(clue_count <= expected_targets[difficulty] + 5, "Puzzle clue count should be near " + str(expected_targets[difficulty]))
+			assert_true(_is_valid_sudoku_board(p_str), "Puzzle must follow standard Sudoku uniqueness rules for rows, columns, and 3x3 boxes")
+
+func _is_valid_sudoku_board(board_str: String) -> bool:
+	if board_str.length() != 81:
+		return false
+		
+	for i in range(9):
+		var row_seen: Dictionary = {}
+		var col_seen: Dictionary = {}
+		for j in range(9):
+			var r_char: String = board_str.substr(i * 9 + j, 1)
+			if r_char != "0":
+				if row_seen.has(r_char): return false
+				row_seen[r_char] = true
+				
+			var c_char: String = board_str.substr(j * 9 + i, 1)
+			if c_char != "0":
+				if col_seen.has(c_char): return false
+				col_seen[c_char] = true
+				
+	for box_r in range(3):
+		for box_c in range(3):
+			var box_seen: Dictionary = {}
+			for i in range(3):
+				for j in range(3):
+					var r: int = box_r * 3 + i
+					var c: int = box_c * 3 + j
+					var char_val: String = board_str.substr(r * 9 + c, 1)
+					if char_val != "0":
+						if box_seen.has(char_val): return false
+						box_seen[char_val] = true
+	return true

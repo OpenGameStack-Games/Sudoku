@@ -10,7 +10,7 @@ This document acts as the definitive source of truth for the game's features, lo
   - When a user selects a difficulty, the game randomly selects a puzzle string from that category.
 - **Python Generator Tool:** The repository contains an out-of-band Python script located at `tools/generate_puzzles.py` (outside the Godot project). This script is responsible for generating, grading, and exporting the `puzzles.json` file.
   - **Symmetry Requirement:** The generated puzzles MUST feature traditional 180-degree rotational symmetry (if a clue exists at row `r` col `c`, a clue must exist at row `8-r` col `8-c`).
-  - **Difficulty Grading:** Difficulty is categorized by target clue count: Very Easy (50 clues), Easy (40 clues), Medium (30 clues), Hard (25 clues), and Very Hard (22 clues).
+  - **Difficulty Grading:** Difficulty is categorized by target clue count: Very Easy (50 clues), Easy (40 clues), Medium (30 clues), Hard (25 clues), and Very Hard (22 clues). If the generator cannot reach the target clue count after 20 attempts, it falls back to accepting the lowest possible valid clue count found during those attempts (e.g., 23 instead of 22), preventing infinite hangs or invalid mock output.
   - **Command Line Arguments:** Accepts `--count <N>` (number of puzzles per difficulty, default 10) and `--out <path>` (output JSON destination, default `game/data/puzzles.json`).
 - **Timer & Pause:** The gameplay screen must track time elapsed starting at 00:00 via the `TimeManager` autoload (`game/autoloads/time_manager.gd`).
   - **High-Precision Counting:** Tracks elapsed seconds with high precision, emitting `time_updated(seconds: int, formatted_str: String)` every second for UI binding.
