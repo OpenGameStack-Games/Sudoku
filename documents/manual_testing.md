@@ -28,7 +28,7 @@ This document outlines the strict manual testing procedures required before any 
 
 ## Test 5.0: Main Menu & Navigation
 - **Step 1 (Default State):** Boot the game to the Main Menu with no existing saves.
-- **Expected:** The 1930s monochrome mascot character (`mascot_icon.jpg`) is prominently centered in the upper half. The screen contains five clear buttons reading: "Easy", "Medium", "Hard", "Statistics", and "Credits".
+- **Expected:** The 1930s monochrome mascot character (`mascot_icon.jpg`) is prominently centered in the upper half. The screen contains seven clear buttons reading: "Very Easy", "Easy", "Medium", "Hard", "Very Hard", "Statistics", and "Credits".
 - **Step 2 (Resume State Indication):** If an active save exists for a difficulty tier (e.g., Easy), verify that the corresponding button dynamically updates to read `"Resume Easy"`. Unsaved difficulties remain `"Medium"` and `"Hard"`.
 - **Step 3 (Resume Navigation):** Tap a "Resume [Difficulty]" button.
 - **Expected:** The app transitions to the Gameplay screen (`res://scenes/gameplay_screen.tscn`), restoring the active saved puzzle for that difficulty without incrementing `games_started` in `StatsManager`, and actively unpausing the timer to continue counting from the saved elapsed seconds.
@@ -38,7 +38,7 @@ This document outlines the strict manual testing procedures required before any 
 - **Expected:** The app transitions to the Statistics screen (`res://scenes/statistics_screen.tscn`).
 - **Step 6 (Statistics Screen UI, Typography Scaling & Back Navigation):**
   - Verify the header displays the prominent "STATISTICS" title (font size 64) and a "<" back button.
-  - Verify three independent cards ("Easy", "Medium", and "Hard") displaying "Games Started", "Games Won", "Best Time", and "Average Time".
+  - Verify five independent cards ("Very Easy", "Easy", "Medium", "Hard", and "Very Hard") displaying "Games Started", "Games Won", "Best Time", and "Average Time".
   - **Visual Real Estate & Readability Verification:** Verify that the statistics cards and typography are enlarged to comfortably fill the vertical screen real estate without feeling cramped or leaving excessive blank space. Difficulty headers should be large (48pt) and stat labels/values should be prominent (32pt) with generous inner card padding (40px) and vertical separation (30px).
   - Verify the 1930s monochrome styling with Dark Gray `#121212` background, crisp white borders, and balanced monochrome typography.
   - Tap the "<" button.
@@ -185,7 +185,7 @@ This document outlines the strict manual testing procedures required before any 
 - **Automated Verification:** Verified in headless CI via `game/tests/test_gameplay_screen.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), which explicitely tests save loading of `auto_candidates` and `input_mode` when transitioning with an active `TimeManager`.
 
 ## Test 12.0: Puzzle Database Load & Symmetry
-- **Step 1:** Tap "Easy", "Medium", and "Hard" sequentially from the main menu, exiting back to the menu between each.
+- **Step 1:** Tap "Very Easy", "Easy", "Medium", "Hard", and "Very Hard" sequentially from the main menu, exiting back to the menu between each.
 - **Expected:** The game successfully loads a puzzle string from `puzzles.json` for each difficulty without hanging or crashing. The initial clues populated on the board must exactly match the non-zero digits of the loaded string.
 - **Step 2:** Observe the initial clues on the board.
 - **Expected:** The layout of the clues MUST be rotationally symmetrical (180 degrees).
@@ -251,7 +251,7 @@ This document outlines the strict manual testing procedures required before any 
 - **Expected:** The previous Easy save is cleanly overwritten with the new puzzle state, resetting the timer and undo stack.
 - **Step 7 (Save Clearing):** Complete a puzzle or select "Reset Puzzle".
 - **Expected:** The active save file for that difficulty is deleted (`clear_save`), and returning to the Main Menu reflects that the button reverts from `"Resume [Difficulty]"` back to its default label (`"Easy"`).
-- **Automated Verification:** Verified in headless CI via `game/tests/test_save_manager.gd` and `game/tests/test_main_menu.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), confirming concurrent saving and loading across Easy/Medium/Hard, save overwriting, complex state restoration (board, notes, undo history, elapsed seconds), save deletion, and menu label synchronization.
+- **Automated Verification:** Verified in headless CI via `game/tests/test_save_manager.gd` and `game/tests/test_main_menu.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), confirming concurrent saving and loading across Very Easy/Easy/Medium/Hard/Very Hard, save overwriting, complex state restoration (board, notes, undo history, elapsed seconds), save deletion, and menu label synchronization.
 
 ## Test 17.0: Selection & Number Matching Highlighting
 - **Step 1:** Tap an empty or filled cell on the grid.
@@ -354,7 +354,7 @@ This document outlines the strict manual testing procedures required before any 
 
 ## Test 25.0: Button Hover States
 - **Step 1:** Launch the app on a device or platform that supports mouse cursor input (e.g., PC, or Android with a connected mouse).
-- **Step 2:** Move the mouse cursor to hover over various interactable UI buttons (e.g., Pause, Resume, Normal/Candidate toggles, Numpad digits, Easy/Medium/Hard menu buttons).
+- **Step 2:** Move the mouse cursor to hover over various interactable UI buttons (e.g., Pause, Resume, Normal/Candidate toggles, Numpad digits, difficulty menu buttons).
 - **Expected:** The background color of the button shifts slightly to indicate the hover state, while the 2px solid white border explicitly remains visible and does not vanish or disappear during the hover.
 
 
