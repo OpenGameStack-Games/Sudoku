@@ -106,6 +106,30 @@ def remove_cells_with_symmetry(board, target_clues):
 
     return board
 
+def remove_cells_asymmetrical(board, target_clues):
+    clues = 81
+    cells = []
+    for r in range(9):
+        for c in range(9):
+            cells.append((r, c))
+    random.shuffle(cells)
+
+    for r, c in cells:
+        if clues <= target_clues:
+            break
+        
+        v = board[r][c]
+        if v == 0:
+            continue
+            
+        board[r][c] = 0
+        if solve(copy.deepcopy(board), max_count=2) == 1:
+            clues -= 1
+        else:
+            board[r][c] = v
+
+    return board
+
 def board_to_string(board):
     return "".join(str(board[r][c]) for r in range(9) for c in range(9))
 
@@ -113,7 +137,16 @@ def generate_puzzles(count, target_clues):
     puzzles = []
     while len(puzzles) < count:
         board = generate_full_board()
-        board = remove_cells_with_symmetry(board, target_clues)
+        if target_clues >= 30:
+            board = remove_cells_with_symmetry(board, target_clues)
+        else:
+            board = remove_cells_asymmetrical(board, target_clues)
+            
+        remaining = sum(1 for r in range(9) for c in range(9) if board[r][c] != 0)
+        if remaining > target_clues:
+            print(f"Discarding board with {remaining} clues (target {target_clues})")
+            continue
+            
         puzzles.append(board_to_string(board))
         print(f"Generated puzzle {len(puzzles)}/{count}")
     return puzzles
@@ -124,17 +157,23 @@ if __name__ == "__main__":
     parser.add_argument("--out", type=str, default="game/data/puzzles.json", help="Output JSON path")
     args = parser.parse_args()
 
+    print("Generating Very Easy puzzles...")
+    very_easy = generate_puzzles(args.count, 50)
     print("Generating Easy puzzles...")
-    easy = generate_puzzles(args.count, 50)
+    easy = generate_puzzles(args.count, 40)
     print("Generating Medium puzzles...")
-    medium = generate_puzzles(args.count, 40)
+    medium = generate_puzzles(args.count, 30)
     print("Generating Hard puzzles...")
-    hard = generate_puzzles(args.count, 30)
+    hard = generate_puzzles(args.count, 25)
+    print("Generating Very Hard puzzles...")
+    very_hard = generate_puzzles(args.count, 22)
 
     dataset = {
+        "very_easy": very_easy,
         "easy": easy,
         "medium": medium,
-        "hard": hard
+        "hard": hard,
+        "very_hard": very_hard
     }
     
     out_dir = os.path.dirname(args.out)
