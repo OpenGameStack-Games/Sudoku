@@ -50,10 +50,19 @@ class MockGameManager extends Node:
 		if board:
 			board.load_puzzle(puzzle)
 
+class MockActionManager extends Node:
+	var clear_called: bool = false
+	var load_called: bool = false
+	func clear_history() -> void:
+		clear_called = true
+	func load_history_state(u: Array, r: Array = []) -> void:
+		load_called = true
+
 var screen: GameplayScreen
 var time_manager_node: MockTimeManager
 var save_manager_node: MockSaveManager
 var game_manager_node: MockGameManager
+var action_manager_node: MockActionManager
 
 func _setup_nodes(diff: String = "medium") -> void:
 	time_manager_node = MockTimeManager.new()
@@ -63,12 +72,15 @@ func _setup_nodes(diff: String = "medium") -> void:
 	game_manager_node = MockGameManager.new()
 	game_manager_node._ready()
 	
+	action_manager_node = MockActionManager.new()
+	
 	var scene: PackedScene = load("res://scenes/gameplay_screen.tscn") as PackedScene
 	screen = scene.instantiate() as GameplayScreen
 	
 	screen.time_manager_node = time_manager_node
 	screen.save_manager_node = save_manager_node
 	screen.game_manager_node = game_manager_node
+	screen.action_manager_node = action_manager_node
 
 	screen._ready()
 
@@ -83,6 +95,8 @@ func _teardown_nodes() -> void:
 		if game_manager_node.board and game_manager_node.board.undo_manager:
 			game_manager_node.board.undo_manager.free()
 		game_manager_node.free()
+	if action_manager_node:
+		action_manager_node.free()
 
 func test_scenes_and_assets_exist() -> void:
 	assert_true(FileAccess.file_exists("res://scenes/gameplay_screen.tscn"), "gameplay_screen.tscn should exist on disk")
@@ -164,6 +178,42 @@ func test_new_game() -> void:
 	assert_true(save_manager_node.current_puzzle_string != old_puzzle, "New game should load a fresh puzzle string")
 	assert_eq(save_manager_node.current_puzzle_string.length(), 81, "New puzzle string should have length 81")
 	assert_true(save_manager_node.flush_called, "SaveManager should be flushed on new game")
+	assert_true(action_manager_node.clear_called, "ActionManager should clear history on new game")
+	
+	_teardown_nodes()
+
+func test_resume_game_loads_history() -> void:
+	time_manager_node = MockTimeManager.new()
+	save_manager_node = MockSaveManager.new()
+	save_manager_node.current_difficulty = "hard"
+	
+	var save_script: GDScript = GDScript.new()
+	save_script.source_code = """
+extends Node
+var current_difficulty: String = "hard"
+func has_save(diff: String) -> bool: return true
+func load_game(diff: String) -> Dictionary:
+	return { "elapsed_seconds": 12, "undo_stack": [{"type": "value"}], "redo_stack": [] }
+"""
+	save_script.reload()
+	save_manager_node.set_script(save_script)
+	
+	game_manager_node = MockGameManager.new()
+	game_manager_node._ready()
+	
+	action_manager_node = MockActionManager.new()
+	
+	var scene: PackedScene = load("res://scenes/gameplay_screen.tscn") as PackedScene
+	screen = scene.instantiate() as GameplayScreen
+	
+	screen.time_manager_node = time_manager_node
+	screen.save_manager_node = save_manager_node
+	screen.game_manager_node = game_manager_node
+	screen.action_manager_node = action_manager_node
+	
+	screen._ready()
+	
+	assert_true(action_manager_node.load_called, "ActionManager should load history on resumed game")
 	
 	_teardown_nodes()
 

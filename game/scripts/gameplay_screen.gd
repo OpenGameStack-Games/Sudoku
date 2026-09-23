@@ -16,6 +16,7 @@ var save_manager_node: Node = null
 var game_manager_node: Node = null
 var time_manager_node: Node = null
 var stats_manager_node: Node = null
+var action_manager_node: Node = null
 var _last_played_difficulty: String = ""
 
 func _init_nodes() -> void:
@@ -54,6 +55,8 @@ func _ready() -> void:
 			time_manager_node = tree.root.get_node_or_null("TimeManager")
 		if not stats_manager_node and tree.root:
 			stats_manager_node = tree.root.get_node_or_null("StatsManager")
+		if not action_manager_node and tree.root:
+			action_manager_node = tree.root.get_node_or_null("ActionManager")
 	
 	if board_node and board_node.cells.is_empty() and board_node.has_method("_ready"):
 		board_node._ready()
@@ -104,6 +107,12 @@ func _ready() -> void:
 							input_controls._on_mode_candidate_pressed()
 						else:
 							input_controls._on_mode_normal_pressed()
+							
+					if action_manager_node:
+						var undo_stack: Array = save_data.get("undo_stack", []) as Array
+						var redo_stack: Array = save_data.get("redo_stack", []) as Array
+						action_manager_node.load_history_state(undo_stack, redo_stack)
+						
 			time_manager_node.start(initial_seconds)
 		
 	if save_manager_node and difficulty_label:
@@ -187,6 +196,8 @@ func _on_menu_item_pressed(id: int) -> void:
 				return
 				
 			save_manager_node.mark_active_game(diff, puzzle)
+			if action_manager_node:
+				action_manager_node.clear_history()
 			game_manager_node.start_game(puzzle)
 			if game_manager_node.board and game_manager_node.board.undo_manager:
 				game_manager_node.board.undo_manager.clear_history()

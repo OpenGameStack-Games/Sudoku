@@ -127,6 +127,18 @@ func start(secs: int) -> void:
 	time_mgr.set_script(time_script)
 	menu.time_manager_node = time_mgr
 	
+	var action_mgr: Node = Node.new()
+	var action_script: GDScript = GDScript.new()
+	action_script.source_code = """
+extends Node
+var clear_called: bool = false
+func clear_history() -> void:
+	clear_called = true
+"""
+	action_script.reload()
+	action_mgr.set_script(action_script)
+	menu.action_manager_node = action_mgr
+	
 	menu._ready()
 	
 	var easy_btn: Button = menu.get_node("MarginContainer/VBoxContainer/ButtonsVBox/EasyButton") as Button
@@ -138,7 +150,9 @@ func start(secs: int) -> void:
 	assert_eq(stats_mgr.get("started_diff"), "easy", "StatsManager should record new game started for easy")
 	assert_true(time_mgr.get("reset_called"), "TimeManager should be reset on new game")
 	assert_eq(time_mgr.get("start_seconds"), 0, "TimeManager should start at 0 seconds on new game")
+	assert_true(action_mgr.get("clear_called"), "ActionManager should clear history on new game")
 	
+	action_mgr.free()
 	time_mgr.free()
 	stats_mgr.free()
 	game_mgr.free()
@@ -208,6 +222,18 @@ func start(secs: int) -> void:
 	time_mgr.set_script(time_script)
 	menu.time_manager_node = time_mgr
 	
+	var action_mgr: Node = Node.new()
+	var action_script: GDScript = GDScript.new()
+	action_script.source_code = """
+extends Node
+var load_called: bool = false
+func load_history_state(u: Array, r: Array = []) -> void:
+	load_called = true
+"""
+	action_script.reload()
+	action_mgr.set_script(action_script)
+	menu.action_manager_node = action_mgr
+	
 	menu._ready()
 	
 	var medium_btn: Button = menu.get_node("MarginContainer/VBoxContainer/ButtonsVBox/MediumButton") as Button
@@ -219,7 +245,9 @@ func start(secs: int) -> void:
 	assert_eq(stats_mgr.get("started_diff"), "", "StatsManager should not record a new game started when resuming")
 	assert_false(time_mgr.get("reset_called"), "TimeManager should NOT be reset on resumed game")
 	assert_eq(time_mgr.get("start_seconds"), 45, "TimeManager should start at the saved elapsed seconds")
+	assert_true(action_mgr.get("load_called"), "ActionManager should load history on resumed game")
 	
+	action_mgr.free()
 	time_mgr.free()
 	stats_mgr.free()
 	game_mgr.free()

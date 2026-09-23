@@ -4,6 +4,7 @@ var save_manager_node: Node
 var game_manager_node: Node
 var stats_manager_node: Node
 var time_manager_node: Node
+var action_manager_node: Node
 
 func _ready() -> void:
 	var main_loop: MainLoop = Engine.get_main_loop()
@@ -17,6 +18,8 @@ func _ready() -> void:
 			stats_manager_node = tree.root.get_node_or_null("StatsManager")
 		if not time_manager_node:
 			time_manager_node = tree.root.get_node_or_null("TimeManager")
+		if not action_manager_node:
+			action_manager_node = tree.root.get_node_or_null("ActionManager")
 			
 	var easy_btn: Button = get_node_or_null("MarginContainer/VBoxContainer/ButtonsVBox/EasyButton") as Button
 	var medium_btn: Button = get_node_or_null("MarginContainer/VBoxContainer/ButtonsVBox/MediumButton") as Button
@@ -91,6 +94,10 @@ func _on_difficulty_pressed(diff: String) -> void:
 		var save_data: Dictionary = save_manager_node.load_game(diff)
 		if save_data.has("puzzle_string"):
 			save_manager_node.mark_active_game(diff, save_data["puzzle_string"])
+			if action_manager_node:
+				var undo_stack: Array = save_data.get("undo_stack", []) as Array
+				var redo_stack: Array = save_data.get("redo_stack", []) as Array
+				action_manager_node.load_history_state(undo_stack, redo_stack)
 			if game_manager_node:
 				game_manager_node.start_game(save_data["puzzle_string"])
 			if time_manager_node:
@@ -99,6 +106,8 @@ func _on_difficulty_pressed(diff: String) -> void:
 		var puzzle_string: String = _get_random_puzzle(diff)
 		if save_manager_node:
 			save_manager_node.mark_active_game(diff, puzzle_string)
+		if action_manager_node:
+			action_manager_node.clear_history()
 		if game_manager_node:
 			game_manager_node.start_game(puzzle_string)
 		if time_manager_node:
