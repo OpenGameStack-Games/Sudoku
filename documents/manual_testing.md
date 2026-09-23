@@ -191,6 +191,14 @@ This document outlines the strict manual testing procedures required before any 
 - **Expected:** The layout of the clues MUST be rotationally symmetrical (180 degrees).
 - **Automated Verification:** Verified in headless CI via `game/tests/test_puzzle_loader.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), which validates file existence, JSON validity, array sizes (>= 10), string lengths (81 characters), valid digits ('0'-'9'), and 180-degree rotational symmetry for all clues across `easy`, `medium`, and `hard`.
 
+## Test 12.1: Puzzle Rule Validity & Mock Prevention
+- **Step 1:** Start a new "Very Hard" game from the Main Menu.
+- **Step 2:** Observe the freshly loaded board and its initial clues.
+- **Expected:** The board must present a valid, playable Sudoku layout (i.e., not a string of 1s and 0s).
+- **Step 3:** Visually inspect the starting clues across several rows, columns, and 3x3 macro blocks.
+- **Expected:** The starting clues must adhere to standard Sudoku rules: no duplicate digits may exist within any single row, column, or 3x3 block.
+- **Automated Verification:** Verified in headless CI via `game/tests/test_puzzle_loader.gd` (`_is_valid_sudoku_board`), which enforces strict validation to ensure all starting clues are unique within their respective rows, columns, and 3x3 blocks.
+
 ## Test 13.0: Android Build Export, Splash Screen & Launcher Icons
 - **Step 1:** Build the Android `.apk`/`.aab` or install/run the game natively on an Android device via Godot export.
 - **Step 2:** Boot the game and immediately observe the initial launch sequence.
