@@ -3,14 +3,14 @@
 This document acts as the definitive source of truth for the game's features, logic, UI dimensions, and constraints. When a subagent creates a feature or refactors code, it MUST consult this document to ensure strict adherence to the project's vision.
 
 ## 1. Core Mechanics
-- **Difficulty Levels:** The game must offer three distinct difficulty levels: Easy, Medium, and Hard.
+- **Difficulty Levels:** The game must offer five distinct difficulty levels: Very Easy, Easy, Medium, Hard, and Very Hard.
 - **Puzzle Generation & Data Structure:** Puzzles are NOT generated on the fly inside the Godot engine. Instead, the game must read puzzles from a pre-baked `game/data/puzzles.json` file.
   - Puzzles are represented as 81-character strings (where '0' represents an empty cell).
-  - The JSON contains top-level keys for each difficulty tier: `"easy"`, `"medium"`, and `"hard"`, each containing an array of 81-character puzzle strings (minimum 10 per difficulty for MVP).
+  - The JSON contains top-level keys for each difficulty tier: `"very_easy"`, `"easy"`, `"medium"`, `"hard"`, and `"very_hard"`, each containing an array of 81-character puzzle strings (minimum 10 per difficulty for MVP).
   - When a user selects a difficulty, the game randomly selects a puzzle string from that category.
 - **Python Generator Tool:** The repository contains an out-of-band Python script located at `tools/generate_puzzles.py` (outside the Godot project). This script is responsible for generating, grading, and exporting the `puzzles.json` file.
   - **Symmetry Requirement:** The generated puzzles MUST feature traditional 180-degree rotational symmetry (if a clue exists at row `r` col `c`, a clue must exist at row `8-r` col `8-c`).
-  - **Difficulty Grading:** Difficulty is categorized by target clue count: Easy (50 clues), Medium (40 clues), and Hard (30 clues).
+  - **Difficulty Grading:** Difficulty is categorized by target clue count: Very Easy (60 clues), Easy (50 clues), Medium (40 clues), Hard (30 clues), and Very Hard (25 clues).
   - **Command Line Arguments:** Accepts `--count <N>` (number of puzzles per difficulty, default 10) and `--out <path>` (output JSON destination, default `game/data/puzzles.json`).
 - **Timer & Pause:** The gameplay screen must track time elapsed starting at 00:00 via the `TimeManager` autoload (`game/autoloads/time_manager.gd`).
   - **High-Precision Counting:** Tracks elapsed seconds with high precision, emitting `time_updated(seconds: int, formatted_str: String)` every second for UI binding.
@@ -84,7 +84,7 @@ This document acts as the definitive source of truth for the game's features, lo
 - **Mascot/Icon:** The game must feature a mascot character that acts as the game's primary icon, designed in the 1930s monochrome style.
 - **Main Menu Screen (`game/scenes/main_menu.tscn` & `game/scripts/main_menu.gd`):** The primary entry point of the game (instanced by `game/scenes/main.tscn` as configured in `project.godot`). Embodies the 1930s monochrome cartoon aesthetic:
   - **Mascot Art:** The 1930s rubber-hose style monochrome mascot character (`game/assets/icons/mascot_icon.jpg`) is prominently displayed in the upper half of the screen inside an expand/aspect-centered `TextureRect`.
-  - **Difficulty Buttons:** Three dedicated buttons for "Easy", "Medium", and "Hard".
+  - **Difficulty Buttons:** Five dedicated buttons for "Very Easy", "Easy", "Medium", "Hard", and "Very Hard".
   - **Dynamic Resume Behavior:** On menu load, screen visibility change, or application focus (`NOTIFICATION_APPLICATION_FOCUS_IN`), the menu queries `SaveManager.has_save(difficulty)`. If an active in-progress save exists, the button text dynamically updates to read `"Resume [Difficulty]"` (e.g. `"Resume Easy"`). Tapping a Resume button restores the saved puzzle state, starts/unpauses `TimeManager` at the saved elapsed time, and navigates to the gameplay screen (`game/scenes/gameplay_screen.tscn`).
   - **Fresh Game Flow:** If no save exists for that difficulty, tapping the button selects a random puzzle string from `game/data/puzzles.json`, marks the active game in `SaveManager`, resets and starts `TimeManager` at 0 (`start(0)`), records `games_started` in `StatsManager`, and launches `game/scenes/gameplay_screen.tscn`.
   - **Statistics Navigation:** A "Statistics" button positioned beneath the difficulty selection buttons to open the player statistics screen.
@@ -93,7 +93,7 @@ This document acts as the definitive source of truth for the game's features, lo
 - **Statistics Screen (`game/scenes/statistics_screen.tscn` & `game/scripts/statistics_screen.gd`):** A dedicated screen to display the player's historical performance.
   - **Header:** Top navigation bar containing the enlarged screen title (`"STATISTICS"`, font size 64) and a `<` back button (`font_size = 24`) that transitions cleanly back to the Main Menu (`res://scenes/main_menu.tscn`).
   - **1930s Styling & Layout:** Built over a Dark Gray background (`#121212`, `ThemeConstants.COLOR_BG_DARK_GRAY`) featuring 1930s monochrome panel cards (2px white borders, 8px rounded corners, and generous content margin padding on all sides). The statistics screen requires a single-page, no-scroll interface that scales uniformly. The layout dynamically stretches to fill available space without a scrollbar, ensuring all content remains visible without clipping on any screen resolution.
-  - **Difficulty Breakdown:** Independent styled cards for Easy, Medium, and Hard difficulties with dynamically scaled difficulty headers and stat items displaying:
+  - **Difficulty Breakdown:** Independent styled cards for Very Easy, Easy, Medium, Hard, and Very Hard difficulties with dynamically scaled difficulty headers and stat items displaying:
     - **Games Started:** Integer count fetched from `StatsManager`.
     - **Games Won:** Integer count fetched from `StatsManager`.
     - **Best Time:** Formatted time string (`MM:SS`) or `"--:--"` if zero wins recorded.
@@ -176,13 +176,13 @@ This document acts as the definitive source of truth for the game's features, lo
 
 ## 3. Data and Persistence
 - **Persistent Save States:** The game must auto-save the player's progress via the `SaveManager` autoload (`game/autoloads/save_manager.gd`).
-  - **Concurrent Difficulty Slots:** The player can have up to **three games in progress simultaneously** (one for each difficulty: 1 Easy, 1 Medium, 1 Hard), stored independently under `user://saves/save_<difficulty>.json`.
+  - **Concurrent Difficulty Slots:** The player can have up to **five games in progress simultaneously** (one for each difficulty: 1 Very Easy, 1 Easy, 1 Medium, 1 Hard, 1 Very Hard), stored independently under `user://saves/save_<difficulty>.json`.
   - **Full State Serialization:** Each save state encapsulates the difficulty, initial puzzle string, full board layout (cell values, active candidate notes, and manually deleted candidate notes), complete undo history stack, elapsed gameplay seconds from `TimeManager`, as well as the active **Input Mode** (Normal/Candidate) and **Auto-Candidate Toggle**. These UI toggles are state-saved per difficulty level and isolated from new game instances, ensuring they persist and correctly restore their visual states and behavior even when the gameplay scene is transitioned from the Main Menu "Resume" logic.
   - **Automated Flushing:** Save states are automatically written to disk on board modifications (`board_updated` signal), undo stack changes (`history_changed` signal), and application/window focus loss (`NOTIFICATION_APPLICATION_FOCUS_OUT` and `NOTIFICATION_WM_WINDOW_FOCUS_OUT`).
   - **Save Invalidation & Overwrite:** Starting a new game on a difficulty that already has an in-progress save cleanly overwrites the existing save file. Completing a puzzle or manually resetting the board deletes the active save file via `clear_save()`.
   - **Corruption Recovery:** Gracefully handles missing, partial, or malformed JSON save files by logging a warning and falling back to a clean empty state without crashing.
   - **Automated Verification:** Validated via automated unit tests in `game/tests/test_save_manager.gd`, verifying multi-difficulty concurrent saving/loading, state overwriting, complex state restoration (board, notes, undo stack, elapsed timer), save deletion, and graceful recovery from corrupted files.
-- **Persistent Player Statistics:** The game tracks and persists historical performance metrics to `user://stats.json` independently across Easy, Medium, and Hard difficulties via the `StatsManager` autoload:
+- **Persistent Player Statistics:** The game tracks and persists historical performance metrics to `user://stats.json` independently across Very Easy, Easy, Medium, Hard, and Very Hard difficulties via the `StatsManager` autoload:
   - **Metrics Tracked:** `games_started` (integer), `games_won` (integer), `best_time_seconds` (integer, 0 when no wins recorded), `total_time_seconds` (integer), and `average_time_seconds` (float).
   - **Auto-Persistence:** Statistics are automatically loaded from `user://stats.json` on startup (with graceful fallback to clean default structures if the file is missing or contains invalid JSON) and saved immediately upon game start or victory events.
   - **Time Formatting:** Provides `format_time(seconds: int) -> String` producing `"MM:SS"` (or `"--:--"` when no time is recorded).

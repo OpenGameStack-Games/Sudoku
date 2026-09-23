@@ -10,9 +10,11 @@ func _setup_manager() -> void:
 
 func _teardown_manager() -> void:
 	if save_manager:
+		save_manager.clear_save("very_easy")
 		save_manager.clear_save("easy")
 		save_manager.clear_save("medium")
 		save_manager.clear_save("hard")
+		save_manager.clear_save("very_hard")
 
 func test_autoload_path() -> void:
 	assert_true(FileAccess.file_exists("res://autoloads/save_manager.gd"), "Save manager script should exist at expected path")
@@ -20,25 +22,35 @@ func test_autoload_path() -> void:
 func test_concurrent_saving_and_loading() -> void:
 	_setup_manager()
 	
+	var very_easy_data := {"difficulty": "very_easy", "elapsed_seconds": 50}
 	var easy_data := {"difficulty": "easy", "elapsed_seconds": 100}
 	var medium_data := {"difficulty": "medium", "elapsed_seconds": 200}
 	var hard_data := {"difficulty": "hard", "elapsed_seconds": 300}
+	var very_hard_data := {"difficulty": "very_hard", "elapsed_seconds": 400}
 	
+	save_manager.save_game("very_easy", very_easy_data)
 	save_manager.save_game("easy", easy_data)
 	save_manager.save_game("medium", medium_data)
 	save_manager.save_game("hard", hard_data)
+	save_manager.save_game("very_hard", very_hard_data)
 	
+	assert_true(save_manager.has_save("very_easy"), "Should have very_easy save")
 	assert_true(save_manager.has_save("easy"), "Should have easy save")
 	assert_true(save_manager.has_save("medium"), "Should have medium save")
 	assert_true(save_manager.has_save("hard"), "Should have hard save")
+	assert_true(save_manager.has_save("very_hard"), "Should have very_hard save")
 	
+	var loaded_very_easy = save_manager.load_game("very_easy")
 	var loaded_easy = save_manager.load_game("easy")
 	var loaded_medium = save_manager.load_game("medium")
 	var loaded_hard = save_manager.load_game("hard")
+	var loaded_very_hard = save_manager.load_game("very_hard")
 	
+	assert_eq(loaded_very_easy["elapsed_seconds"], 50, "Very Easy data should match")
 	assert_eq(loaded_easy["elapsed_seconds"], 100, "Easy data should match")
 	assert_eq(loaded_medium["elapsed_seconds"], 200, "Medium data should match")
 	assert_eq(loaded_hard["elapsed_seconds"], 300, "Hard data should match")
+	assert_eq(loaded_very_hard["elapsed_seconds"], 400, "Very Hard data should match")
 	
 	_teardown_manager()
 
