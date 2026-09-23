@@ -28,8 +28,8 @@ This document outlines the strict manual testing procedures required before any 
 
 ## Test 5.0: Main Menu & Navigation
 - **Step 1 (Default State):** Boot the game to the Main Menu with no existing saves.
-- **Expected:** The 1930s monochrome mascot character (`mascot_icon.jpg`) is prominently centered in the upper half. The screen contains five clear buttons reading: "Easy", "Medium", "Hard", "Statistics", and "Credits".
-- **Step 2 (Resume State Indication):** If an active save exists for a difficulty tier (e.g., Easy), verify that the corresponding button dynamically updates to read `"Resume Easy"`. Unsaved difficulties remain `"Medium"` and `"Hard"`.
+- **Expected:** The 1930s monochrome mascot character (`mascot_icon.jpg`) is prominently centered in the upper half. The screen contains seven clear buttons reading: "Very Easy", "Easy", "Medium", "Hard", "Very Hard", "Statistics", and "Credits".
+- **Step 2 (Resume State Indication):** If an active save exists for a difficulty tier (e.g., Easy), verify that the corresponding button dynamically updates to read `"Resume Easy"`. Unsaved difficulties remain `"Very Easy"`, `"Medium"`, `"Hard"`, and `"Very Hard"`.
 - **Step 3 (Resume Navigation):** Tap a "Resume [Difficulty]" button.
 - **Expected:** The app transitions to the Gameplay screen (`res://scenes/gameplay_screen.tscn`), restoring the active saved puzzle for that difficulty without incrementing `games_started` in `StatsManager`, and actively unpausing the timer to continue counting from the saved elapsed seconds.
 - **Step 4 (Fresh Game Navigation):** From the Main Menu, tap a non-resumed difficulty button (e.g., "Medium").
@@ -38,7 +38,7 @@ This document outlines the strict manual testing procedures required before any 
 - **Expected:** The app transitions to the Statistics screen (`res://scenes/statistics_screen.tscn`).
 - **Step 6 (Statistics Screen UI, Typography Scaling & Back Navigation):**
   - Verify the header displays the prominent "STATISTICS" title (font size 64) and a "<" back button.
-  - Verify three independent cards ("Easy", "Medium", and "Hard") displaying "Games Started", "Games Won", "Best Time", and "Average Time".
+  - Verify five independent cards ("Very Easy", "Easy", "Medium", "Hard", and "Very Hard") displaying "Games Started", "Games Won", "Best Time", and "Average Time".
   - **Visual Real Estate & Readability Verification:** Verify that the statistics cards and typography are enlarged to comfortably fill the vertical screen real estate without feeling cramped or leaving excessive blank space. Difficulty headers should be large (48pt) and stat labels/values should be prominent (32pt) with generous inner card padding (40px) and vertical separation (30px).
   - Verify the 1930s monochrome styling with Dark Gray `#121212` background, crisp white borders, and balanced monochrome typography.
   - Tap the "<" button.
@@ -58,7 +58,7 @@ This document outlines the strict manual testing procedures required before any 
 - **Expected:** Easy "Games Won" increments to 3. "Best Time" remains "02:00" (does not regress). "Average Time" updates to "03:00" (180 seconds).
 - **Step 6:** Force close or restart the application, then navigate to the Statistics screen.
 - **Expected:** All statistics remain accurately persisted from `user://stats.json`.
-- **Automated Verification:** Verified in headless CI via `game/tests/test_stats_manager.gd` and `game/tests/test_statistics_screen.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), confirming metric tracking (starts, wins, best times, averages), JSON serialization/deserialization to `user://stats.json`, time formatting across `easy`, `medium`, and `hard` difficulties, and accurate visual binding to the Statistics screen labels.
+- **Automated Verification:** Verified in headless CI via `game/tests/test_stats_manager.gd` and `game/tests/test_statistics_screen.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), confirming metric tracking (starts, wins, best times, averages), JSON serialization/deserialization to `user://stats.json`, time formatting across `very_easy`, `easy`, `medium`, `hard`, and `very_hard` difficulties, and accurate visual binding to the Statistics screen labels.
 
 ## Test 5.2: Credits Menu & Studio Attributions
 - **Step 1:** On the Main Menu, tap the "Credits" button.
@@ -242,7 +242,7 @@ This document outlines the strict manual testing procedures required before any 
 - **Step 1:** Start an Easy game. Input several numbers and candidate notes into empty cells. Perform an undo action. Let the timer run for 10 seconds. Switch apps or background the application (triggering focus loss auto-flush), then return to the Main Menu.
 - **Step 2:** Start a Medium game. Input different numbers and candidate notes. Let the timer run for 20 seconds. Pause the game, then return to the Main Menu.
 - **Step 3:** Start a Hard game. Input numbers and notes. Let the timer run for 30 seconds. Return to the Main Menu.
-- **Expected:** The application maintains up to 3 separate active saves concurrently in `user://saves/` (`save_easy.json`, `save_medium.json`, and `save_hard.json`). The Main Menu visibly updates difficulty button labels dynamically to `"Resume Easy"`, `"Resume Medium"`, and `"Resume Hard"` when active saves exist.
+- **Expected:** The application maintains up to 5 separate active saves concurrently in `user://saves/` (`save_very_easy.json`, `save_easy.json`, `save_medium.json`, `save_hard.json`, and `save_very_hard.json`). The Main Menu visibly updates difficulty button labels dynamically to `"Resume Very Easy"`, `"Resume Easy"`, `"Resume Medium"`, `"Resume Hard"`, and `"Resume Very Hard"` when active saves exist.
 - **Step 4:** Tap the "Resume Easy" button on the Main Menu.
 - **Expected:** The game automatically resumes the Easy puzzle, restoring the exact board layout, user-entered numbers, candidate notes, deleted candidate notes, elapsed timer (10 seconds), and undo history stack (tapping "Undo" reverts earlier moves).
 - **Step 5:** Force-close the app entirely or kill the process. Reopen the app. Verify "Resume Medium" is still displayed, and tap "Resume Medium".
@@ -251,7 +251,7 @@ This document outlines the strict manual testing procedures required before any 
 - **Expected:** The previous Easy save is cleanly overwritten with the new puzzle state, resetting the timer and undo stack.
 - **Step 7 (Save Clearing):** Complete a puzzle or select "Reset Puzzle".
 - **Expected:** The active save file for that difficulty is deleted (`clear_save`), and returning to the Main Menu reflects that the button reverts from `"Resume [Difficulty]"` back to its default label (`"Easy"`).
-- **Automated Verification:** Verified in headless CI via `game/tests/test_save_manager.gd` and `game/tests/test_main_menu.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), confirming concurrent saving and loading across Easy/Medium/Hard, save overwriting, complex state restoration (board, notes, undo history, elapsed seconds), save deletion, and menu label synchronization.
+- **Automated Verification:** Verified in headless CI via `game/tests/test_save_manager.gd` and `game/tests/test_main_menu.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), confirming concurrent saving and loading across Very Easy/Easy/Medium/Hard/Very Hard, save overwriting, complex state restoration (board, notes, undo history, elapsed seconds), save deletion, and menu label synchronization.
 
 ## Test 17.0: Selection & Number Matching Highlighting
 - **Step 1:** Tap an empty or filled cell on the grid.
