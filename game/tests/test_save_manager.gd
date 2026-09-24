@@ -168,3 +168,21 @@ func test_state_isolation_between_difficulties() -> void:
 	
 	_teardown_manager()
 
+func test_resume_preserves_notes_and_toggle() -> void:
+	_setup_manager()
+	var state := {
+		"difficulty": "medium",
+		"auto_candidates": true,
+		"board_state": [
+			{"index": 0, "value": 0, "candidates": [1, 2], "deleted_candidates": [3]}
+		]
+	}
+	save_manager.save_game("medium", state)
+	
+	var loaded = save_manager.load_game("medium")
+	assert_true(loaded["auto_candidates"], "Auto-candidates should be true")
+	var board_state = loaded["board_state"] as Array
+	assert_eq(board_state[0]["candidates"][0], 1, "Candidate 1 preserved")
+	assert_eq(board_state[0]["deleted_candidates"][0], 3, "Deleted candidate 3 preserved")
+	
+	_teardown_manager()
