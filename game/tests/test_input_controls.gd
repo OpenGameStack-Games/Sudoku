@@ -268,3 +268,17 @@ func test_auto_candidate_toggle() -> void:
 	assert_true(board.auto_candidates_enabled)
 	
 	after_each()
+
+func test_undo_redo_icons() -> void:
+	before_each()
+	
+	var undo_icon: Label = controls.get_node("VBoxContainer/ModeRow/UndoBtn/Icon")
+	var redo_icon: Label = controls.get_node("VBoxContainer/ModeRow/RedoBtn/Icon")
+	
+	assert_true(undo_icon != null, "Undo icon label should exist")
+	assert_eq(undo_icon.text, "↺", "Undo icon should be ↺")
+	
+	assert_true(redo_icon != null, "Redo icon label should exist")
+	assert_eq(redo_icon.text, "↻", "Redo icon should be ↻")
+	
+	after_each()
