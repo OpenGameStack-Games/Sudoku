@@ -1,6 +1,6 @@
 ## UI controller for the Statistics Screen.
 ## Displays historical gameplay metrics (games started, won, best time, average time)
-## for Easy, Medium, and Hard difficulty levels.
+## for Very Easy, Easy, Medium, Hard, and Very Hard difficulty levels.
 extends Control
 
 var stats_manager_node: Node
@@ -68,36 +68,36 @@ func _notification(what: int) -> void:
 func _scale_ui() -> void:
 	if not is_inside_tree():
 		return
-	var viewport_height = get_viewport_rect().size.y
+	var viewport_height: float = get_viewport_rect().size.y
 	# 5 cards need more space, scale aggressively if smaller than 1280
-	var scale_factor = min(1.0, viewport_height / 1280.0)
+	var scale_factor: float = minf(1.0, viewport_height / 1280.0)
 	
-	var cards_container = get_node_or_null("MarginContainer/VBoxContainer/CardsContainer")
+	var cards_container: Node = get_node_or_null("MarginContainer/VBoxContainer/CardsContainer")
 	if not cards_container:
 		cards_container = get_node_or_null("MarginContainer/VBoxContainer/ScrollContainer/CardsContainer")
 		
 	if not cards_container:
 		return
 		
-	for card in cards_container.get_children():
-		var diff_label = card.get_node_or_null("VBox/DifficultyLabel") as Label
+	for card: Node in cards_container.get_children():
+		var diff_label: Label = card.get_node_or_null("VBox/DifficultyLabel") as Label
 		if diff_label:
 			diff_label.add_theme_font_size_override("font_size", int(36 * scale_factor))
 			
-		var grid = card.get_node_or_null("VBox/GridContainer")
+		var grid: GridContainer = card.get_node_or_null("VBox/GridContainer") as GridContainer
 		if grid:
-			for child in grid.get_children():
+			for child: Node in grid.get_children():
 				if child is Label:
-					child.add_theme_font_size_override("font_size", int(24 * scale_factor))
+					(child as Label).add_theme_font_size_override("font_size", int(24 * scale_factor))
 					
 		# Also scale margins dynamically!
 		if card is PanelContainer:
-			var style = card.get_theme_stylebox("panel").duplicate() as StyleBoxFlat
+			var style: StyleBoxFlat = (card as PanelContainer).get_theme_stylebox("panel").duplicate() as StyleBoxFlat
 			style.content_margin_top = 10.0 * scale_factor
 			style.content_margin_bottom = 10.0 * scale_factor
 			style.content_margin_left = 20.0 * scale_factor
 			style.content_margin_right = 20.0 * scale_factor
-			card.add_theme_stylebox_override("panel", style)
+			(card as PanelContainer).add_theme_stylebox_override("panel", style)
 
 func _on_back_pressed() -> void:
 	if is_inside_tree():

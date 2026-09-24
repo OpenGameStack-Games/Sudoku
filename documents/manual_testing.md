@@ -16,7 +16,7 @@ This document outlines the strict manual testing procedures required before any 
 
 ## Test 3.0: Dynamic UI Scaling
 - **Step 1:** Launch the app on devices or simulators with varying aspect ratios and screen sizes (e.g., a tall, narrow phone and a wider tablet).
-- **Expected:** All UI elements (buttons, the Sudoku grid, text, and Statistics cards) dynamically adjust their anchors and margins relative to one another. There should be no overlapping text, UI clipping off the edge of the screen, or awkwardly empty spaces that break the intended layout. Specifically on the Statistics screen, enlarged stat cards and typography (32pt stats, 48pt difficulty headings, 64pt title) should remain cleanly readable inside the ScrollContainer across phone and tablet aspect ratios.
+- **Expected:** All UI elements (buttons, the Sudoku grid, text, and Statistics cards) dynamically adjust their anchors and margins relative to one another. There should be no overlapping text, UI clipping off the edge of the screen, or awkwardly empty spaces that break the intended layout. Specifically on the Statistics screen, all five difficulty cards ("Very Easy", "Easy", "Medium", "Hard", and "Very Hard") and their typography should scale dynamically to remain cleanly readable on a single page without requiring a scrollbar across phone and tablet aspect ratios.
 
 ## Test 4.0: Visual Theme and Assets
 - **Step 1:** Navigate through the Main Menu, Statistics screen, and Gameplay screen.
@@ -47,14 +47,15 @@ This document outlines the strict manual testing procedures required before any 
 - **Expected:** The app starts a fresh game by selecting a random puzzle string from `game/data/puzzles.json`, marks it as the active save, unconditionally resets and starts `TimeManager` at 0 (unpaused), increments `games_started` in `StatsManager`, and opens `res://scenes/gameplay_screen.tscn`.
 - **Step 5 (Statistics Navigation):** Tap the "Statistics" button.
 - **Expected:** The app transitions to the Statistics screen (`res://scenes/statistics_screen.tscn`).
-- **Step 6 (Statistics Screen UI, Typography Scaling & Back Navigation):**
+- **Step 6 (Statistics Screen UI, Dynamic Sizing & Back Navigation):**
   - Verify the header displays the prominent "STATISTICS" title (font size 64) and a "<" back button.
-  - Verify five independent cards ("Very Easy", "Easy", "Medium", "Hard", and "Very Hard") displaying "Games Started", "Games Won", "Best Time", and "Average Time".
-  - **Visual Real Estate & Readability Verification:** Verify that the statistics cards and typography are enlarged to comfortably fill the vertical screen real estate without feeling cramped or leaving excessive blank space. Difficulty headers should be large (48pt) and stat labels/values should be prominent (32pt) with generous inner card padding (40px) and vertical separation (30px).
+  - Verify all five independent cards ("Very Easy", "Easy", "Medium", "Hard", and "Very Hard") displaying "Games Started", "Games Won", "Best Time", and "Average Time" arranged in a compact 4-column metrics layout.
+  - **Single Page & No Scrollbar Verification:** Confirm that all five difficulty cards fit cleanly on a single page without any vertical scrollbar (`ScrollContainer` absent) and without clipping at top, bottom, or sides.
+  - **Visual Real Estate & Readability Verification:** Verify that the statistics cards, headers (36pt base), metric labels/values (24pt base), and paddings (20px left/right, 10px top/bottom base) scale responsively to comfortably fill the screen while remaining crisp and legible.
   - Verify the 1930s monochrome styling with Dark Gray `#121212` background, crisp white borders, and balanced monochrome typography.
   - Tap the "<" button.
   - **Expected:** The app returns cleanly to the Main Menu.
-- **Automated Verification:** Verified in headless CI via `game/tests/test_main_menu.gd` and `game/tests/test_statistics_screen.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), confirming scene asset existence, dynamic button text adaptation for saves vs fresh states, button signal routing, statistics screen data binding from mock StatsManager, formatting of empty vs recorded metrics, enlarged styling/padding assertions, and Back button signal wiring.
+- **Automated Verification:** Verified in headless CI via `game/tests/test_main_menu.gd` and `game/tests/test_statistics_screen.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), confirming scene asset existence, dynamic button text adaptation for saves vs fresh states, button signal routing, statistics screen data binding across all five difficulty cards, formatting of empty vs recorded metrics, responsive styling assertions, absence of ScrollContainer, and Back button signal wiring.
 
 ## Test 5.1: Player Statistics Tracking & Persistence
 - **Step 1:** Launch the game and inspect the initial statistics on the Statistics screen (or clear `user://stats.json`).
@@ -346,11 +347,12 @@ This document outlines the strict manual testing procedures required before any 
 - **Automated Verification:** Verified in headless CI via `game/tests/test_board_ui.gd` (`test_candidates()`), verifying that all 9 candidate labels maintain permanent visibility (`visible = true`) in the `CandidatesGrid` layout container and dynamically toggle their `text` property between the digit and `""`.
 
 
-## Test 24.0: Statistics Screen Dynamic Layout Scaling
+## Test 24.0: Statistics Screen Dynamic Layout Scaling & 5 Difficulty Cards
 - **Step 1:** Navigate to the Statistics screen from the Main Menu.
-- **Step 2:** Resize the game window vertically and horizontally (e.g., simulating large 1080p/1440p screens and very small windowed or mobile vertical aspect ratios).
-- **Expected:** The entire Statistics screen scales uniformly to fit the available space without requiring a scrollbar. All text (headers, difficulty titles, and numbers) must scale down seamlessly to prevent clipping, and the Back button (`<`) must remain visible and clickable across all extreme screen dimensions.
-- **Automated Verification:** Verified in headless CI via `game/tests/test_statistics_screen.gd` (`test_no_scroll_container_properties()`), ensuring that the ScrollContainer has been completely removed and the CardsContainer is set to expand horizontally and vertically to fill the layout.
+- **Step 2:** Verify that all five difficulty cards ("Very Easy", "Easy", "Medium", "Hard", and "Very Hard") are rendered simultaneously on the single page without a scrollbar.
+- **Step 3:** Resize the game window vertically and horizontally (e.g., simulating large 1080p/1440p screens and very small windowed or mobile vertical aspect ratios).
+- **Expected:** The entire Statistics screen scales uniformly to fit the available space without requiring a scrollbar or `ScrollContainer`. All five cards and their text (headers, difficulty titles, and metric values) scale down dynamically to prevent clipping, and the Back button (`<`) remains fully visible and clickable across all screen dimensions.
+- **Automated Verification:** Verified in headless CI via `game/tests/test_statistics_screen.gd` (`test_no_scroll_container_properties()` and `test_statistics_screen_displays_mock_data()`), ensuring that the ScrollContainer has been completely removed, the CardsContainer expands horizontally and vertically, and all 5 difficulty cards bind data correctly.
 
 ## Test 23.0: Isolate Input Controls Between Difficulties
 
