@@ -1,10 +1,10 @@
 [gd_resource type="Theme" format=3 uid="uid://de336rn8lps8e"]
 
 [ext_resource type="FontFile" path="res://assets/fonts/NotoSansSymbols-Regular.ttf" id="1_vdruh"]
+[ext_resource type="FontFile" path="res://assets/fonts/DejaVuSans.ttf" id="2_gq27u"]
 
-[sub_resource type="SystemFont" id="SystemFont_button"]
-fallbacks = Array[Font]([ExtResource("1_vdruh")])
-font_names = PackedStringArray("Segoe UI Symbol", "Apple Symbols", "Noto Sans Symbols", "sans-serif")
+[sub_resource type="FontVariation" id="FontVariation_af0y7"]
+fallbacks = Array[Font]([ExtResource("1_vdruh"), ExtResource("2_gq27u")])
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vdruh"]
 bg_color = Color(0.225, 0.225, 0.225, 1)
@@ -41,11 +41,11 @@ font_weight = 700
 font_weight = 700
 
 [resource]
-Button/fonts/font = SubResource("SystemFont_button")
+Button/fonts/font = SubResource("FontVariation_af0y7")
 Button/styles/hover = SubResource("StyleBoxFlat_vdruh")
 Button/styles/normal = SubResource("StyleBoxFlat_y6dvb")
 Label/fonts/clue_font = SubResource("SystemFont_vdruh")
-Label/fonts/font = SubResource("SystemFont_button")
+Label/fonts/font = SubResource("FontVariation_af0y7")
 Label/fonts/input_font = SubResource("SystemFont_gq27u")
 Label/fonts/note_font = SubResource("SystemFont_af0y7")
 Label/fonts/note_font_bold = SubResource("SystemFont_3187k")

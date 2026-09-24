@@ -59,3 +59,11 @@ func test_button_hover_style_retains_borders() -> void:
 	
 	# Verify the border colors match
 	assert_eq(hover_style.border_color, normal_style.border_color, "Hover border color should match normal.")
+
+func test_font_symbol_coverage() -> void:
+	assert_true(FileAccess.file_exists("res://assets/fonts/DejaVuSans.ttf"), "DejaVuSans font file should exist on disk.")
+	var font: FontFile = ResourceLoader.load("res://assets/fonts/DejaVuSans.ttf") as FontFile
+	assert_true(font != null, "DejaVuSans font should load.")
+	assert_true(font.has_char(0x21BA), "Font should support ↺ (U+21BA)")
+	assert_true(font.has_char(0x21BB), "Font should support ↻ (U+21BB)")
+	assert_true(font.has_char(0x25B6), "Font should support ▶ (U+25B6)")
