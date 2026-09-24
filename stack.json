@@ -1,10 +1,14 @@
-﻿{
+{
 	"schema_version": 1,
 	"stack_name": "Sudoku",
 	"tools": [
 		{
 			"id": "godot",
 			"version": "4.7.2"
+		},
+		{
+			"id": "gimp",
+			"version": "3.2.4"
 		}
 	]
 }
