@@ -49,7 +49,7 @@ This document outlines the strict manual testing procedures required before any 
 - **Expected:** The app transitions to the Statistics screen (`res://scenes/statistics_screen.tscn`).
 - **Step 6 (Statistics Screen UI, Dynamic Sizing & Back Navigation):**
   - Verify the header displays the prominent "STATISTICS" title (font size 64) and a "<" back button.
-  - Verify all five independent cards ("Very Easy", "Easy", "Medium", "Hard", and "Very Hard") displaying "Games Started", "Games Won", "Best Time", and "Average Time" arranged in a compact 4-column metrics layout.
+  - Verify all five independent cards ("Very Easy", "Easy", "Medium", "Hard", and "Very Hard") displaying "Games Started", "Games Won", "Best Time", and "Average Time" arranged in a compact 4-column metrics layout where metric values are left-aligned beside their respective labels rather than bumping flush against the next column's labels.
   - **Single Page & No Scrollbar Verification:** Confirm that all five difficulty cards fit cleanly on a single page without any vertical scrollbar (`ScrollContainer` absent) and without clipping at top, bottom, or sides.
   - **Visual Real Estate & Readability Verification:** Verify that the statistics cards, headers (36pt base), metric labels/values (24pt base), and paddings (20px left/right, 10px top/bottom base) scale responsively to comfortably fill the screen while remaining crisp and legible.
   - Verify the 1930s monochrome styling with Dark Gray `#121212` background, crisp white borders, and balanced monochrome typography.
@@ -350,9 +350,10 @@ This document outlines the strict manual testing procedures required before any 
 ## Test 24.0: Statistics Screen Dynamic Layout Scaling & 5 Difficulty Cards
 - **Step 1:** Navigate to the Statistics screen from the Main Menu.
 - **Step 2:** Verify that all five difficulty cards ("Very Easy", "Easy", "Medium", "Hard", and "Very Hard") are rendered simultaneously on the single page without a scrollbar.
-- **Step 3:** Resize the game window vertically and horizontally (e.g., simulating large 1080p/1440p screens and very small windowed or mobile vertical aspect ratios).
-- **Expected:** The entire Statistics screen scales uniformly to fit the available space without requiring a scrollbar or `ScrollContainer`. All five cards and their text (headers, difficulty titles, and metric values) scale down dynamically to prevent clipping, and the Back button (`<`) remains fully visible and clickable across all screen dimensions.
-- **Automated Verification:** Verified in headless CI via `game/tests/test_statistics_screen.gd` (`test_no_scroll_container_properties()` and `test_statistics_screen_displays_mock_data()`), ensuring that the ScrollContainer has been completely removed, the CardsContainer expands horizontally and vertically, and all 5 difficulty cards bind data correctly.
+- **Step 3 (Column Alignment & Separation Verification):** Inspect the internal 4-column layout of each card. Verify that metric values are left-aligned beside their respective labels rather than right-aligned flush against adjacent column labels (e.g., verifying clear visual separation between the `Started` / `Best Time` values and the `Won` / `Avg Time` labels without collisions).
+- **Step 4:** Resize the game window vertically and horizontally (e.g., simulating large 1080p/1440p screens and very small windowed or mobile vertical aspect ratios).
+- **Expected:** The entire Statistics screen scales uniformly to fit the available space without requiring a scrollbar or `ScrollContainer`. All five cards and their text (headers, difficulty titles, and metric values) scale down dynamically to prevent clipping, internal metric columns remain distinctly separated and paired, and the Back button (`<`) remains fully visible and clickable across all screen dimensions.
+- **Automated Verification:** Verified in headless CI via `game/tests/test_statistics_screen.gd` (`test_no_scroll_container_properties()`, `test_statistics_screen_displays_mock_data()`, and `test_statistics_screen_styling_applied()`), ensuring that the ScrollContainer has been completely removed, the CardsContainer expands horizontally and vertically, all 5 difficulty cards bind data correctly, and metric values default to `HORIZONTAL_ALIGNMENT_LEFT`.
 
 ## Test 23.0: Isolate Input Controls Between Difficulties
 
