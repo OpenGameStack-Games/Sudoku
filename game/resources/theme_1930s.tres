@@ -1,4 +1,4 @@
-[gd_resource type="Theme" format=3]
+[gd_resource type="Theme" format=3 uid="uid://de336rn8lps8e"]
 
 [ext_resource type="FontFile" path="res://assets/fonts/NotoSansSymbols-Regular.ttf" id="1_vdruh"]
 
@@ -31,17 +31,13 @@ corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 
 [sub_resource type="SystemFont" id="SystemFont_vdruh"]
-fallbacks = Array[Font]([ExtResource("1_vdruh")])
 font_weight = 700
 
 [sub_resource type="SystemFont" id="SystemFont_gq27u"]
-fallbacks = Array[Font]([ExtResource("1_vdruh")])
 
 [sub_resource type="SystemFont" id="SystemFont_af0y7"]
-fallbacks = Array[Font]([ExtResource("1_vdruh")])
 
 [sub_resource type="SystemFont" id="SystemFont_3187k"]
-fallbacks = Array[Font]([ExtResource("1_vdruh")])
 font_weight = 700
 
 [resource]
