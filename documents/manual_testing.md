@@ -26,6 +26,17 @@ This document outlines the strict manual testing procedures required before any 
 - **Expected (Monochrome Symbols):** Buttons utilizing Unicode symbols (Undo, Pause, Resume) MUST render as flat monochrome white shapes on a dark gray background. They must NOT render as blue or colored emojis on any OS (including Windows and Android).
 - **Automated Verification:** Verified in headless CI via `game/tests/test_theme_constants.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), confirming ThemeConstants color palette definitions, distinct values, and successful loading and panel/font styling of `game/resources/theme_1930s.tres`.
 
+## Test 4.1: Cross-Platform & Web Export Unicode Symbol Rendering (Undo, Redo, Resume)
+- **Step 1:** Launch the game in a Web Export (HTML5/WebAssembly) build (e.g. running via a local web server or on itch.io) or native desktop/mobile build.
+- **Step 2:** Start or resume any puzzle (e.g., Easy) to reach the Gameplay screen.
+- **Step 3:** Observe the "Undo" (`↺`) and "Redo" (`↻`) buttons located on the ModeRow controls bar below the board.
+- **Expected (Undo & Redo Glyphs):** The Undo button cleanly renders the `↺` anticlockwise open circle arrow glyph (rotated -90° to point left) and the Redo button cleanly renders the `↻` clockwise open circle arrow glyph (rotated 90° to point right). Both render as crisp monochrome white shapes against the button's dark background. They must NOT render as missing glyph boxes (tofu / ``), blank empty spaces, or colored OS emojis.
+- **Step 4:** Tap the Pause button (`||`) in the top navigation header to open the Pause Overlay modal.
+- **Step 5:** Observe the Resume button.
+- **Expected (Resume Glyph):** The Resume button cleanly renders the `▶︎` triangle glyph as a crisp monochrome white symbol centered inside the button border, without falling back to missing glyph boxes or color emoji triangles.
+- **Step 6:** Tap Resume to confirm interaction and verify the game unpauses.
+- **Automated Verification:** Verified in headless CI via `game/tests/test_input_controls.gd` (`test_undo_redo_icons()`), `game/tests/test_gameplay_screen.gd` (`test_pause_button_modal()`, asserting Resume button text is `▶︎`), and `game/tests/test_theme_constants.gd` (`test_theme_resource_loads()`, asserting `res://assets/fonts/NotoSansSymbols-Regular.ttf` exists and `theme_1930s.tres` configures default button and label fonts with bundled font fallbacks).
+
 ## Test 5.0: Main Menu & Navigation
 - **Step 1 (Default State):** Boot the game to the Main Menu with no existing saves.
 - **Expected:** The 1930s monochrome mascot character (`mascot_icon.jpg`) is prominently centered in the upper half. The screen contains seven clear buttons reading: "Very Easy", "Easy", "Medium", "Hard", "Very Hard", "Statistics", and "Credits".

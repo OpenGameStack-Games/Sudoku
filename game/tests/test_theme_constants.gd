@@ -34,6 +34,9 @@ func test_theme_resource_loads() -> void:
 	assert_true(theme.has_font("input_font", "Label"), "Theme should have input_font configured.")
 	assert_true(theme.has_font("note_font", "Label"), "Theme should have note_font configured.")
 	assert_true(theme.has_font("note_font_bold", "Label"), "Theme should have note_font_bold configured.")
+	assert_true(FileAccess.file_exists("res://assets/fonts/NotoSansSymbols-Regular.ttf"), "NotoSansSymbols font file should exist on disk.")
+	assert_true(theme.has_font("font", "Button"), "Theme should have font configured for Button.")
+	assert_true(theme.has_font("font", "Label"), "Theme should have default font configured for Label.")
 
 func test_button_hover_style_retains_borders() -> void:
 	var theme: Theme = ResourceLoader.load("res://resources/theme_1930s.tres") as Theme
