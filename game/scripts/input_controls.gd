@@ -22,6 +22,9 @@ var is_candidate_mode: bool = false
 var numpad_btns: Array[Button] = []
 
 func _ready() -> void:
+	auto_candidate_btn.add_theme_icon_override("checked", preload("res://assets/icons/toggle_on.png"))
+	auto_candidate_btn.add_theme_icon_override("unchecked", preload("res://assets/icons/toggle_off.png"))
+	
 	for i in range(1, 10):
 		var btn: Button = get_node("VBoxContainer/NumpadRow/Btn%d" % i) as Button
 		numpad_btns.append(btn)
