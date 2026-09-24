@@ -121,6 +121,7 @@ func test_statistics_screen_styling_applied() -> void:
 	
 	var started_val: Label = scene.get_node("MarginContainer/VBoxContainer/CardsContainer/EasyCard/VBox/GridContainer/StartedValue") as Label
 	assert_eq(started_val.get_theme_font_size("font_size"), 24, "Grid Labels should have font size 24")
+	assert_eq(started_val.horizontal_alignment, HORIZONTAL_ALIGNMENT_LEFT, "Grid values should be left-aligned for clear separation")
 	
 	_teardown_scene()
 
