@@ -179,14 +179,14 @@ This document outlines the strict manual testing procedures required before any 
 
 ## Test 11.0: Auto Candidate Mode
 - **Step 1:** While playing a puzzle, locate the "Auto Candidate Mode" toggle below the numpad.
-- **Expected (Flat Styling):** The toggle button appears as a clean, flat text checkbox without standard heavy button outlines or borders (`StyleBoxEmpty`).
+- **Expected (Flat Styling & Toggle Switch Dimensions):** The toggle button appears as a clean, flat text checkbox without standard heavy button outlines or borders (`StyleBoxEmpty`). The toggle switch icon is visibly enlarged to approximately twice the default Godot switch size (56x28 custom monochrome icon), proportioned slightly shorter than the 32px font label, vertically centered relative to the "Auto Candidate Mode" text, and clearly readable. Verify that the enlarged control does not push down or displace the numpad row or clip the 48px bottom screen margin across various portrait screen sizes and aspect ratios.
 - **Step 2:** Toggle it ON.
-- **Expected:** All empty cells automatically populate with correct, calculated candidates.
+- **Expected:** All empty cells automatically populate with correct, calculated candidates. The switch displays its active monochrome icon (solid white pill with black thumb on the right).
 - **Step 3:** Manually delete one of the auto-candidates using the 'X' button.
 - **Expected:** The candidate is deleted and stays deleted (the auto-calculator respects user edits).
 - **Step 4:** Toggle it OFF.
-- **Expected:** All auto-generated candidates disappear from the board.
-- **Automated Verification:** Verified in headless CI via `game/tests/test_sudoku_board.gd` and `game/tests/test_input_controls.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), verifying auto-candidate toggle signals, valid candidate generation, user deletion preservation, flat stylebox overrides, and dynamic UI synchronization.
+- **Expected:** All auto-generated candidates disappear from the board. The switch displays its inactive monochrome icon (outlined white pill with white thumb on the left).
+- **Automated Verification:** Verified in headless CI via `game/tests/test_sudoku_board.gd` and `game/tests/test_input_controls.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), verifying auto-candidate toggle signals, valid candidate generation, user deletion preservation, flat stylebox overrides, 56x28 icon sizing assertions, asset existence on disk, and dynamic UI synchronization.
 
 ## Test 11.1: UI Save State Restoration on Resume
 - **Step 1:** Start a new game and toggle both "Candidate" mode and "Auto Candidate Mode" to ON.
