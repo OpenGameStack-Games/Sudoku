@@ -118,7 +118,7 @@ size_flags_horizontal = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 24
 text = "0"
-horizontal_alignment = 2
+horizontal_alignment = 0
 
 [node name="WonLabel" type="Label" parent="MarginContainer/VBoxContainer/CardsContainer/VeryEasyCard/VBox/GridContainer"]
 layout_mode = 2
@@ -133,7 +133,7 @@ size_flags_horizontal = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 24
 text = "0"
-horizontal_alignment = 2
+horizontal_alignment = 0
 
 [node name="BestTimeLabel" type="Label" parent="MarginContainer/VBoxContainer/CardsContainer/VeryEasyCard/VBox/GridContainer"]
 layout_mode = 2
@@ -148,7 +148,7 @@ size_flags_horizontal = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 24
 text = "--:--"
-horizontal_alignment = 2
+horizontal_alignment = 0
 
 [node name="AverageTimeLabel" type="Label" parent="MarginContainer/VBoxContainer/CardsContainer/VeryEasyCard/VBox/GridContainer"]
 layout_mode = 2
@@ -163,7 +163,7 @@ size_flags_horizontal = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 24
 text = "--:--"
-horizontal_alignment = 2
+horizontal_alignment = 0
 
 [node name="EasyCard" type="PanelContainer" parent="MarginContainer/VBoxContainer/CardsContainer"]
 size_flags_vertical = 3
@@ -200,7 +200,7 @@ size_flags_horizontal = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 24
 text = "0"
-horizontal_alignment = 2
+horizontal_alignment = 0
 
 [node name="WonLabel" type="Label" parent="MarginContainer/VBoxContainer/CardsContainer/EasyCard/VBox/GridContainer"]
 layout_mode = 2
@@ -215,7 +215,7 @@ size_flags_horizontal = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 24
 text = "0"
-horizontal_alignment = 2
+horizontal_alignment = 0
 
 [node name="BestTimeLabel" type="Label" parent="MarginContainer/VBoxContainer/CardsContainer/EasyCard/VBox/GridContainer"]
 layout_mode = 2
@@ -230,7 +230,7 @@ size_flags_horizontal = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 24
 text = "--:--"
-horizontal_alignment = 2
+horizontal_alignment = 0
 
 [node name="AverageTimeLabel" type="Label" parent="MarginContainer/VBoxContainer/CardsContainer/EasyCard/VBox/GridContainer"]
 layout_mode = 2
@@ -245,7 +245,7 @@ size_flags_horizontal = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 24
 text = "--:--"
-horizontal_alignment = 2
+horizontal_alignment = 0
 
 [node name="MediumCard" type="PanelContainer" parent="MarginContainer/VBoxContainer/CardsContainer"]
 size_flags_vertical = 3
@@ -282,7 +282,7 @@ size_flags_horizontal = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 24
 text = "0"
-horizontal_alignment = 2
+horizontal_alignment = 0
 
 [node name="WonLabel" type="Label" parent="MarginContainer/VBoxContainer/CardsContainer/MediumCard/VBox/GridContainer"]
 layout_mode = 2
@@ -297,7 +297,7 @@ size_flags_horizontal = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 24
 text = "0"
-horizontal_alignment = 2
+horizontal_alignment = 0
 
 [node name="BestTimeLabel" type="Label" parent="MarginContainer/VBoxContainer/CardsContainer/MediumCard/VBox/GridContainer"]
 layout_mode = 2
@@ -312,7 +312,7 @@ size_flags_horizontal = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 24
 text = "--:--"
-horizontal_alignment = 2
+horizontal_alignment = 0
 
 [node name="AverageTimeLabel" type="Label" parent="MarginContainer/VBoxContainer/CardsContainer/MediumCard/VBox/GridContainer"]
 layout_mode = 2
@@ -327,7 +327,7 @@ size_flags_horizontal = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 24
 text = "--:--"
-horizontal_alignment = 2
+horizontal_alignment = 0
 
 [node name="HardCard" type="PanelContainer" parent="MarginContainer/VBoxContainer/CardsContainer"]
 size_flags_vertical = 3
@@ -364,7 +364,7 @@ size_flags_horizontal = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 24
 text = "0"
-horizontal_alignment = 2
+horizontal_alignment = 0
 
 [node name="WonLabel" type="Label" parent="MarginContainer/VBoxContainer/CardsContainer/HardCard/VBox/GridContainer"]
 layout_mode = 2
@@ -379,7 +379,7 @@ size_flags_horizontal = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 24
 text = "0"
-horizontal_alignment = 2
+horizontal_alignment = 0
 
 [node name="BestTimeLabel" type="Label" parent="MarginContainer/VBoxContainer/CardsContainer/HardCard/VBox/GridContainer"]
 layout_mode = 2
@@ -394,7 +394,7 @@ size_flags_horizontal = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 24
 text = "--:--"
-horizontal_alignment = 2
+horizontal_alignment = 0
 
 [node name="AverageTimeLabel" type="Label" parent="MarginContainer/VBoxContainer/CardsContainer/HardCard/VBox/GridContainer"]
 layout_mode = 2
@@ -409,7 +409,7 @@ size_flags_horizontal = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 24
 text = "--:--"
-horizontal_alignment = 2
+horizontal_alignment = 0
 
 [node name="VeryHardCard" type="PanelContainer" parent="MarginContainer/VBoxContainer/CardsContainer"]
 size_flags_vertical = 3
@@ -446,7 +446,7 @@ size_flags_horizontal = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 24
 text = "0"
-horizontal_alignment = 2
+horizontal_alignment = 0
 
 [node name="WonLabel" type="Label" parent="MarginContainer/VBoxContainer/CardsContainer/VeryHardCard/VBox/GridContainer"]
 layout_mode = 2
@@ -461,7 +461,7 @@ size_flags_horizontal = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 24
 text = "0"
-horizontal_alignment = 2
+horizontal_alignment = 0
 
 [node name="BestTimeLabel" type="Label" parent="MarginContainer/VBoxContainer/CardsContainer/VeryHardCard/VBox/GridContainer"]
 layout_mode = 2
@@ -476,7 +476,7 @@ size_flags_horizontal = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 24
 text = "--:--"
-horizontal_alignment = 2
+horizontal_alignment = 0
 
 [node name="AverageTimeLabel" type="Label" parent="MarginContainer/VBoxContainer/CardsContainer/VeryHardCard/VBox/GridContainer"]
 layout_mode = 2
@@ -491,4 +491,4 @@ size_flags_horizontal = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 24
 text = "--:--"
-horizontal_alignment = 2
+horizontal_alignment = 0
