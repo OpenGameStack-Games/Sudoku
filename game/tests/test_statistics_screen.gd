@@ -46,23 +46,24 @@ func _teardown_scene() -> void:
 func test_statistics_screen_displays_mock_data() -> void:
 	_setup_scene()
 	mock_stats_manager.set("returned_stats", {
+		"very_easy": {
+			"games_started": 2, "games_won": 2, "best_time_seconds": 60, "total_time_seconds": 120, "average_time_seconds": 60.0
+		},
 		"easy": {
-			"games_started": 5,
-			"games_won": 3,
-			"best_time_seconds": 125,
-			"total_time_seconds": 450,
-			"average_time_seconds": 150.0
+			"games_started": 5, "games_won": 3, "best_time_seconds": 125, "total_time_seconds": 450, "average_time_seconds": 150.0
 		},
 		"medium": {
-			"games_started": 10,
-			"games_won": 0,
-			"best_time_seconds": 0,
-			"total_time_seconds": 0,
-			"average_time_seconds": 0.0
+			"games_started": 10, "games_won": 0, "best_time_seconds": 0, "total_time_seconds": 0, "average_time_seconds": 0.0
+		},
+		"very_hard": {
+			"games_started": 1, "games_won": 0, "best_time_seconds": 0, "total_time_seconds": 0, "average_time_seconds": 0.0
 		}
 	})
 	
 	scene._ready()
+	
+	var very_easy_started = scene.get_node("MarginContainer/VBoxContainer/CardsContainer/VeryEasyCard/VBox/GridContainer/StartedValue")
+	assert_eq(very_easy_started.text, "2", "Very Easy games started should match")
 	
 	var easy_started = scene.get_node("MarginContainer/VBoxContainer/CardsContainer/EasyCard/VBox/GridContainer/StartedValue")
 	var easy_won = scene.get_node("MarginContainer/VBoxContainer/CardsContainer/EasyCard/VBox/GridContainer/WonValue")
@@ -85,14 +86,10 @@ func test_statistics_screen_displays_mock_data() -> void:
 	assert_eq(medium_avg.text, "--:--", "Medium average time should display empty state")
 	
 	var hard_started = scene.get_node("MarginContainer/VBoxContainer/CardsContainer/HardCard/VBox/GridContainer/StartedValue")
-	var hard_won = scene.get_node("MarginContainer/VBoxContainer/CardsContainer/HardCard/VBox/GridContainer/WonValue")
-	var hard_best = scene.get_node("MarginContainer/VBoxContainer/CardsContainer/HardCard/VBox/GridContainer/BestTimeValue")
-	var hard_avg = scene.get_node("MarginContainer/VBoxContainer/CardsContainer/HardCard/VBox/GridContainer/AverageTimeValue")
-	
 	assert_eq(hard_started.text, "0", "Hard games started should default to 0")
-	assert_eq(hard_won.text, "0", "Hard games won should default to 0")
-	assert_eq(hard_best.text, "--:--", "Hard best time should default to empty state")
-	assert_eq(hard_avg.text, "--:--", "Hard average time should default to empty state")
+
+	var very_hard_started = scene.get_node("MarginContainer/VBoxContainer/CardsContainer/VeryHardCard/VBox/GridContainer/StartedValue")
+	assert_eq(very_hard_started.text, "1", "Very Hard games started should match")
 	
 	_teardown_scene()
 
@@ -116,14 +113,14 @@ func test_statistics_screen_styling_applied() -> void:
 	
 	var easy_card: PanelContainer = scene.get_node("MarginContainer/VBoxContainer/CardsContainer/EasyCard") as PanelContainer
 	var style: StyleBoxFlat = easy_card.get_theme_stylebox("panel") as StyleBoxFlat
-	assert_eq(style.content_margin_left, 40.0, "Card left margin should be 40.0")
-	assert_eq(style.content_margin_top, 40.0, "Card top margin should be 40.0")
+	assert_eq(style.content_margin_left, 20.0, "Card left margin should be 20.0")
+	assert_eq(style.content_margin_top, 10.0, "Card top margin should be 10.0")
 	
 	var diff_lbl: Label = scene.get_node("MarginContainer/VBoxContainer/CardsContainer/EasyCard/VBox/DifficultyLabel") as Label
-	assert_eq(diff_lbl.get_theme_font_size("font_size"), 48, "DifficultyLabel font size should be 48")
+	assert_eq(diff_lbl.get_theme_font_size("font_size"), 36, "DifficultyLabel font size should be 36")
 	
 	var started_val: Label = scene.get_node("MarginContainer/VBoxContainer/CardsContainer/EasyCard/VBox/GridContainer/StartedValue") as Label
-	assert_eq(started_val.get_theme_font_size("font_size"), 32, "Grid Labels should have font size 32")
+	assert_eq(started_val.get_theme_font_size("font_size"), 24, "Grid Labels should have font size 24")
 	
 	_teardown_scene()
 

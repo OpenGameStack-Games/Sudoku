@@ -24,12 +24,14 @@ func _populate_stats() -> void:
 		push_warning("StatisticsScreen: StatsManager not found.")
 		return
 		
+	_populate_difficulty("very_easy")
 	_populate_difficulty("easy")
 	_populate_difficulty("medium")
 	_populate_difficulty("hard")
+	_populate_difficulty("very_hard")
 
 func _populate_difficulty(diff: String) -> void:
-	var capitalized_diff: String = diff.capitalize()
+	var capitalized_diff: String = diff.capitalize().replace(" ", "")
 	# Support either path
 	var card_path: String = "MarginContainer/VBoxContainer/CardsContainer/%sCard" % capitalized_diff
 	var card_node: Control = get_node_or_null(card_path) as Control
@@ -67,7 +69,7 @@ func _scale_ui() -> void:
 	if not is_inside_tree():
 		return
 	var viewport_height = get_viewport_rect().size.y
-	# Base height is 1280. If it gets smaller, scale fonts down.
+	# 5 cards need more space, scale aggressively if smaller than 1280
 	var scale_factor = min(1.0, viewport_height / 1280.0)
 	
 	var cards_container = get_node_or_null("MarginContainer/VBoxContainer/CardsContainer")
@@ -80,21 +82,21 @@ func _scale_ui() -> void:
 	for card in cards_container.get_children():
 		var diff_label = card.get_node_or_null("VBox/DifficultyLabel") as Label
 		if diff_label:
-			diff_label.add_theme_font_size_override("font_size", int(48 * scale_factor))
+			diff_label.add_theme_font_size_override("font_size", int(36 * scale_factor))
 			
 		var grid = card.get_node_or_null("VBox/GridContainer")
 		if grid:
 			for child in grid.get_children():
 				if child is Label:
-					child.add_theme_font_size_override("font_size", int(32 * scale_factor))
+					child.add_theme_font_size_override("font_size", int(24 * scale_factor))
 					
 		# Also scale margins dynamically!
 		if card is PanelContainer:
 			var style = card.get_theme_stylebox("panel").duplicate() as StyleBoxFlat
-			style.content_margin_top = 40.0 * scale_factor
-			style.content_margin_bottom = 40.0 * scale_factor
-			style.content_margin_left = 40.0 * scale_factor
-			style.content_margin_right = 40.0 * scale_factor
+			style.content_margin_top = 10.0 * scale_factor
+			style.content_margin_bottom = 10.0 * scale_factor
+			style.content_margin_left = 20.0 * scale_factor
+			style.content_margin_right = 20.0 * scale_factor
 			card.add_theme_stylebox_override("panel", style)
 
 func _on_back_pressed() -> void:
