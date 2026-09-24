@@ -105,13 +105,20 @@ func _on_difficulty_pressed(diff: String) -> void:
 	if save_manager_node and save_manager_node.has_save(diff):
 		var save_data: Dictionary = save_manager_node.load_game(diff)
 		if save_data.has("puzzle_string"):
+			if game_manager_node:
+				game_manager_node.start_game(save_data["puzzle_string"])
+				if save_data.has("board_state") and game_manager_node.board:
+					game_manager_node.board.restore_board_state(save_data["board_state"])
+				if save_data.has("auto_candidates") and game_manager_node.board:
+					game_manager_node.board.set_auto_candidates(bool(save_data["auto_candidates"]))
+			
 			save_manager_node.mark_active_game(diff, save_data["puzzle_string"])
+			
 			if action_manager_node:
 				var undo_stack: Array = save_data.get("undo_stack", []) as Array
 				var redo_stack: Array = save_data.get("redo_stack", []) as Array
 				action_manager_node.load_history_state(undo_stack, redo_stack)
-			if game_manager_node:
-				game_manager_node.start_game(save_data["puzzle_string"])
+			
 			if time_manager_node:
 				time_manager_node.start(int(save_data.get("elapsed_seconds", 0)))
 	else:

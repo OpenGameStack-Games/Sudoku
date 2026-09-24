@@ -194,7 +194,23 @@ This document outlines the strict manual testing procedures required before any 
 - **Step 3:** Tap the `<` (Back) button to navigate to the Main Menu.
 - **Step 4:** Tap the corresponding "Resume [Difficulty]" button to return to the active puzzle.
 - **Expected:** The game successfully loads, and both the "Candidate" mode button and the "Auto Candidate Mode" toggle retain their active visual states and active behavior without reverting to the default "Normal" mode/OFF state.
-- **Automated Verification:** Verified in headless CI via `game/tests/test_gameplay_screen.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), which explicitely tests save loading of `auto_candidates` and `input_mode` when transitioning with an active `TimeManager`.
+- **Automated Verification:** Verified in headless CI via `game/tests/test_gameplay_screen.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), which explicitly tests save loading of `auto_candidates` and `input_mode` when transitioning with an active `TimeManager`.
+
+## Test 11.2: Candidate Notes and Auto-Candidate Toggle Persistence across Save/Resume
+- **Step 1:** Launch the game and start a new puzzle on any difficulty (e.g. Medium).
+- **Step 2:** Switch to Candidate mode and enter manual candidate notes (e.g., digits 1 and 2) on an empty cell.
+- **Step 3:** Enable Auto Candidate Mode toggle. Confirm that auto-calculated candidates populate across all remaining empty cells. Select another cell and manually delete one of its auto-candidates (e.g., digit 8) using the 'X' button or toggling it off.
+- **Step 4:** Tap the `<` (Back) button to navigate back to the Main Menu.
+- **Step 5:** On the Main Menu, observe that the button dynamically reflects `"Resume Medium"`. Tap `"Resume Medium"`.
+- **Step 6:** Inspect the board and input controls:
+  - The Auto-Candidate toggle switch MUST remain ON.
+  - The manually deleted candidate (digit 8) on the second cell MUST remain excluded.
+  - The manual candidate notes (digits 1 and 2) on the first cell MUST be fully restored.
+  - The 3x3 candidate micro-grids MUST be immediately visible and correctly populated without being wiped clean.
+- **Step 7:** Toggle Auto-Candidate Mode to OFF. Confirm that all auto-generated candidates disappear while manual notes remain.
+- **Step 8:** Tap the `<` (Back) button to return to the Main Menu, then tap `"Resume Medium"` again.
+- **Step 9:** Verify that the Auto-Candidate toggle remains OFF, and the manual candidate notes on cell 1 remain intact while auto-candidates stay hidden.
+- **Automated Verification:** Verified in headless CI via `game/tests/test_save_manager.gd` (`test_resume_preserves_notes_and_toggle`), `game/tests/test_sudoku_board.gd` (`test_restore_board_state`), and `game/tests/test_main_menu.gd` (`test_difficulty_selection_routes_resumed_game_with_board_state`).
 
 ## Test 12.0: Puzzle Database Load & Symmetry
 - **Step 1:** Tap "Easy", "Medium", and "Hard" sequentially from the main menu, exiting back to the menu between each.

@@ -41,6 +41,37 @@ func load_puzzle(puzzle_string: String) -> void:
 	_check_win_condition()
 	board_updated.emit()
 
+func restore_board_state(board_state: Array) -> void:
+	for state in board_state:
+		if typeof(state) != TYPE_DICTIONARY:
+			continue
+		var dict: Dictionary = state as Dictionary
+		var i: int = int(dict.get("index", 0))
+		if i < 0 or i >= 81:
+			continue
+			
+		var cell: SudokuCell = cells[i]
+		var val: int = int(dict.get("value", 0))
+		if not cell.is_clue:
+			cell.value = val
+			
+		var cands: Array = dict.get("candidates", [])
+		var del_cands: Array = dict.get("deleted_candidates", [])
+		
+		cell.user_candidates.clear()
+		for c in cands:
+			cell.user_candidates.append(int(c))
+			
+		cell.user_deleted_candidates.clear()
+		for dc in del_cands:
+			cell.user_deleted_candidates.append(int(dc))
+			
+	_evaluate_conflicts()
+	_update_all_candidates()
+	_check_exhaustion_all()
+	_check_win_condition()
+	board_updated.emit()
+
 func set_auto_candidates(enabled: bool) -> void:
 	if auto_candidates_enabled != enabled:
 		auto_candidates_enabled = enabled
