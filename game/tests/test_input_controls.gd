@@ -277,8 +277,12 @@ func test_undo_redo_icons() -> void:
 	
 	assert_true(undo_icon != null, "Undo icon label should exist")
 	assert_eq(undo_icon.text, "↺", "Undo icon should be ↺")
+	assert_eq(undo_icon.pivot_offset, Vector2(40, 40), "Undo icon pivot_offset should be Vector2(40, 40)")
+	assert_true(abs(undo_icon.rotation - (-PI/2)) < 0.001, "Undo icon should be rotated -90 degrees")
 	
 	assert_true(redo_icon != null, "Redo icon label should exist")
 	assert_eq(redo_icon.text, "↻", "Redo icon should be ↻")
+	assert_eq(redo_icon.pivot_offset, Vector2(40, 40), "Redo icon pivot_offset should be Vector2(40, 40)")
+	assert_true(abs(redo_icon.rotation - (PI/2)) < 0.001, "Redo icon should be rotated 90 degrees")
 	
 	after_each()
