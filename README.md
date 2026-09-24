@@ -83,7 +83,8 @@ This project uses a split license:
 - **Game Assets:** Unless otherwise specified, art, audio, and models in `game/assets/` are licensed under [Creative Commons Attribution-ShareAlike 4.0 (CC BY-SA 4.0)](LICENSE-ASSETS).
 
 ### Third-Party Credits & Font Attribution
-- **Noto Sans Symbols (`game/assets/fonts/NotoSansSymbols-Regular.ttf`):** Developed by the Google Noto Fonts Project and licensed under the [SIL Open Font License, Version 1.1](http://scripts.sil.org/OFL). Bundled to provide robust cross-platform and web export glyph support for UI symbols (Undo `↺`, Redo `↻`, Resume `▶︎`).
+- **Noto Sans Symbols (`game/assets/fonts/NotoSansSymbols-Regular.ttf`):** Developed by the Google Noto Fonts Project and licensed under the [SIL Open Font License, Version 1.1](http://scripts.sil.org/OFL). Bundled to provide base cross-platform symbol support.
+- **DejaVu Sans (`game/assets/fonts/DejaVuSans.ttf`):** Developed by the DejaVu Fonts Project and released under the [DejaVu Fonts License / Bitstream Vera License](https://dejavu-fonts.github.io/License.html). Bundled to provide verified Unicode symbol coverage for circular arrow glyphs (Undo `↺` U+21BA, Redo `↻` U+21BB) and playback symbols (Resume `▶` U+25B6) across web (HTML5/Wasm) and desktop exports.
 
 
 ## Documentation Note

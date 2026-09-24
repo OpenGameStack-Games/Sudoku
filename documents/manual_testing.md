@@ -30,12 +30,12 @@ This document outlines the strict manual testing procedures required before any 
 - **Step 1:** Launch the game in a Web Export (HTML5/WebAssembly) build (e.g. running via a local web server or on itch.io) or native desktop/mobile build.
 - **Step 2:** Start or resume any puzzle (e.g., Easy) to reach the Gameplay screen.
 - **Step 3:** Observe the "Undo" (`↺`) and "Redo" (`↻`) buttons located on the ModeRow controls bar below the board.
-- **Expected (Undo & Redo Glyphs):** The Undo button cleanly renders the `↺` anticlockwise open circle arrow glyph (rotated -90° to point left) and the Redo button cleanly renders the `↻` clockwise open circle arrow glyph (rotated 90° to point right). Both render as crisp monochrome white shapes against the button's dark background. They must NOT render as missing glyph boxes (tofu / ``), blank empty spaces, or colored OS emojis.
+- **Expected (Undo & Redo Glyphs):** The Undo button cleanly renders the `↺` anticlockwise open circle arrow glyph and the Redo button cleanly renders the `↻` clockwise open circle arrow glyph. Both render naturally upright as crisp monochrome white shapes against the button's dark background without rotation transforms. They must NOT render as missing glyph boxes (tofu / ``), blank empty spaces, or colored OS emojis.
 - **Step 4:** Tap the Pause button (`||`) in the top navigation header to open the Pause Overlay modal.
 - **Step 5:** Observe the Resume button.
-- **Expected (Resume Glyph):** The Resume button cleanly renders the `▶︎` triangle glyph as a crisp monochrome white symbol centered inside the button border, without falling back to missing glyph boxes or color emoji triangles.
+- **Expected (Resume Glyph):** The Resume button cleanly renders the standard `▶` (U+25B6) triangle glyph as a crisp monochrome white symbol centered inside the button border, without falling back to missing glyph boxes or color emoji triangles.
 - **Step 6:** Tap Resume to confirm interaction and verify the game unpauses.
-- **Automated Verification:** Verified in headless CI via `game/tests/test_input_controls.gd` (`test_undo_redo_icons()`), `game/tests/test_gameplay_screen.gd` (`test_pause_button_modal()`, asserting Resume button text is `▶︎`), and `game/tests/test_theme_constants.gd` (`test_theme_resource_loads()`, asserting `res://assets/fonts/NotoSansSymbols-Regular.ttf` exists and `theme_1930s.tres` configures default button and label fonts with bundled font fallbacks).
+- **Automated Verification:** Verified in headless CI via `game/tests/test_input_controls.gd` (`test_undo_redo_icons()`), `game/tests/test_gameplay_screen.gd` (`test_button_themes_applied()`, asserting Resume button text is `▶`), and `game/tests/test_theme_constants.gd` (`test_theme_resource_loads()` and `test_font_symbol_coverage()`, asserting `res://assets/fonts/DejaVuSans.ttf` exists and supports `0x21BA`, `0x21BB`, and `0x25B6`, and `theme_1930s.tres` configures default button and label fonts with bundled font fallbacks).
 
 ## Test 5.0: Main Menu & Navigation
 - **Step 1 (Default State):** Boot the game to the Main Menu with no existing saves.
