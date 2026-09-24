@@ -372,3 +372,14 @@ This document outlines the strict manual testing procedures required before any 
 - **Expected:** Clue numbers and player answers appear very prominent (font sizes 64 and 56 respectively) within the cell bounds, creating clear visual hierarchy over the much smaller candidate notes. They must also be perfectly centered vertically and horizontally, without clipping or overlapping the bottom boundaries of the cells.
 - **Step 3:** Enter several candidate notes in the same cell as a large main number (this would only happen if forced, but observe candidate size).
 - **Expected:** The candidate notes do not visually overwhelm the main numbers, due to the main numbers' 2x scale.
+
+## Test 27.0: Web Export Statistics Navigation & Clean State
+- **Step 1:** Launch an exported Web (HTML5) build (e.g. locally via HTTP server or in an itch.io sandbox) in a fresh browser session (or private browsing window with no cached `user://` storage data).
+- **Step 2:** On the Main Menu, click the "Statistics" button.
+- **Expected:** The application smoothly transitions to the Statistics screen (`res://scenes/statistics_screen.tscn`) rather than failing or remaining unresponsive. The transition must not be blocked by file access checks that fail on remapped PCK scenes.
+- **Step 3:** Inspect the displayed statistics on the clean run.
+- **Expected:** All difficulty cards ("Very Easy", "Easy", "Medium", "Hard", "Very Hard") display initial zero/empty state values cleanly without unhandled exceptions (Games Started: 0, Games Won: 0, Best Time: "--:--", Average Time: "--:--").
+- **Step 4:** Click the back button (`<`).
+- **Expected:** Cleanly returns to the Main Menu.
+- **Automated Verification:** Verified in headless CI via `game/tests/test_main_menu.gd` (`test_stats_button_routing()`) and `game/tests/test_statistics_screen.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), confirming signal connection, crash-free execution, and default zero-state rendering.
+
