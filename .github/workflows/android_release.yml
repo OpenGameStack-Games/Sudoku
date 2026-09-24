@@ -88,7 +88,7 @@ jobs:
         run: |
           mkdir -p game/android/build
           unzip -q $HOME/.local/share/godot/export_templates/${GODOT_TEMPLATES_VERSION}/android_source.zip -d game/android/build
-          echo "${GODOT_TEMPLATES_VERSION}.official" > game/android/build/.build_version
+          echo "${GODOT_TEMPLATES_VERSION}.official" > game/android/.build_version
       - name: Make Gradle Wrapper Executable
         run: |
           if [ -f "game/android/build/gradlew" ]; then
@@ -129,5 +129,6 @@ jobs:
             ./game/*.aab
             ./game/*-native-debug-symbols.zip
             ./game/android/build/outputs/mapping/release/mapping.txt
+
 
 
