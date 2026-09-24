@@ -133,8 +133,8 @@ func _on_difficulty_pressed(diff: String) -> void:
 		get_tree().change_scene_to_file("res://scenes/gameplay_screen.tscn")
 
 func _on_stats_pressed() -> void:
-	# Navigate to statistics screen if it exists.
-	if FileAccess.file_exists("res://scenes/statistics_screen.tscn") and is_inside_tree():
+	# Navigate to statistics screen.
+	if is_inside_tree():
 		get_tree().change_scene_to_file("res://scenes/statistics_screen.tscn")
 
 func _on_credits_pressed() -> void:

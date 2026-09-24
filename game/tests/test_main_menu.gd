@@ -292,3 +292,18 @@ func test_credits_menu_layout() -> void:
 	assert_eq(close_btn.text, "Got It!", "CloseButton text should be 'Got It!'")
 	
 	menu.free()
+
+func test_stats_button_routing() -> void:
+	var menu_scene: PackedScene = load("res://scenes/main_menu.tscn") as PackedScene
+	var menu: Control = menu_scene.instantiate() as Control
+	
+	menu._ready()
+	
+	var stats_btn: Button = menu.get_node_or_null("MarginContainer/VBoxContainer/ButtonsVBox/StatsButton") as Button
+	assert_true(stats_btn != null, "Stats button should exist")
+	assert_true(stats_btn.pressed.is_connected(menu._on_stats_pressed), "Stats button should be connected to _on_stats_pressed")
+	
+	# Verify that calling the handler doesn't crash even if not in the tree.
+	menu._on_stats_pressed()
+	
+	menu.free()
