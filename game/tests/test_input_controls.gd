@@ -71,6 +71,19 @@ func test_layout_and_styling() -> void:
 	assert_true(normal_style is StyleBoxEmpty, "Auto candidate button should have StyleBoxEmpty normal style")
 	assert_eq(controls.auto_candidate_btn.get_theme_font_size("font_size"), 32, "Auto candidate button should have font size 32")
 	
+	assert_true(FileAccess.file_exists("res://assets/icons/toggle_on.png"), "toggle_on.png should exist on disk")
+	assert_true(FileAccess.file_exists("res://assets/icons/toggle_off.png"), "toggle_off.png should exist on disk")
+	
+	var checked_icon: Texture2D = controls.auto_candidate_btn.get_theme_icon("checked")
+	assert_true(checked_icon != null, "Auto candidate button should have checked icon")
+	if checked_icon:
+		assert_eq(checked_icon.get_size(), Vector2(56, 28), "Checked icon should be 56x28")
+		
+	var unchecked_icon: Texture2D = controls.auto_candidate_btn.get_theme_icon("unchecked")
+	assert_true(unchecked_icon != null, "Auto candidate button should have unchecked icon")
+	if unchecked_icon:
+		assert_eq(unchecked_icon.get_size(), Vector2(56, 28), "Unchecked icon should be 56x28")
+	
 	after_each()
 
 func test_mode_switching() -> void:
