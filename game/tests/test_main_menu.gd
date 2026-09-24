@@ -307,3 +307,69 @@ func test_stats_button_routing() -> void:
 	menu._on_stats_pressed()
 	
 	menu.free()
+
+func test_difficulty_selection_routes_resumed_game_with_board_state() -> void:
+	var menu_scene: PackedScene = load("res://scenes/main_menu.tscn") as PackedScene
+	var menu: Control = menu_scene.instantiate() as Control
+	
+	var call_order: Array = []
+	
+	var save_mgr: Node = Node.new()
+	var save_script: GDScript = GDScript.new()
+	save_script.source_code = """
+extends Node
+var call_order_ref: Array = []
+var marked_diff: String = ""
+var marked_puzzle: String = ""
+func has_save(diff: String) -> bool: return diff == "medium"
+func load_game(diff: String) -> Dictionary:
+	return {
+		"puzzle_string": "530070000600195000098000060800060003400803001700020006060000280000419005000080079",
+		"elapsed_seconds": 45,
+		"auto_candidates": true,
+		"board_state": [
+			{"index": 2, "value": 4, "candidates": [1, 2], "deleted_candidates": [8]}
+		]
+	}
+func mark_active_game(d: String, p: String) -> void:
+	marked_diff = d
+	marked_puzzle = p
+	call_order_ref.append("mark_active_game")
+"""
+	save_script.reload()
+	save_mgr.set_script(save_script)
+	save_mgr.set("call_order_ref", call_order)
+	menu.save_manager_node = save_mgr
+	
+	var game_board: SudokuBoard = SudokuBoard.new()
+	var game_mgr: Node = Node.new()
+	var game_script: GDScript = GDScript.new()
+	game_script.source_code = """
+extends Node
+var board: SudokuBoard
+var call_order_ref: Array = []
+func start_game(p: String) -> void:
+	board.load_puzzle(p)
+	call_order_ref.append("start_game")
+"""
+	game_script.reload()
+	game_mgr.set_script(game_script)
+	game_mgr.set("board", game_board)
+	game_mgr.set("call_order_ref", call_order)
+	menu.game_manager_node = game_mgr
+	
+	menu._ready()
+	
+	var medium_btn: Button = menu.get_node("MarginContainer/VBoxContainer/ButtonsVBox/MediumButton") as Button
+	medium_btn.pressed.emit()
+	
+	assert_eq(game_board.cells[2].value, 4, "Cell 2 value should be restored to 4")
+	assert_true(game_board.auto_candidates_enabled, "Auto candidates should be enabled from save data")
+	assert_eq(call_order.size(), 2, "Should have called start_game and mark_active_game")
+	assert_eq(call_order[0], "start_game", "start_game should be called first")
+	assert_eq(call_order[1], "mark_active_game", "mark_active_game should be called after restoration")
+	
+	game_mgr.free()
+	save_mgr.free()
+	menu.free()
+
