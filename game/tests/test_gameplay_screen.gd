@@ -261,7 +261,7 @@ func test_button_themes_applied() -> void:
 	assert_eq(resume_style.border_width_bottom, 2, "Resume button border width bottom should be 2")
 	
 	assert_eq(screen.pause_button.get_node("Label").text, "||", "Pause button text should be ||")
-	assert_eq(screen.pause_overlay.resume_button.text, "▶︎", "Resume button text should be ▶︎")
+	assert_eq(screen.pause_overlay.resume_button.text, "▶", "Resume button text should be ▶")
 	
 	_teardown_nodes()
 
