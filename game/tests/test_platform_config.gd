@@ -7,6 +7,7 @@ func test_android_export_presets() -> void:
 	var content := file.get_as_text()
 	
 	assert_true("screen/immersive_mode=false" in content, "Immersive mode should be disabled (false).")
+	assert_true("package/unique_name=\"games.audrain.sudoku\"" in content, "Package unique name should be games.audrain.sudoku.")
 	
 	var has_json_filter: bool = false
 	var lines := content.split("\n")

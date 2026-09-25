@@ -1,4 +1,4 @@
-﻿name: Android Build & Release
+name: Android Build & Release
 
 on:
   push:
@@ -129,6 +129,18 @@ jobs:
             ./game/*.aab
             ./game/*-native-debug-symbols.zip
             ./game/android/build/outputs/mapping/release/mapping.txt
+
+      - name: Deploy to Google Play
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
+          packageName: games.audrain.sudoku
+          releaseFiles: ./game/*.aab
+          track: production
+          status: completed
+          mappingFile: ./game/android/build/outputs/mapping/release/mapping.txt
+          debugSymbols: ./game/*-native-debug-symbols.zip
 
 
 

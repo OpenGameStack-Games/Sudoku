@@ -195,7 +195,7 @@ This document acts as the definitive source of truth for the game's features, lo
 ## 4. Platform Specifics
 - **Platforms:** Android and Web.
 - **CI/CD Pipeline:** The project utilizes GitHub Actions for automated building and deployment.
-  - **Android Export:** Automatically builds Android App Bundles (`.aab`) and native debug symbols on version tags, uploading them as release artifacts.
+  - **Android Export & Google Play Store Deployment:** Automatically builds, signs, and attaches the release Android App Bundle (`Sudoku.aab`), native debug symbols (`*-native-debug-symbols.zip`), and ProGuard mapping file (`mapping.txt`) to GitHub Releases on version tags (`refs/tags/v*`). Furthermore, version-tagged workflow executions automatically publish the signed `.aab` directly to Google Play Store's **Production** track (`track: production`, `status: completed`, package `games.audrain.sudoku`) using `r0adkll/upload-google-play@v1` and Google Play Console service account credentials (`GOOGLE_PLAY_SERVICE_ACCOUNT_JSON`), bypassing internal/testing tracks for continuous delivery.
   - **Web Export:** Automatically exports the HTML5 build and deploys it directly to itch.io via butler on version tags.
 - **Screen Wake Lock:** The game must keep the device screen awake as long as the gameplay screen is active (do not allow the phone to go to sleep while playing).
   - **Dynamic Power Management:** Handled globally by `TimeManager` via `DisplayServer.screen_set_keep_on(true)` during active, focused, unpaused gameplay.
