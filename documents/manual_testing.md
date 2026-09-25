@@ -413,3 +413,16 @@ This document outlines the strict manual testing procedures required before any 
 - **Expected:** Cleanly returns to the Main Menu.
 - **Automated Verification:** Verified in headless CI via `game/tests/test_main_menu.gd` (`test_stats_button_routing()`) and `game/tests/test_statistics_screen.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), confirming signal connection, crash-free execution, and default zero-state rendering.
 
+## Test 28.0: Android Release Workflow & Google Play Production Deployment
+- **Step 1:** Create and push a version tag conforming to `v*.*.*` (e.g., `git tag v0.1.7 && git push origin v0.1.7`) on a commit merged into `main`.
+- **Step 2:** Open GitHub Actions in the repository and observe the triggered `Android Build & Release` workflow (`.github/workflows/android_release.yml`).
+- **Expected (Export & Signing):** The workflow successfully runs headless Godot export, generates `Sudoku.aab`, native debug symbols (`*-native-debug-symbols.zip`), and ProGuard mapping (`mapping.txt`), and cryptographically signs the bundle using `r0adkll/sign-android-release@v1`.
+- **Step 3:** Inspect the "Deploy to Google Play" workflow step.
+- **Expected (Play Store Upload):** The step runs `r0adkll/upload-google-play@v1`, successfully authenticating using the `GOOGLE_PLAY_SERVICE_ACCOUNT_JSON` secret. It uploads `Sudoku.aab`, mapping file, and native debug symbols directly to the `production` track (`games.audrain.sudoku`) with `status: completed` without error.
+- **Step 4:** Inspect the generated GitHub Release for the tagged version.
+- **Expected (Release Assets):** The release contains `Sudoku.aab`, native debug symbols zip, and `mapping.txt` attached as downloadable assets.
+- **Step 5:** Log in to Google Play Console, select `games.audrain.sudoku`, and navigate to **Release > Production**.
+- **Expected (Console Verification):** The new release version code and name are present on the Production track in the "Completed" state, with native debug symbols and deobfuscation files successfully associated, ready for rollout to users without requiring manual bundle upload.
+- **Automated Verification:** Verified via headless CI in `game/tests/test_platform_config.gd` (`assert_true("package/unique_name=\"games.audrain.sudoku\"" in content)`) and workflow syntax validation.
+
+

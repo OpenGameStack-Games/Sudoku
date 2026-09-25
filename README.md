@@ -24,9 +24,9 @@ To ensure your assets are tracked correctly:
 
 ## Automated Builds & CI/CD Pipeline
 This project is configured with GitHub Actions to automatically export and deploy the game:
-- **Android Builds:** Pushing a new version tag (e.g., `v1.0.0`) automatically generates an Android App Bundle (`.aab`) signed with the release keystore, and uploads it as a GitHub Release artifact.
+- **Android Builds & Google Play Store Deployment:** Pushing a new version tag (e.g., `v1.0.0`) automatically exports, cryptographically signs, and attaches the release Android App Bundle (`Sudoku.aab`), native debug symbols (`*-native-debug-symbols.zip`), and ProGuard mapping file (`mapping.txt`) to GitHub Releases. The signed bundle and symbol artifacts are then automatically deployed directly to the Google Play Store's **Production** track (`games.audrain.sudoku`) via the Google Play Developer API.
 - **Web Builds:** Pushing a new version tag automatically exports the HTML5 build and deploys it directly to our itch.io page via butler.
-You can find the exported Android artifacts under the "Actions" tab or the "Releases" page in GitHub, and the Web build is available on our itch.io page.
+You can find exported Android artifacts under GitHub Releases/Actions, install the game on Android via the Google Play Store, and play the Web build on our itch.io page.
 
 ## Core Architecture
 - **StatsManager (`game/autoloads/stats_manager.gd`):** Global autoload managing player statistics (games started, games won, best times, and average times) across Very Easy, Easy, Medium, Hard, and Very Hard difficulties, persisted locally in `user://stats.json`.
