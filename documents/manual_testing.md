@@ -84,8 +84,8 @@ This document outlines the strict manual testing procedures required before any 
 - **Step 5:** Tap the Web icon button next to the GitHub attribution.
 - **Expected:** The system browser opens and navigates to the OpenGameStack-Games/Sudoku GitHub repository.
 - **Step 6:** Tap the "Got It!" close button at the bottom of the modal.
-- **Expected:** The Credits modal dismisses and returns the user to the Main Menu.
-- **Automated Verification:** Verified in headless CI via `game/tests/test_main_menu.gd` asserting the `CreditsButton`, `CreditsModal`, and `CloseButton` exist and are configured correctly.
+- **Expected:** The "Got It!" button displays a distinct 2px solid white outline (`theme_1930s.tres`) with rounded corners and a dark background, clearly identifying it as an interactive, tappable button against the dark modal background. Tapping the button dismisses the Credits modal and returns the user to the Main Menu.
+- **Automated Verification:** Verified in headless CI via `game/tests/test_main_menu.gd` asserting the `CreditsButton`, `CreditsModal`, and `CloseButton` exist and are configured correctly, with `CloseButton` assigned `theme_1930s.tres`.
 
 ## Test 6.0: Gameplay Screen Layout & Navigation
 - **Step 1:** On the Gameplay screen, observe the Header row.
