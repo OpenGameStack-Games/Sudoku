@@ -16,7 +16,7 @@ This document outlines the strict manual testing procedures required before any 
 
 ## Test 3.0: Dynamic UI Scaling
 - **Step 1:** Launch the app on devices or simulators with varying aspect ratios and screen sizes (e.g., a tall, narrow phone and a wider tablet).
-- **Expected:** All UI elements (buttons, the Sudoku grid, text, and Statistics cards) dynamically adjust their anchors and margins relative to one another. There should be no overlapping text, UI clipping off the edge of the screen, or awkwardly empty spaces that break the intended layout. Specifically on the Statistics screen, the enlarged `<` back button (font size 64) and "STATISTICS" title remain vertically centered and horizontally balanced with the spacer without clipping or overflow, and all five difficulty cards ("Very Easy", "Easy", "Medium", "Hard", and "Very Hard") and their typography scale dynamically to remain cleanly readable on a single page without requiring a scrollbar across phone and tablet aspect ratios.
+- **Expected:** All UI elements (buttons, the Sudoku grid, text, and Statistics cards) dynamically adjust their anchors and margins relative to one another. There should be no overlapping text, UI clipping off the edge of the screen, or awkwardly empty spaces that break the intended layout. Confirm that the enlarged Sudoku grid (~707px board footprint with 75x75px cells) cleanly fills the portrait phone screen width with ~6.5px screen edge margins, maintaining a 1:1 square aspect ratio without vertically crowding or overlapping the header or bottom controls. Specifically on the Statistics screen, the enlarged `<` back button (font size 64) and "STATISTICS" title remain vertically centered and horizontally balanced with the spacer without clipping or overflow, and all five difficulty cards ("Very Easy", "Easy", "Medium", "Hard", and "Very Hard") and their typography scale dynamically to remain cleanly readable on a single page without requiring a scrollbar across phone and tablet aspect ratios.
 
 ## Test 4.0: Visual Theme and Assets
 - **Step 1:** Navigate through the Main Menu, Statistics screen, and Gameplay screen.
@@ -91,7 +91,7 @@ This document outlines the strict manual testing procedures required before any 
 - **Step 1:** On the Gameplay screen, observe the Header row.
 - **Expected:** Top-left is a `<` button. Center-left is the capitalized Difficulty label ("Easy", "Medium", or "Hard"). Center-right is the active Timer label. Top-right contains the Pause button and the triple-dot menu ("..."). The header maintains at least a 48px top margin to remain clear of the non-immersive Android status bar. The header elements are properly centered and distributed with 32px separation, and scale nicely without getting misaligned or clipped on extra wide or extra tall aspect ratios. Visually verify that the `<`, `||`, and `...` header button text/icons are perfectly centered both horizontally and vertically inside their button borders, taking font baselines into account. Visually confirm that a horizontal line can pass cleanly through the center of the text inside the Back, Pause, and Menu buttons, as well as the Timer and Difficulty labels. Also verify that the Menu button now has a visible border.
 - **Step 2:** Observe the Grid and controls.
-- **Expected:** A 9x9 grid exists centered within an aspect ratio container. Below it are mode toggle buttons ("Normal" and "Candidate"), an "Undo" button spaced to the right, a 1-9 & Erase numpad, and an Auto Candidate switch.
+- **Expected:** A 9x9 grid exists centered within an aspect ratio container, scaled to an enlarged footprint of ~707px in width (~6.5px side margins from the 720px screen edges) with 75x75px cell minimum dimensions. Below it are mode toggle buttons ("Normal" and "Candidate"), an "Undo" button spaced to the right, a 1-9 & Erase numpad, and an Auto Candidate switch.
 - **Step 3:** Enter a move on the board (e.g. place a number into an empty cell), then tap the `<` button.
 - **Expected:** Navigates back to the Main Menu. The Main Menu button for that difficulty now reflects `"Resume [Difficulty]"`. Tapping Resume restores the exact board state and elapsed time, confirming the `<` button successfully flushed game state to `SaveManager`.
 - **Automated Verification:** Verified in headless CI via `game/tests/test_gameplay_screen.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), asserting header initialization, difficulty label capitalization, timer label binding, back button save flushing, and scene asset presence.
@@ -100,7 +100,7 @@ This document outlines the strict manual testing procedures required before any 
 - **Step 1:** Enter an active game on the Gameplay screen and inspect the 9x9 Sudoku board.
 - **Step 2 (Grid Lines & Aesthetics):** Verify that the board exhibits crisp, pure white grid lines separating dark cells (`#222222`), conforming to the 1930s monochrome aesthetic.
 - **Step 3 (Border Widths & Consistency):**
-  - Verify that the outer perimeter of the 9x9 board is bounded by a uniform 4px thick white border (`MarginContainer` margin = 4).
+  - Verify that the outer perimeter of the enlarged 9x9 board (~707px total width, 75x75px cells) is bounded by a uniform 4px thick white border (`MarginContainer` margin = 4), leaving ~6.5px of screen margin on each side.
   - Verify that the major division lines separating the nine 3x3 macro blocks are uniformly thick (6px separation), clearly and unmistakably delineating each 3x3 block.
   - Verify that the minor inner lines separating individual cells within each 3x3 block are uniformly thin (2px separation) yet sharp and clearly visible.
 - **Step 4 (Dynamic Scaling Verification):**
@@ -120,9 +120,9 @@ This document outlines the strict manual testing procedures required before any 
 
 ## Test 8.0: Grid Input (Bi-Directional & Keyboard Shortcuts)
 - **Step 1 (Cell-First Input & Visual Distinction):** Tap an empty cell, then tap a number 1-9 on the numpad.
-- **Expected:** The number is entered into the cell. Verify that the entered digit is rendered in a dimmer gray (`#a0a0a0`) and smaller font size (28pt) compared to the initial clue digits which remain bold, larger (32pt), and pure white (`Color.WHITE`), clearly differentiating player inputs while maintaining the 1930s monochrome aesthetic.
+- **Expected:** The number is entered into the cell. Verify that the entered digit is rendered in a dimmer gray (`#a0a0a0`) and smaller font size (67pt) compared to the initial clue digits which remain bold, larger (75pt), and pure white (`Color.WHITE`), clearly differentiating player inputs while maintaining the 1930s monochrome aesthetic and occupying most of the 75x75px cell box without clipping borders.
 - **Step 2 (Number-First Input):** Tap a number on the numpad (it highlights in flat orange `Color("ffa500")`). Note the board state before placing it anywhere.
-- **Expected:** The corresponding number highlights on all existing placed cells, and any matching candidate notes dynamically bold and enlarge. Tap several empty cells to enter the number into them. Tapping the numpad button again deselects it and clears the board highlights.
+- **Expected:** The corresponding number highlights on all existing placed cells, and any matching candidate notes dynamically bold and enlarge (scaling from 19pt to 27pt bold) within their 24x24px slots. Tap several empty cells to enter the number into them. Tapping the numpad button again deselects it and clears the board highlights.
 - **Step 3 (Mode Toggles):** Tap the "Candidate" button (or press `C` on a keyboard). Observe the segmented toggle control. Tap an empty cell and input digit '3'.
 - **Expected:** The "Candidate" button visually inverts (light background, dark text) to indicate it is active, and the "Normal" button reverts to inactive (dark background, light text). '3' is placed into the cell's candidate micro-grid. Tap "Normal" (or press `N`) to switch back to normal answer input mode and verify color inversion flips back.
 - **Step 4 (Erase Button):** Select a cell containing a number or candidate notes, then tap the 'X' numpad button (or press `X`, `0`, `Backspace`, or `Delete` on keyboard).
@@ -359,7 +359,7 @@ This document outlines the strict manual testing procedures required before any 
 - **Step 4 (Candidate Note Toggling):** Tap digit '5' again to toggle it off.
 - **Expected:** Digit '5' disappears from the center slot. Digits '1' and '9' maintain their exact rigid positions in the top-left and bottom-right corners without jumping or shifting.
 - **Step 5 (Full 1-9 Grid Alignment):** In an empty cell, toggle all candidate digits 1 through 9.
-- **Expected:** Digits 1-9 form a perfectly aligned 3x3 numpad-style grid (1, 2, 3 on top row; 4, 5, 6 on middle row; 7, 8, 9 on bottom row) with clean font sizing (16pt regular, scaling to 24pt bold on number matching) matching the 1930s monochrome aesthetic. The 20x20 minimum size lock on the Control nodes prevents the bottom row (7, 8, 9) from touching the cell boundary. **Crucially**, highlighting an active number (e.g., '5') must NOT cause any vertical layout shifting of the surrounding cells or push the bottom row out of view when the font size dynamically bolds and scales.
+- **Expected:** Digits 1-9 form a perfectly aligned 3x3 numpad-style grid (1, 2, 3 on top row; 4, 5, 6 on middle row; 7, 8, 9 on bottom row) with clean font sizing (19pt regular, scaling to 27pt bold on number matching) matching the 1930s monochrome aesthetic. The 24x24 minimum size lock on the Control nodes prevents the bottom row (7, 8, 9) from touching the cell boundary. **Crucially**, highlighting an active number (e.g., '5') must NOT cause any vertical layout shifting of the surrounding cells or push the bottom row out of view when the font size dynamically bolds and scales.
 - **Automated Verification:** Verified in headless CI via `game/tests/test_board_ui.gd` (`test_candidates()`), verifying that all 9 candidate labels maintain permanent visibility (`visible = true`) in the `CandidatesGrid` layout container and dynamically toggle their `text` property between the digit and `""`.
 
 
@@ -399,9 +399,9 @@ This document outlines the strict manual testing procedures required before any 
 ## Test 26.0: Cell Number Prominence & Alignment
 - **Step 1:** Launch the game and enter an active puzzle on the Gameplay screen.
 - **Step 2:** Observe the font size of the initial clue numbers and any placed answers.
-- **Expected:** Clue numbers and player answers appear very prominent (font sizes 64 and 56 respectively) within the cell bounds, creating clear visual hierarchy over the much smaller candidate notes. They must also be perfectly centered vertically and horizontally, without clipping or overlapping the bottom boundaries of the cells.
+- **Expected:** Clue numbers and player answers appear very prominent (font sizes 75 and 67 respectively) within the 75x75px cell bounds, creating clear visual hierarchy over the much smaller candidate notes. They must also be perfectly centered vertically and horizontally, without clipping or overlapping the boundaries of the cells.
 - **Step 3:** Enter several candidate notes in the same cell as a large main number (this would only happen if forced, but observe candidate size).
-- **Expected:** The candidate notes do not visually overwhelm the main numbers, due to the main numbers' 2x scale.
+- **Expected:** The candidate notes do not visually overwhelm the main numbers, due to the main numbers' scaled prominence.
 
 ## Test 27.0: Web Export Statistics Navigation & Clean State
 - **Step 1:** Launch an exported Web (HTML5) build (e.g. locally via HTTP server or in an itch.io sandbox) in a fresh browser session (or private browsing window with no cached `user://` storage data).
