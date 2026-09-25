@@ -111,6 +111,9 @@ func test_statistics_screen_styling_applied() -> void:
 	var title_lbl: Label = scene.get_node("MarginContainer/VBoxContainer/Header/Title") as Label
 	assert_eq(title_lbl.get_theme_font_size("font_size"), 64, "Title font size should be 64")
 	
+	var back_btn: Button = scene.get_node("MarginContainer/VBoxContainer/Header/BackButton") as Button
+	assert_eq(back_btn.get_theme_font_size("font_size"), 64, "BackButton font size should be enlarged to 64")
+	
 	var easy_card: PanelContainer = scene.get_node("MarginContainer/VBoxContainer/CardsContainer/EasyCard") as PanelContainer
 	var style: StyleBoxFlat = easy_card.get_theme_stylebox("panel") as StyleBoxFlat
 	assert_eq(style.content_margin_left, 20.0, "Card left margin should be 20.0")
