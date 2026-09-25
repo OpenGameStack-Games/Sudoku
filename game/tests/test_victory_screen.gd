@@ -146,11 +146,18 @@ func test_restore_button_layout() -> void:
 	var overlay = screen.victory_overlay
 	var btn = overlay.restore_btn
 	
-	# Verify button is centered horizontally at the top (anchor_preset = 5)
-	assert_eq(int(btn.anchors_preset), int(Control.PRESET_TOP_WIDE) if btn.anchors_preset == 10 else 5, "Anchor preset should be top center")
+	# Verify button is centered horizontally at the bottom (anchor_preset = 7)
+	assert_eq(int(btn.anchors_preset), 7, "Anchor preset should be bottom center")
 	assert_eq(btn.anchor_left, 0.5, "Anchor left should be 0.5")
 	assert_eq(btn.anchor_right, 0.5, "Anchor right should be 0.5")
-	assert_eq(btn.offset_top, 160.0, "Offset top should be 160.0 to be above the grid")
+	assert_eq(btn.anchor_top, 1.0, "Anchor top should be 1.0")
+	assert_eq(btn.anchor_bottom, 1.0, "Anchor bottom should be 1.0")
+	
+	# Verify enlarged dimensions and new position covering bottom controls
+	assert_eq(btn.custom_minimum_size.x, 440.0, "Button should be enlarged to 440px wide")
+	assert_eq(btn.custom_minimum_size.y, 92.0, "Button should be enlarged to 92px high")
+	assert_eq(btn.get_theme_font_size("font_size"), 40, "Font size should be increased to 40")
+	assert_eq(btn.offset_bottom, -48.0, "Offset bottom should be -48.0 from the bottom edge")
 	
 	_teardown_nodes()
 
