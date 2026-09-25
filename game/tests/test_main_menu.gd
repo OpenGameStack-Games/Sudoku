@@ -373,3 +373,33 @@ func start_game(p: String) -> void:
 	save_mgr.free()
 	menu.free()
 
+func test_main_menu_separator() -> void:
+	var menu_scene: PackedScene = load("res://scenes/main_menu.tscn") as PackedScene
+	var menu: Control = menu_scene.instantiate() as Control
+	
+	var buttons_vbox: VBoxContainer = menu.get_node_or_null("MarginContainer/VBoxContainer/ButtonsVBox") as VBoxContainer
+	assert_true(buttons_vbox != null, "ButtonsVBox should exist")
+	
+	var sep: HSeparator = buttons_vbox.get_node_or_null("HSeparator") as HSeparator
+	assert_true(sep != null, "HSeparator should exist in ButtonsVBox")
+	
+	var very_hard_btn: Button = buttons_vbox.get_node_or_null("VeryHardButton") as Button
+	var stats_btn: Button = buttons_vbox.get_node_or_null("StatsButton") as Button
+	
+	assert_true(very_hard_btn != null, "VeryHardButton should exist")
+	assert_true(stats_btn != null, "StatsButton should exist")
+	
+	var v_index: int = very_hard_btn.get_index()
+	var s_index: int = sep.get_index()
+	var st_index: int = stats_btn.get_index()
+	
+	assert_eq(s_index, v_index + 1, "HSeparator should be positioned immediately after VeryHardButton")
+	assert_eq(st_index, s_index + 1, "StatsButton should be positioned immediately after HSeparator")
+	
+	assert_true(sep.theme != null, "HSeparator should have theme assigned")
+	var style: StyleBoxLine = sep.theme.get_stylebox("separator", "HSeparator") as StyleBoxLine
+	assert_true(style != null, "HSeparator theme should define separator style")
+	assert_eq(style.color, Color(1, 1, 1, 1), "Separator line should be white")
+	assert_eq(style.thickness, 2.0, "Separator line thickness should be 2")
+	
+	menu.free()

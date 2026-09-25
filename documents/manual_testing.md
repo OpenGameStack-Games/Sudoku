@@ -39,7 +39,7 @@ This document outlines the strict manual testing procedures required before any 
 
 ## Test 5.0: Main Menu & Navigation
 - **Step 1 (Default State):** Boot the game to the Main Menu with no existing saves.
-- **Expected:** The 1930s monochrome mascot character (`mascot_icon.jpg`) is prominently centered in the upper half. The screen contains seven clear buttons reading: "Very Easy", "Easy", "Medium", "Hard", "Very Hard", "Statistics", and "Credits".
+- **Expected:** The 1930s monochrome mascot character (`mascot_icon.jpg`) is prominently centered in the upper half. The screen contains seven clear buttons reading: "Very Easy", "Easy", "Medium", "Hard", "Very Hard", "Statistics", and "Credits". A crisp, solid horizontal white separator line (`HSeparator`, `#FFFFFF`, 2px thickness) visually delineates the five difficulty buttons from the "Statistics" and "Credits" buttons without clipping or causing vertical overflow.
 - **Step 2 (Resume State Indication):** If an active save exists for a difficulty tier (e.g., Easy), verify that the corresponding button dynamically updates to read `"Resume Easy"`. Unsaved difficulties remain `"Very Easy"`, `"Medium"`, `"Hard"`, and `"Very Hard"`.
 - **Step 3 (Resume Navigation):** Tap a "Resume [Difficulty]" button.
 - **Expected:** The app transitions to the Gameplay screen (`res://scenes/gameplay_screen.tscn`), restoring the active saved puzzle for that difficulty without incrementing `games_started` in `StatsManager`, and actively unpausing the timer to continue counting from the saved elapsed seconds.
@@ -55,7 +55,7 @@ This document outlines the strict manual testing procedures required before any 
   - Verify the 1930s monochrome styling with Dark Gray `#121212` background, crisp white borders, and balanced monochrome typography.
   - Tap the "<" button.
   - **Expected:** The app returns cleanly to the Main Menu.
-- **Automated Verification:** Verified in headless CI via `game/tests/test_main_menu.gd` and `game/tests/test_statistics_screen.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), confirming scene asset existence, dynamic button text adaptation for saves vs fresh states, button signal routing, statistics screen data binding across all five difficulty cards, formatting of empty vs recorded metrics, responsive styling assertions, absence of ScrollContainer, and Back button signal wiring.
+- **Automated Verification:** Verified in headless CI via `game/tests/test_main_menu.gd` and `game/tests/test_statistics_screen.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), confirming scene asset existence, horizontal separator existence and positioning between Very Hard and Statistics buttons along with 2px white line theme styling assertions (`test_main_menu_separator`), dynamic button text adaptation for saves vs fresh states, button signal routing, statistics screen data binding across all five difficulty cards, formatting of empty vs recorded metrics, responsive styling assertions, absence of ScrollContainer, and Back button signal wiring.
 
 ## Test 5.1: Player Statistics Tracking & Persistence
 - **Step 1:** Launch the game and inspect the initial statistics on the Statistics screen (or clear `user://stats.json`).

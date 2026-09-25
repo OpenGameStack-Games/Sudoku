@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://820f979a05"]
+[gd_scene load_steps=8 format=3 uid="uid://820f979a05"]
 
 [ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_script"]
 [ext_resource type="Texture2D" path="res://assets/icons/mascot_icon.jpg" id="2_mascot"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" path="res://assets/icons/AudrainEntertainment.png" id="4_aud"]
 [ext_resource type="Texture2D" path="res://assets/icons/github_icon.png" id="5_gh"]
 [ext_resource type="Texture2D" path="res://assets/icons/web_icon.png" id="6_web"]
+[ext_resource type="Theme" uid="uid://de336rn8lps8e" path="res://resources/theme_1930s.tres" id="7_theme"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -83,6 +84,10 @@ custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
 theme_override_font_sizes/font_size = 28
 text = "Very Hard"
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer/ButtonsVBox"]
+layout_mode = 2
+theme = ExtResource("7_theme")
 
 [node name="StatsButton" type="Button" parent="MarginContainer/VBoxContainer/ButtonsVBox"]
 custom_minimum_size = Vector2(0, 60)
