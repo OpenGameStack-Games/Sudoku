@@ -46,7 +46,7 @@ jobs:
           set +o pipefail
           yes | "${SDKMANAGER}" --licenses
           set -o pipefail
-          "${SDKMANAGER}" "platforms;android-34" "build-tools;34.0.0" "ndk;29.0.14206865"
+          "${SDKMANAGER}" "platforms;android-36" "build-tools;36.1.0" "ndk;29.0.14206865"
 
       - name: Download and Install Godot
         run: |
@@ -110,7 +110,7 @@ jobs:
           keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
           keyPassword: ${{ secrets.KEYSTORE_PASSWORD }}
         env:
-          BUILD_TOOLS_VERSION: "34.0.0"
+          BUILD_TOOLS_VERSION: "36.1.0"
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
@@ -129,6 +129,7 @@ jobs:
             ./game/*.aab
             ./game/*-native-debug-symbols.zip
             ./game/android/build/outputs/mapping/release/mapping.txt
+
 
 
 
