@@ -1,4 +1,4 @@
-name: Web Export & Itch.io Deploy
+﻿name: Web Export & Itch.io Deploy
 
 on:
   push:
@@ -64,3 +64,15 @@ jobs:
           ITCH_GAME: ${{ env.ITCH_GAME }}
           ITCH_USER: ${{ env.ITCH_USERNAME }}
           PACKAGE: ./game/export/web
+
+      - name: Zip Web Build for Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          cd game/export/web
+          zip -r ../../../Sudoku-Web.zip ./*
+
+      - name: Upload Release Assets
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v1
+        with:
+          files: Sudoku-Web.zip
