@@ -290,6 +290,8 @@ func test_credits_menu_layout() -> void:
 	var close_btn: Button = credits_modal.get_node_or_null("MarginContainer/Panel/VBox/CloseButton") as Button
 	assert_true(close_btn != null, "CreditsModal CloseButton should exist")
 	assert_eq(close_btn.text, "Got It!", "CloseButton text should be 'Got It!'")
+	assert_true(close_btn.theme != null, "CloseButton should have a theme assigned")
+	assert_true(close_btn.theme.resource_path.ends_with("theme_1930s.tres"), "CloseButton theme should be theme_1930s.tres")
 	
 	menu.free()
 

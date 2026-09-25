@@ -239,5 +239,6 @@ expand_icon = true
 [node name="CloseButton" type="Button" parent="CreditsModal/MarginContainer/Panel/VBox"]
 custom_minimum_size = Vector2(0, 80)
 layout_mode = 2
+theme = ExtResource("7_theme")
 theme_override_font_sizes/font_size = 36
 text = "Got It!"
