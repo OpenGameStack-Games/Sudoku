@@ -67,10 +67,10 @@ func test_cell_font_size() -> void:
 	cell._ready()
 	
 	cell.set_value(5, true)
-	assert_eq(cell.get_node("ValueLabel").get_theme_font_size("font_size"), 64, "Clue numbers should have 2x font size (64)")
+	assert_eq(cell.get_node("ValueLabel").get_theme_font_size("font_size"), 75, "Clue numbers should have 2x font size (75)")
 	
 	cell.set_value(5, false)
-	assert_eq(cell.get_node("ValueLabel").get_theme_font_size("font_size"), 56, "Non-clue numbers should have 2x font size (56)")
+	assert_eq(cell.get_node("ValueLabel").get_theme_font_size("font_size"), 67, "Non-clue numbers should have 2x font size (67)")
 	
 	cell.queue_free()
 
@@ -220,7 +220,7 @@ func test_numpad_digit_highlight() -> void:
 	assert_eq(board_ui.cells[10].color, CellUI.COLOR_MATCH, "Cell with 5 should highlight when numpad 5 is selected")
 	
 	var cand_label = board_ui.cells[11].get_node("CandidatesCenter/CandidatesGrid/Slot5/Candidate5") as Label
-	assert_eq(cand_label.get_theme_font_size("font_size"), 24, "Matched candidate should be enlarged")
+	assert_eq(cand_label.get_theme_font_size("font_size"), 27, "Matched candidate should be enlarged")
 	if cand_label.has_theme_font("note_font_bold", "Label"):
 		assert_true(cand_label.has_theme_font_override("font"), "Matched candidate should have font override")
 		
