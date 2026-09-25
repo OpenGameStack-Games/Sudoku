@@ -93,74 +93,74 @@ theme_override_constants/h_separation = 8
 theme_override_constants/v_separation = 8
 
 [node name="Btn1" type="Button" parent="VBoxContainer/NumpadRow"]
-custom_minimum_size = Vector2(0, 64)
+custom_minimum_size = Vector2(0, 80)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "1"
-theme_override_font_sizes/font_size = 36
+theme_override_font_sizes/font_size = 45
 
 [node name="Btn2" type="Button" parent="VBoxContainer/NumpadRow"]
-custom_minimum_size = Vector2(0, 64)
+custom_minimum_size = Vector2(0, 80)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "2"
-theme_override_font_sizes/font_size = 36
+theme_override_font_sizes/font_size = 45
 
 [node name="Btn3" type="Button" parent="VBoxContainer/NumpadRow"]
-custom_minimum_size = Vector2(0, 64)
+custom_minimum_size = Vector2(0, 80)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "3"
-theme_override_font_sizes/font_size = 36
+theme_override_font_sizes/font_size = 45
 
 [node name="Btn4" type="Button" parent="VBoxContainer/NumpadRow"]
-custom_minimum_size = Vector2(0, 64)
+custom_minimum_size = Vector2(0, 80)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "4"
-theme_override_font_sizes/font_size = 36
+theme_override_font_sizes/font_size = 45
 
 [node name="Btn5" type="Button" parent="VBoxContainer/NumpadRow"]
-custom_minimum_size = Vector2(0, 64)
+custom_minimum_size = Vector2(0, 80)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "5"
-theme_override_font_sizes/font_size = 36
+theme_override_font_sizes/font_size = 45
 
 [node name="Btn6" type="Button" parent="VBoxContainer/NumpadRow"]
-custom_minimum_size = Vector2(0, 64)
+custom_minimum_size = Vector2(0, 80)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "6"
-theme_override_font_sizes/font_size = 36
+theme_override_font_sizes/font_size = 45
 
 [node name="Btn7" type="Button" parent="VBoxContainer/NumpadRow"]
-custom_minimum_size = Vector2(0, 64)
+custom_minimum_size = Vector2(0, 80)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "7"
-theme_override_font_sizes/font_size = 36
+theme_override_font_sizes/font_size = 45
 
 [node name="Btn8" type="Button" parent="VBoxContainer/NumpadRow"]
-custom_minimum_size = Vector2(0, 64)
+custom_minimum_size = Vector2(0, 80)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "8"
-theme_override_font_sizes/font_size = 36
+theme_override_font_sizes/font_size = 45
 
 [node name="Btn9" type="Button" parent="VBoxContainer/NumpadRow"]
-custom_minimum_size = Vector2(0, 64)
+custom_minimum_size = Vector2(0, 80)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "9"
-theme_override_font_sizes/font_size = 36
+theme_override_font_sizes/font_size = 45
 
 [node name="BtnX" type="Button" parent="VBoxContainer/NumpadRow"]
-custom_minimum_size = Vector2(0, 64)
+custom_minimum_size = Vector2(0, 80)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "X"
-theme_override_font_sizes/font_size = 36
+theme_override_font_sizes/font_size = 45
 
 [node name="AutoRow" type="HBoxContainer" parent="VBoxContainer"]
 alignment = 1

@@ -65,7 +65,8 @@ func test_layout_and_styling() -> void:
 	
 	assert_true(controls.numpad_btns.size() == 10, "Should have 10 numpad buttons (1-9 and X)")
 	for btn: Button in controls.numpad_btns:
-		assert_eq(btn.custom_minimum_size.y, 64.0, "Numpad buttons should have 64px minimum height")
+		assert_eq(btn.custom_minimum_size.y, 80.0, "Numpad buttons should have 80px minimum height")
+		assert_eq(btn.get_theme_font_size("font_size"), 45, "Numpad buttons should have 45px font size")
 		
 	var normal_style: StyleBox = controls.auto_candidate_btn.get_theme_stylebox("normal")
 	assert_true(normal_style is StyleBoxEmpty, "Auto candidate button should have StyleBoxEmpty normal style")
