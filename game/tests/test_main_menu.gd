@@ -396,4 +396,10 @@ func test_main_menu_separator() -> void:
 	assert_eq(s_index, v_index + 1, "HSeparator should be positioned immediately after VeryHardButton")
 	assert_eq(st_index, s_index + 1, "StatsButton should be positioned immediately after HSeparator")
 	
+	assert_true(sep.theme != null, "HSeparator should have theme assigned")
+	var style: StyleBoxLine = sep.theme.get_stylebox("separator", "HSeparator") as StyleBoxLine
+	assert_true(style != null, "HSeparator theme should define separator style")
+	assert_eq(style.color, Color(1, 1, 1, 1), "Separator line should be white")
+	assert_eq(style.thickness, 2.0, "Separator line thickness should be 2")
+	
 	menu.free()
