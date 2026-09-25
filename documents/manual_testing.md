@@ -261,9 +261,9 @@ This document outlines the strict manual testing procedures required before any 
 - **Expected (Resolution & Scaling):** Resize the game window or view on varying devices (e.g., tablet vs. tall mobile). The modal should dynamically size without clipping the scaled buttons and banner, ensuring the ~2x UI components remain readable and prominent.
 - **Expected (Managers):** `StatsManager` increments `games_won`, updates best time, and recalculates average time. `SaveManager` removes the in-progress save file for this difficulty (`clear_save` / `clear_active_game`).
 - **Step 2:** Tap "Admire Puzzle".
-- **Expected:** The victory dialog card hides, revealing the completed Sudoku board clearly. A "Restore Dialog" button appears horizontally centered directly above the game board, without overlapping the header controls or the board itself.
-- **Step 3:** Tap "Restore Dialog".
-- **Expected:** The victory dialog card reappears in full, and the "Restore Dialog" button hides.
+- **Expected:** The victory dialog card hides, revealing the completed 9x9 Sudoku board clearly with zero obstruction or overlap. An enlarged (440x92 px, 40pt font) "Victory Window" button appears horizontally centered below the puzzle board, prominently covering the inactive bottom input controls and numpad row.
+- **Step 3:** Tap "Victory Window".
+- **Expected:** The victory dialog card reappears in full, and the "Victory Window" button hides cleanly.
 - **Step 4:** Tap "Statistics".
 - **Expected:** Transitions to the Statistics Screen, where the newly recorded win and updated best/average times are visibly displayed for the current difficulty tier.
 - **Step 5:** Return to an active game, trigger win state, and tap "Play Again".
@@ -272,7 +272,7 @@ This document outlines the strict manual testing procedures required before any 
 - **Expected:** The new board has initial clues populated (it is not a blank grid). Auto-Candidate correctly calculates and displays candidates for the new puzzle.
 - **Step 7:** Tap "<" to return to the Main Menu.
 - **Expected:** The Main Menu difficulty button displays its default text (e.g. "Medium", not "Resume Medium"), confirming the completed puzzle was purged from active save tracking.
-- **Automated Verification:** Verified in headless CI via `game/tests/test_victory_screen.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), asserting overlay activation on win signal, accurate parameter passing to `StatsManager.record_game_won` and `SaveManager.clear_save`, asset presence (`victory_overlay.tscn`, `mascot_icon.jpg`, `theme_1930s.tres`), and button routing (Play Again, Main Menu, Statistics, Admire Puzzle, Restore Dialog).
+- **Automated Verification:** Verified in headless CI via `game/tests/test_victory_screen.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), asserting overlay activation on win signal, accurate parameter passing to `StatsManager.record_game_won` and `SaveManager.clear_save`, asset presence (`victory_overlay.tscn`, `mascot_icon.jpg`, `theme_1930s.tres`), and button routing (Play Again, Main Menu, Statistics, Admire Puzzle, Victory Window restore button).
 
 ## Test 16.0: Concurrent Save Persistence & Menus
 - **Step 1:** Start an Easy game. Input several numbers and candidate notes into empty cells. Perform an undo action. Let the timer run for 10 seconds. Switch apps or background the application (triggering focus loss auto-flush), then return to the Main Menu.
