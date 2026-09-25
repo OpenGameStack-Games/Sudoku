@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://scripts/cell_ui.gd" id="1_upbjj"]
 
 [node name="Cell" type="ColorRect" unique_id=1876690693]
-custom_minimum_size = Vector2(64, 64)
+custom_minimum_size = Vector2(75, 75)
 script = ExtResource("1_upbjj")
 
 [node name="CandidatesCenter" type="CenterContainer" parent="."]
@@ -23,7 +23,7 @@ theme_override_constants/v_separation = 0
 columns = 3
 
 [node name="Slot1" type="Control" parent="CandidatesCenter/CandidatesGrid"]
-custom_minimum_size = Vector2(20, 20)
+custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 mouse_filter = 2
 
@@ -40,7 +40,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Slot2" type="Control" parent="CandidatesCenter/CandidatesGrid"]
-custom_minimum_size = Vector2(20, 20)
+custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 mouse_filter = 2
 
@@ -57,7 +57,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Slot3" type="Control" parent="CandidatesCenter/CandidatesGrid"]
-custom_minimum_size = Vector2(20, 20)
+custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 mouse_filter = 2
 
@@ -74,7 +74,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Slot4" type="Control" parent="CandidatesCenter/CandidatesGrid"]
-custom_minimum_size = Vector2(20, 20)
+custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 mouse_filter = 2
 
@@ -91,7 +91,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Slot5" type="Control" parent="CandidatesCenter/CandidatesGrid"]
-custom_minimum_size = Vector2(20, 20)
+custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 mouse_filter = 2
 
@@ -108,7 +108,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Slot6" type="Control" parent="CandidatesCenter/CandidatesGrid"]
-custom_minimum_size = Vector2(20, 20)
+custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 mouse_filter = 2
 
@@ -125,7 +125,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Slot7" type="Control" parent="CandidatesCenter/CandidatesGrid"]
-custom_minimum_size = Vector2(20, 20)
+custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 mouse_filter = 2
 
@@ -142,7 +142,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Slot8" type="Control" parent="CandidatesCenter/CandidatesGrid"]
-custom_minimum_size = Vector2(20, 20)
+custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 mouse_filter = 2
 
@@ -159,7 +159,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Slot9" type="Control" parent="CandidatesCenter/CandidatesGrid"]
-custom_minimum_size = Vector2(20, 20)
+custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 mouse_filter = 2
 
