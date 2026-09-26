@@ -38,7 +38,6 @@ window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 window/handheld/orientation=1
 window/touchscreen/emulate_touch_from_mouse=true
-window/vsync/vsync_mode=1
 
 [rendering]
 
