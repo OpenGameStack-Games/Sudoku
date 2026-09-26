@@ -11,7 +11,7 @@ This document outlines the strict manual testing procedures required before any 
 - **Step 1:** Launch the app on an Android device (or simulator).
 - **Expected (Non-Immersive):** The Android status bar (top) and navigation bar (bottom) must remain visible. The game must NOT force the device into immersive fullscreen mode (`screen/immersive_mode=false`).
 - **Expected (Orientation):** The app must lock to Portrait mode (`window/handheld/orientation=1`). Rotating the device must NOT rotate the game into Landscape mode.
-- **Automated Verification:** Verified in headless CI via `game/tests/test_platform_config.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), confirming non-immersive mode, portrait orientation, canvas_items expand stretch, and touch emulation settings.
+- **Automated Verification:** Verified in headless CI via `game/tests/test_platform_config.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), confirming non-immersive mode, portrait orientation, canvas_items expand stretch, touch emulation, OpenGL compatibility renderer, and V-Sync settings.
 
 
 ## Test 3.0: Dynamic UI Scaling
@@ -424,5 +424,11 @@ This document outlines the strict manual testing procedures required before any 
 - **Step 5:** Log in to Google Play Console, select `games.audrain.sudoku`, and navigate to **Release > Production**.
 - **Expected (Console Verification):** The new release version code and name are present on the Production track in the "Completed" state, with native debug symbols and deobfuscation files successfully associated, ready for rollout to users without requiring manual bundle upload.
 - **Automated Verification:** Verified via headless CI in `game/tests/test_platform_config.gd` (`assert_true("package/unique_name=\"games.audrain.sudoku\"" in content)`) and workflow syntax validation.
+
+## Test 29.0: Device-Specific Rendering & V-Sync (Samsung Galaxy S24 Ultra / Adreno 750)
+- **Step 1:** Launch the app on a Samsung Galaxy S24 Ultra (or other Adreno 750 GPU Android device with high-refresh rate display).
+- **Step 2:** Interact with the game: navigate the Main Menu, start or resume a puzzle, place answers and candidate notes on the board, and toggle the Pause overlay.
+- **Expected:** The application renders smoothly using the OpenGL Compatibility backend (`gl_compatibility`) with V-Sync forced enabled (`vsync_mode=1`). There must be no horizontal screen tearing, stuttering, or Vulkan driver visual artifacts during touch interactions, animations, or screen transitions.
+- **Automated Verification:** Verified in headless CI via `game/tests/test_platform_config.gd` (`godot --headless --path game -s res://tests/test_runner.gd`), asserting `renderer/rendering_method="gl_compatibility"`, `renderer/rendering_method.mobile="gl_compatibility"`, and `window/vsync/vsync_mode=1` in `res://project.godot`.
 
 
