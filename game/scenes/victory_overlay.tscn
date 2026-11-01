@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cuwauymwq6wlf"]
 
 [ext_resource type="Script" uid="uid://cxweyrhxn8m4e" path="res://scripts/victory_overlay.gd" id="1_vic"]
-[ext_resource type="Texture2D" uid="uid://cpy0uwmlnrya6" path="res://assets/icons/mascot_icon.jpg" id="2_mascot"]
+[ext_resource type="Texture2D" uid="uid://mht7x3v1jb6t" path="res://assets/icons/mascot_icon.jpg" id="2_mascot"]
 [ext_resource type="Theme" uid="uid://de336rn8lps8e" path="res://resources/theme_1930s.tres" id="3_theme"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_card"]
