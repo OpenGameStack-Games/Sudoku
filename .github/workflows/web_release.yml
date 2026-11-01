@@ -1,4 +1,4 @@
-﻿name: Web Export & Itch.io Deploy
+name: Web Export & Itch.io Deploy
 
 on:
   push:

@@ -14,6 +14,8 @@ env:
   GODOT_TEMPLATES_VERSION: 4.7.2.stable
   GODOT_EDITOR_SETTINGS_VERSION: "4.7"
   BUNDLETOOL_VERSION: 1.17.2
+  KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+  GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
 
 jobs:
   export-android:
@@ -30,6 +32,9 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
+
+      - name: Run Android Validation Unit Tests
+        run: python -m unittest discover -s scripts -p "test_*.py" -v
 
       - name: Install Android SDK Components
         shell: bash
@@ -89,6 +94,7 @@ jobs:
           mkdir -p game/android/build
           unzip -q $HOME/.local/share/godot/export_templates/${GODOT_TEMPLATES_VERSION}/android_source.zip -d game/android/build
           echo "${GODOT_TEMPLATES_VERSION}" > game/android/.build_version
+
       - name: Make Gradle Wrapper Executable
         run: |
           if [ -f "game/android/build/gradlew" ]; then
@@ -98,10 +104,20 @@ jobs:
       - name: Export Android AAB
         run: godot --verbose --headless --path ./game --export-release "Android" Sudoku.aab
 
-      - name: Decode Release Keystore
-        run: echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > release.keystore
+      - name: Verify Android Build Inputs
+        run: |
+          echo "Godot editor:"
+          godot --version
+          echo "Android template version:"
+          cat game/android/.build_version
+          echo "Gradle wrapper:"
+          grep '^distributionUrl=' game/android/build/gradle/wrapper/gradle-wrapper.properties
+          echo "Android Gradle config:"
+          grep -E 'androidGradlePlugin|compileSdk|targetSdk|buildTools|kotlinVersion|ndkVersion' game/android/build/config.gradle
+          python scripts/validate_android_16kb.py game/android/build/libs/release/*.aar
 
       - name: Sign App Bundle
+        if: env.KEYSTORE_BASE64 != ''
         uses: r0adkll/sign-android-release@v1
         with:
           releaseDirectory: ./game
@@ -112,20 +128,67 @@ jobs:
         env:
           BUILD_TOOLS_VERSION: "36.1.0"
 
+      - name: Verify 16 KB Native Library Support
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          ZIPALIGN="$(find "${ANDROID_HOME}/build-tools" -type f -name zipalign | sort -V | tail -n 1)"
+          if [ -z "${ZIPALIGN}" ]; then
+            echo "::error::zipalign was not found under ANDROID_HOME; cannot validate APK native-library page alignment."
+            exit 1
+          fi
+
+          curl -L -o bundletool.jar "https://github.com/google/bundletool/releases/download/${BUNDLETOOL_VERSION}/bundletool-all-${BUNDLETOOL_VERSION}.jar"
+          mkdir -p android-16kb-validation
+
+          shopt -s nullglob
+          aabs=(game/*.aab)
+          if [ "${#aabs[@]}" -eq 0 ]; then
+            echo "::error::No AAB files were produced in ./game."
+            exit 1
+          fi
+
+          for aab in "${aabs[@]}"; do
+            echo "Validating AAB native ELF alignment: ${aab}"
+            python scripts/validate_android_16kb.py "${aab}"
+
+            apks="android-16kb-validation/$(basename "${aab%.aab}").apks"
+            java -jar bundletool.jar build-apks --bundle="${aab}" --output="${apks}" --mode=universal
+
+            echo "Validating generated APK payload alignment: ${apks}"
+            python scripts/validate_android_16kb.py --strict-zip "${apks}"
+
+            extract_dir="android-16kb-validation/$(basename "${aab%.aab}")"
+            mkdir -p "${extract_dir}"
+            unzip -q -o "${apks}" -d "${extract_dir}"
+
+            while IFS= read -r -d '' apk; do
+              echo "Running zipalign -c -P 16 -v 4 on ${apk}"
+              "${ZIPALIGN}" -c -P 16 -v 4 "${apk}"
+            done < <(find "${extract_dir}" -type f -name '*.apk' -print0)
+          done
+
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: Sudoku-Android
-          path: ./game/*.aab
+          path: |
+            ./game/*.aab
+            ./game/*-native-debug-symbols.zip
+            ./game/android/build/outputs/mapping/release/mapping.txt
 
       - name: Upload Release Assets
         if: startsWith(github.ref, 'refs/tags/v')
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
-          files: ./game/*.aab
+          files: |
+            ./game/*.aab
+            ./game/*-native-debug-symbols.zip
+            ./game/android/build/outputs/mapping/release/mapping.txt
 
       - name: Deploy to Google Play
-        if: startsWith(github.ref, 'refs/tags/v')
+        if: startsWith(github.ref, 'refs/tags/v') && env.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON != ''
         uses: r0adkll/upload-google-play@v1
         with:
           serviceAccountJsonPlainText: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
@@ -133,10 +196,3 @@ jobs:
           releaseFiles: ./game/*.aab
           track: production
           status: completed
-
-
-
-
-
-
-
