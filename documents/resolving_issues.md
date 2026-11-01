@@ -201,10 +201,10 @@ git -C .worktrees/issue-<number> push -u origin feature/issue-<number>-<short-de
 ```
 
 ### 2. Create the Pull Request
-Submit the PR targeting `main` using GitHub CLI. Write the PR body to `pr_body.md` using `write_file`, pass `--body-file pr_body.md` to avoid PowerShell string-escaping issues, and then remove `pr_body.md`:
+Submit the PR targeting `main` using GitHub CLI. When running from the repository root (outside the worktree), you must explicitly supply `--head feature/issue-<number>-<short-description>` so `gh` targets the feature branch rather than the root workspace's current branch (`main`). Write the PR body to `pr_body.md` using `write_file`, pass `--body-file pr_body.md` to avoid PowerShell string-escaping issues, and then remove `pr_body.md`:
 
 ```powershell
-gh pr create --title "<type>: <concise description> (Resolves #<number>)" --body-file pr_body.md --base main
+gh pr create --title "<type>: <concise description> (Resolves #<number>)" --body-file pr_body.md --base main --head feature/issue-<number>-<short-description>
 Remove-Item -Path pr_body.md -Force -ErrorAction SilentlyContinue
 ```
 
