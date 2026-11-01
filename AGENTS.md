@@ -7,7 +7,7 @@ Welcome to the **Sudoku** repository, built on the **OpenGameStack (OGS) Godot A
 ## 1. Project Overview & Tech Stack
 
 - **Game:** Sudoku (Classic 9x9 logic puzzle with 1930s monochrome aesthetic).
-- **Engine:** Godot `4.7.2-stable` (configured in [`stack.json`](stack.json) and [`game/project.godot`](game/project.godot)).
+- **Engine:** Godot `4.7.2-stable` (configured in [`ogs_stack.json`](ogs_stack.json) and [`game/project.godot`](game/project.godot)).
 - **Primary Language:** GDScript 2.0 (strict static typing required) and Python 3 (tooling, MCP client, puzzle generation, and CI validation scripts).
 - **Renderer:** `gl_compatibility` (OpenGL ES 3.0 / WebGL 2.0) for cross-platform parity across Android mobile devices and Web/HTML5 browsers.
 - **Target Platforms:**
@@ -27,7 +27,7 @@ Welcome to the **Sudoku** repository, built on the **OpenGameStack (OGS) Godot A
 ├── CONTRIBUTING.md                  # Human & agent contribution guidelines
 ├── Sudoku.code-workspace            # VS Code workspace settings and tasks
 ├── mcp_client.py                    # Zero-dependency CLI client for McpInteractionServer
-├── stack.json                       # OpenGameStack tool version manifest (Godot 4.7.2)
+├── ogs_stack.json                   # OpenGameStack tool version manifest (Godot 4.7.2)
 ├── ogs_config.json                  # OpenGameStack network/offline policy config
 ├── .agents/                         # Agent customizations (Rules & Skills)
 │   ├── rules/

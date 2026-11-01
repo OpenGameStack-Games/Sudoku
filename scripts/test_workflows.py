@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import json
 import re
 import unittest
 from pathlib import Path
@@ -33,6 +34,30 @@ class WorkflowValidationTests(unittest.TestCase):
                 match,
                 f"{wf.name} references `secrets.` inside an `if:` expression "
                 "(bind to `env:` first and check `env.<VAR> != ''`).",
+            )
+
+    def test_ogs_manifests_exist_valid_json_and_no_bom(self) -> None:
+        ogs_stack_path = REPO_ROOT / "ogs_stack.json"
+        ogs_config_path = REPO_ROOT / "ogs_config.json"
+        legacy_stack_path = REPO_ROOT / "stack.json"
+
+        self.assertFalse(
+            legacy_stack_path.exists(),
+            "Legacy stack.json must not exist at repository root; use ogs_stack.json instead.",
+        )
+
+        for path in (ogs_stack_path, ogs_config_path):
+            self.assertTrue(path.exists(), f"{path.name} must exist at the repository root")
+            raw = path.read_bytes()
+            self.assertFalse(
+                raw.startswith(b"\xef\xbb\xbf"),
+                f"{path.name} must not contain a UTF-8 BOM",
+            )
+            parsed = json.loads(raw.decode("utf-8"))
+            self.assertIsInstance(
+                parsed,
+                dict,
+                f"{path.name} must be a valid JSON dictionary",
             )
 
 
